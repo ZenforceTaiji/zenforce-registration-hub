@@ -37,10 +37,6 @@ export default {
           800: "#343a40",
           900: "#212529",
         },
-        accent: {
-          red: "#c41e3a",
-          green: "#2d5a27",
-        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -60,6 +56,8 @@ export default {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
+          red: "#c41e3a",
+          green: "#2d5a27",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
