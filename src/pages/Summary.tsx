@@ -189,7 +189,7 @@ const Summary = () => {
         'service_vh484fl',
         'template_d4o59f2',
         templateParams,
-        'YOUR_USER_ID' // Replace with your actual EmailJS user ID
+        'tc6-vGIjp7zf67CWM' // Using your provided public key
       );
       console.log('Student email sent successfully!', response.status, response.text);
     } catch (error) {
@@ -216,7 +216,7 @@ const Summary = () => {
         'service_vh484fl',
         'template_01wbmwi',
         templateParams,
-        'YOUR_USER_ID' // Replace with your actual EmailJS user ID
+        'tc6-vGIjp7zf67CWM' // Using your provided public key
       );
       console.log('Instructor email sent successfully!', response.status, response.text);
     } catch (error) {
