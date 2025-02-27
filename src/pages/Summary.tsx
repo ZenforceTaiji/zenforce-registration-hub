@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { Check, X } from "lucide-react";
+import emailjs from 'emailjs-com';
 
 interface StudentDetails {
   firstName: string;
@@ -15,6 +16,7 @@ interface StudentDetails {
   telephone?: string;
   email?: string;
   physicalAddress?: string;
+  idPhoto?: string;
 }
 
 interface ParentDetails {
@@ -55,6 +57,7 @@ const Summary = () => {
   const { toast } = useToast();
   const userAge = sessionStorage.getItem("userAge");
   const [membershipNumber, setMembershipNumber] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const [studentDetails, setStudentDetails] = useState<StudentDetails | null>(null);
   const [parentDetails, setParentDetails] = useState<ParentDetails | null>(null);
@@ -136,16 +139,118 @@ const Summary = () => {
     
   }, [userAge, navigate]);
 
-  const handleSubmit = () => {
-    // Store membership number in session storage
-    sessionStorage.setItem("membershipNumber", membershipNumber);
+  const sendStudentConfirmationEmail = async () => {
+    if (!studentDetails) return;
     
-    // Create temporary password
-    const tempPassword = `Temp${membershipNumber}`;
-    sessionStorage.setItem("tempPassword", tempPassword);
+    // Format previous training information
+    const previousTrainingText = previousTraining 
+      ? previousTraining.hasPrevious === 'yes'
+        ? `Yes, ${previousTraining.entries.map(e => e.style).join(', ')}`
+        : 'No previous training'
+      : 'Not specified';
+
+    // Format medical conditions information
+    const medicalConditionsText = medicalConditions
+      ? medicalConditions.hasMedical === 'yes'
+        ? `Yes, ${medicalConditions.entries.map(e => e.name).join(', ')}`
+        : 'No medical conditions'
+      : 'Not specified';
+
+    // Determine email address to use
+    const emailToUse = studentDetails.email || 
+      (parentDetails ? parentDetails.parentEmail : null);
+
+    if (!emailToUse) {
+      console.log("No email address available for sending confirmation");
+      return;
+    }
+
+    const templateParams = {
+      to_email: emailToUse,
+      name: studentDetails.firstName,
+      surname: studentDetails.lastName,
+      identityNumber: studentDetails.identityNumber || 'Not provided',
+      mobile: studentDetails.mobile || (parentDetails ? parentDetails.parentMobile : 'Not provided'),
+      telephone: studentDetails.telephone || (parentDetails ? parentDetails.parentTelephone : 'Not provided'),
+      email: emailToUse,
+      physicalAddress: studentDetails.physicalAddress || (parentDetails ? parentDetails.parentPhysicalAddress : 'Not provided'),
+      dateOfBirth: 'Not provided', // We don't collect date of birth, only age
+      parentName: parentDetails ? `${parentDetails.parentName} ${parentDetails.parentSurname}` : 'Not applicable',
+      parentContact: parentDetails ? parentDetails.parentMobile : 'Not applicable',
+      previousTraining: previousTrainingText,
+      medicalConditions: medicalConditionsText,
+      indemnityAccepted: indemnityAccepted ? 'Yes' : 'No',
+      popiaAccepted: popiaAccepted ? 'Yes' : 'No',
+      membershipNumber: membershipNumber
+    };
+
+    try {
+      const response = await emailjs.send(
+        'service_vh484fl',
+        'template_d4o59f2',
+        templateParams,
+        'YOUR_USER_ID' // Replace with your actual EmailJS user ID
+      );
+      console.log('Student email sent successfully!', response.status, response.text);
+    } catch (error) {
+      console.error('Failed to send student email:', error);
+    }
+  };
+
+  const sendInstructorNotificationEmail = async () => {
+    if (!studentDetails) return;
+
+    // Determine email address to display
+    const emailToDisplay = studentDetails.email || 
+      (parentDetails ? parentDetails.parentEmail : 'Not provided');
+
+    const templateParams = {
+      name: studentDetails.firstName,
+      surname: studentDetails.lastName,
+      email: emailToDisplay,
+      membershipNumber: membershipNumber
+    };
+
+    try {
+      const response = await emailjs.send(
+        'service_vh484fl',
+        'template_01wbmwi',
+        templateParams,
+        'YOUR_USER_ID' // Replace with your actual EmailJS user ID
+      );
+      console.log('Instructor email sent successfully!', response.status, response.text);
+    } catch (error) {
+      console.error('Failed to send instructor email:', error);
+    }
+  };
+
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
     
-    // Navigate to completion page
-    navigate("/completion");
+    try {
+      // Store membership number in session storage
+      sessionStorage.setItem("membershipNumber", membershipNumber);
+      
+      // Create temporary password
+      const tempPassword = `Temp${membershipNumber}`;
+      sessionStorage.setItem("tempPassword", tempPassword);
+      
+      // Send confirmation emails
+      await sendStudentConfirmationEmail();
+      await sendInstructorNotificationEmail();
+      
+      // Navigate to completion page
+      navigate("/completion");
+    } catch (error) {
+      console.error("Error during submission:", error);
+      toast({
+        title: "Registration Error",
+        description: "There was an error completing your registration. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!studentDetails) {
@@ -234,6 +339,22 @@ const Summary = () => {
                 <div>
                   <p className="text-sm text-slate-500">Physical Address</p>
                   <p className="font-medium">{studentDetails.physicalAddress}</p>
+                </div>
+              </>
+            )}
+
+            {studentDetails.idPhoto && (
+              <>
+                <Separator />
+                <div>
+                  <p className="text-sm text-slate-500 mb-2">ID Photo</p>
+                  <div className="w-32 h-32 border rounded-md overflow-hidden">
+                    <img 
+                      src={studentDetails.idPhoto} 
+                      alt="ID" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 </div>
               </>
             )}
@@ -468,8 +589,12 @@ const Summary = () => {
           <Button type="button" variant="outline" onClick={() => navigate("/popia")}>
             Back to POPIA Consent
           </Button>
-          <Button onClick={handleSubmit} className="bg-accent-red hover:bg-accent-red/90 text-white">
-            Submit Registration
+          <Button 
+            onClick={handleSubmit} 
+            className="bg-accent-red hover:bg-accent-red/90 text-white"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Submitting..." : "Submit Registration"}
           </Button>
         </div>
       </div>

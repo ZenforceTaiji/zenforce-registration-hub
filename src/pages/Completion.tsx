@@ -32,9 +32,6 @@ const Completion = () => {
     if (tempPass) {
       setTempPassword(tempPass);
     }
-
-    // In a real-world application, this is where you would send the email
-    // with the registration summary and login credentials
   }, [navigate]);
 
   if (!studentDetails) {
@@ -85,6 +82,20 @@ const Completion = () => {
               <p className="text-sm text-gray-500 italic">
                 Please change your password when you first log in. This information has also been sent to
                 {emailAddress ? ` ${emailAddress}` : " the admin for safekeeping"}.
+              </p>
+            </div>
+
+            {emailAddress && (
+              <div className="mt-4 pt-4 border-t text-left">
+                <p className="text-sm text-emerald-600">
+                  <strong>Email sent:</strong> A confirmation email with your registration details and login information has been sent to {emailAddress}.
+                </p>
+              </div>
+            )}
+
+            <div className="mt-4 text-left">
+              <p className="text-sm text-slate-600">
+                <strong>Note:</strong> A notification has also been sent to your instructor confirming your registration.
               </p>
             </div>
           </CardContent>
