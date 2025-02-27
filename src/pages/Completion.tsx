@@ -5,11 +5,20 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle } from "lucide-react";
 
+interface ChildDetails {
+  id: string;
+  firstName: string;
+  lastName: string;
+  age: string;
+}
+
 const Completion = () => {
   const navigate = useNavigate();
   const [studentDetails, setStudentDetails] = useState<any>(null);
   const [membershipNumber, setMembershipNumber] = useState<string>("");
   const [tempPassword, setTempPassword] = useState<string>("");
+  const [additionalChildren, setAdditionalChildren] = useState<ChildDetails[]>([]);
+  const [additionalMembershipNumbers, setAdditionalMembershipNumbers] = useState<Record<string, string>>({});
 
   useEffect(() => {
     // Load student details
@@ -32,6 +41,18 @@ const Completion = () => {
     if (tempPass) {
       setTempPassword(tempPass);
     }
+
+    // Load additional children
+    const childrenData = sessionStorage.getItem("multipleChildren");
+    if (childrenData) {
+      setAdditionalChildren(JSON.parse(childrenData));
+    }
+
+    // Load additional membership numbers
+    const additionalMemberNums = sessionStorage.getItem("additionalMembershipNumbers");
+    if (additionalMemberNums) {
+      setAdditionalMembershipNumbers(JSON.parse(additionalMemberNums));
+    }
   }, [navigate]);
 
   if (!studentDetails) {
@@ -45,7 +66,7 @@ const Completion = () => {
 
   return (
     <div className="zen-container py-12 animate-fade-in">
-      <div className="max-w-2xl mx-auto text-center">
+      <div className="max-w-3xl mx-auto text-center">
         <div className="flex justify-center mb-6">
           <CheckCircle className="h-20 w-20 text-green-500" />
         </div>
@@ -98,6 +119,28 @@ const Completion = () => {
                 <strong>Note:</strong> A notification has also been sent to your instructor confirming your registration.
               </p>
             </div>
+            
+            {additionalChildren.length > 0 && (
+              <div className="mt-6 pt-4 border-t">
+                <h3 className="text-lg font-medium mb-4 text-left">Additional Children</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {additionalChildren.map((child) => (
+                    <div key={child.id} className="p-4 border rounded-md text-left">
+                      <div className="flex justify-between">
+                        <div>
+                          <p className="font-medium">{child.firstName} {child.lastName}</p>
+                          <p className="text-sm text-gray-500">Age: {child.age} years</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500">Membership</p>
+                          <p className="font-medium">{additionalMembershipNumbers[child.id] || "TBD"}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
         

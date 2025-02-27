@@ -27,6 +27,17 @@ interface ParentDetails {
   parentTelephone?: string;
   parentEmail?: string;
   parentPhysicalAddress?: string;
+  idPhotoFront?: string;
+  idPhotoBack?: string;
+}
+
+interface ChildDetails {
+  id: string;
+  firstName: string;
+  lastName: string;
+  age: string;
+  identityNumber?: string;
+  birthCertificate?: string;
 }
 
 interface TrainingEntry {
@@ -57,10 +68,12 @@ const Summary = () => {
   const { toast } = useToast();
   const userAge = sessionStorage.getItem("userAge");
   const [membershipNumber, setMembershipNumber] = useState("");
+  const [additionalMembershipNumbers, setAdditionalMembershipNumbers] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const [studentDetails, setStudentDetails] = useState<StudentDetails | null>(null);
   const [parentDetails, setParentDetails] = useState<ParentDetails | null>(null);
+  const [additionalChildren, setAdditionalChildren] = useState<ChildDetails[]>([]);
   const [previousTraining, setPreviousTraining] = useState<{
     hasPrevious: string;
     entries: TrainingEntry[];
@@ -84,6 +97,19 @@ const Summary = () => {
     };
 
     setMembershipNumber(generateMemberNumber());
+    
+    // Generate membership numbers for additional children if any
+    const childrenData = sessionStorage.getItem("multipleChildren");
+    if (childrenData) {
+      const children = JSON.parse(childrenData);
+      if (children && children.length > 0) {
+        const childMembershipNumbers: Record<string, string> = {};
+        children.forEach((child: ChildDetails) => {
+          childMembershipNumbers[child.id] = generateMemberNumber();
+        });
+        setAdditionalMembershipNumbers(childMembershipNumbers);
+      }
+    }
   }, []);
 
   // Load all session data
@@ -109,6 +135,12 @@ const Summary = () => {
         navigate("/parent-details");
         return;
       }
+    }
+    
+    // Load additional children
+    const childrenData = sessionStorage.getItem("multipleChildren");
+    if (childrenData) {
+      setAdditionalChildren(JSON.parse(childrenData));
     }
     
     // Load previous training
@@ -156,6 +188,11 @@ const Summary = () => {
         : 'No medical conditions'
       : 'Not specified';
 
+    // Format additional children information
+    const additionalChildrenText = additionalChildren.length > 0
+      ? `Yes, ${additionalChildren.length} additional ${additionalChildren.length === 1 ? 'child' : 'children'}`
+      : 'No additional children';
+
     // Determine email address to use
     const emailToUse = studentDetails.email || 
       (parentDetails ? parentDetails.parentEmail : null);
@@ -181,7 +218,8 @@ const Summary = () => {
       medicalConditions: medicalConditionsText,
       indemnityAccepted: indemnityAccepted ? 'Yes' : 'No',
       popiaAccepted: popiaAccepted ? 'Yes' : 'No',
-      membershipNumber: membershipNumber
+      membershipNumber: membershipNumber,
+      additionalChildren: additionalChildrenText
     };
 
     try {
@@ -230,6 +268,11 @@ const Summary = () => {
     try {
       // Store membership number in session storage
       sessionStorage.setItem("membershipNumber", membershipNumber);
+      
+      // Store additional membership numbers if any
+      if (additionalChildren.length > 0) {
+        sessionStorage.setItem("additionalMembershipNumbers", JSON.stringify(additionalMembershipNumbers));
+      }
       
       // Create temporary password
       const tempPassword = `Temp${membershipNumber}`;
@@ -419,6 +462,104 @@ const Summary = () => {
                   </div>
                 </>
               )}
+              
+              {parentDetails.idPhotoFront && (
+                <>
+                  <Separator />
+                  <div>
+                    <p className="text-sm text-slate-500 mb-2">ID Document</p>
+                    <div className="flex gap-4">
+                      <div>
+                        <p className="text-xs text-slate-500 mb-1">Front</p>
+                        <div className="w-32 h-32 border rounded-md overflow-hidden">
+                          {parentDetails.idPhotoFront.startsWith('data:image') ? (
+                            <img 
+                              src={parentDetails.idPhotoFront} 
+                              alt="ID Front" 
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-slate-100 text-slate-500">
+                              <p className="text-xs text-center p-2">PDF Document</p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      
+                      {parentDetails.idPhotoBack && (
+                        <div>
+                          <p className="text-xs text-slate-500 mb-1">Back</p>
+                          <div className="w-32 h-32 border rounded-md overflow-hidden">
+                            {parentDetails.idPhotoBack.startsWith('data:image') ? (
+                              <img 
+                                src={parentDetails.idPhotoBack} 
+                                alt="ID Back" 
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center bg-slate-100 text-slate-500">
+                                <p className="text-xs text-center p-2">PDF Document</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
+            </CardContent>
+          </Card>
+        )}
+        
+        {/* Additional Children */}
+        {additionalChildren.length > 0 && (
+          <Card className="md:col-span-2">
+            <CardHeader>
+              <CardTitle>Additional Children</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {additionalChildren.map((child) => (
+                  <div key={child.id} className="p-4 border rounded-md">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <h4 className="font-medium">{child.firstName} {child.lastName}</h4>
+                        <p className="text-sm text-slate-500">Age: {child.age} years</p>
+                      </div>
+                      <div className="bg-slate-100 text-xs text-slate-700 py-1 px-2 rounded">
+                        {additionalMembershipNumbers[child.id] || "Pending"}
+                      </div>
+                    </div>
+                    
+                    {child.identityNumber && (
+                      <div className="mt-2">
+                        <p className="text-xs text-slate-500">ID Number</p>
+                        <p className="text-sm">{child.identityNumber}</p>
+                      </div>
+                    )}
+                    
+                    {child.birthCertificate && (
+                      <div className="mt-2">
+                        <p className="text-xs text-slate-500 mb-1">Birth Certificate</p>
+                        <div className="w-16 h-16 border rounded-md overflow-hidden">
+                          {child.birthCertificate.startsWith('data:image') ? (
+                            <img 
+                              src={child.birthCertificate} 
+                              alt="Birth Certificate" 
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-slate-100 text-slate-500">
+                              <p className="text-xs text-center">PDF</p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </CardContent>
           </Card>
         )}
