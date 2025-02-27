@@ -1,0 +1,113 @@
+
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { CheckCircle } from "lucide-react";
+
+const Completion = () => {
+  const navigate = useNavigate();
+  const [studentDetails, setStudentDetails] = useState<any>(null);
+  const [membershipNumber, setMembershipNumber] = useState<string>("");
+  const [tempPassword, setTempPassword] = useState<string>("");
+
+  useEffect(() => {
+    // Load student details
+    const studentData = sessionStorage.getItem("studentDetails");
+    if (studentData) {
+      setStudentDetails(JSON.parse(studentData));
+    } else {
+      navigate("/");
+      return;
+    }
+
+    // Load membership number
+    const memberNum = sessionStorage.getItem("membershipNumber");
+    if (memberNum) {
+      setMembershipNumber(memberNum);
+    }
+
+    // Load temporary password
+    const tempPass = sessionStorage.getItem("tempPassword");
+    if (tempPass) {
+      setTempPassword(tempPass);
+    }
+
+    // In a real-world application, this is where you would send the email
+    // with the registration summary and login credentials
+  }, [navigate]);
+
+  if (!studentDetails) {
+    return <div className="zen-container py-12">Loading...</div>;
+  }
+
+  const emailAddress = studentDetails.email || 
+                      (sessionStorage.getItem("parentDetails") ? 
+                       JSON.parse(sessionStorage.getItem("parentDetails") || "{}").parentEmail : 
+                       null);
+
+  return (
+    <div className="zen-container py-12 animate-fade-in">
+      <div className="max-w-2xl mx-auto text-center">
+        <div className="flex justify-center mb-6">
+          <CheckCircle className="h-20 w-20 text-green-500" />
+        </div>
+        
+        <h1 className="text-3xl font-bold mb-4">Registration Complete!</h1>
+        
+        <p className="text-lg text-gray-600 mb-8">
+          Thank you, {studentDetails.firstName} {studentDetails.lastName}, for registering with ZenForce TaijiQuan SA.
+          {emailAddress ? " A confirmation email has been sent to your email address." : ""}
+        </p>
+        
+        <Card className="mb-8">
+          <CardContent className="pt-6">
+            <h2 className="text-xl font-semibold mb-4">Your Account Information</h2>
+            
+            <div className="grid grid-cols-2 gap-4 text-left">
+              <div>
+                <p className="text-sm text-gray-500">Membership Number</p>
+                <p className="font-medium text-lg">{membershipNumber}</p>
+              </div>
+              
+              <div>
+                <p className="text-sm text-gray-500">Username</p>
+                <p className="font-medium">{membershipNumber}</p>
+              </div>
+              
+              <div>
+                <p className="text-sm text-gray-500">Temporary Password</p>
+                <p className="font-medium">{tempPassword}</p>
+              </div>
+            </div>
+            
+            <div className="mt-6 pt-4 border-t text-left">
+              <p className="text-sm text-gray-500 italic">
+                Please change your password when you first log in. This information has also been sent to
+                {emailAddress ? ` ${emailAddress}` : " the admin for safekeeping"}.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <Button
+            variant="outline" 
+            onClick={() => navigate("/summary")}
+          >
+            View Registration Summary
+          </Button>
+          
+          <Button
+            className="bg-accent-red hover:bg-accent-red/90 text-white"
+            onClick={() => navigate("/")}
+          >
+            Return to Home
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Completion;
