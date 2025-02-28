@@ -100,9 +100,13 @@ const Completion = () => {
             </div>
             
             <div className="mt-6 pt-4 border-t text-left">
-              <p className="text-sm text-gray-500 italic">
+              <p className="text-sm text-gray-500 italic mb-1">
                 Please change your password when you first log in. This information has also been sent to
                 {emailAddress ? ` ${emailAddress}` : " the admin for safekeeping"}.
+              </p>
+              <p className="text-sm text-orange-600 font-medium">
+                Important: Your password will expire every 30 days for security reasons. 
+                You will be prompted to set a new password upon expiration.
               </p>
             </div>
 

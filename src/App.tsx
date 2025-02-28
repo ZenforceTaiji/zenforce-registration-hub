@@ -17,68 +17,79 @@ import RejectionMessage from "./pages/RejectionMessage";
 import ParQRejection from "./pages/ParQRejection";
 import NotFound from "./pages/NotFound";
 import { Toaster } from "./components/ui/toaster";
+import Navbar from "./components/Navbar";
+
+// Layout with Navbar
+const Layout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <>
+      <Navbar />
+      {children}
+    </>
+  );
+};
 
 // Create routes
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Index />,
+    element: <Layout><Index /></Layout>,
   },
   {
     path: "/par-form",
-    element: <ParForm />,
+    element: <Layout><ParForm /></Layout>,
   },
   {
     path: "/registration",
-    element: <Registration />,
+    element: <Layout><Registration /></Layout>,
   },
   {
     path: "/parent-details",
-    element: <ParentDetails />,
+    element: <Layout><ParentDetails /></Layout>,
   },
   {
     path: "/add-children",
-    element: <AddChildren />,
+    element: <Layout><AddChildren /></Layout>,
   },
   {
     path: "/previous-training",
-    element: <PreviousTraining />,
+    element: <Layout><PreviousTraining /></Layout>,
   },
   {
     path: "/medical-condition",
-    element: <MedicalCondition />,
+    element: <Layout><MedicalCondition /></Layout>,
   },
   {
     path: "/physical-readiness",
-    element: <PhysicalReadiness />,
+    element: <Layout><PhysicalReadiness /></Layout>,
   },
   {
     path: "/indemnity",
-    element: <Indemnity />,
+    element: <Layout><Indemnity /></Layout>,
   },
   {
     path: "/popia",
-    element: <Popia />,
+    element: <Layout><Popia /></Layout>,
   },
   {
     path: "/summary",
-    element: <Summary />,
+    element: <Layout><Summary /></Layout>,
   },
   {
     path: "/completion",
-    element: <Completion />,
+    element: <Layout><Completion /></Layout>,
   },
   {
     path: "/rejection",
-    element: <RejectionMessage />,
+    element: <Layout><RejectionMessage /></Layout>,
   },
   {
     path: "/par-q-rejection",
-    element: <ParQRejection />,
+    element: <Layout><ParQRejection /></Layout>,
   },
   {
     path: "*",
-    element: <NotFound />,
+    element: <Layout><NotFound /></Layout>,
   },
 ]);
 

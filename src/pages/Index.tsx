@@ -42,15 +42,7 @@ const Index = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30" />
         </div>
 
-        <div className="absolute top-4 right-4">
-          <img
-            src="/placeholder.svg"
-            alt="ZenForce Logo"
-            className="h-16 w-16 rounded-full bg-white/10 p-2"
-          />
-        </div>
-
-        <div className="relative mx-auto max-w-7xl px-4 py-32 sm:px-6 lg:px-8">
+        <div className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
             ZenForce TaijiQuan SA
           </h1>
