@@ -86,6 +86,7 @@ const Summary = () => {
     takesMeds: string;
     entries: MedicationEntry[];
   } | null>(null);
+  const [parqAccepted, setParqAccepted] = useState<boolean>(false);
   const [indemnityAccepted, setIndemnityAccepted] = useState<boolean>(false);
   const [popiaAccepted, setPopiaAccepted] = useState<boolean>(false);
 
@@ -160,6 +161,10 @@ const Summary = () => {
     if (medicationData) {
       setMedications(JSON.parse(medicationData));
     }
+    
+    // Load PAR-Q acceptance
+    const parq = sessionStorage.getItem("parqAccepted");
+    setParqAccepted(parq === "true");
     
     // Load indemnity acceptance
     const indemnity = sessionStorage.getItem("indemnityAccepted");
@@ -702,7 +707,17 @@ const Summary = () => {
       {/* Consents */}
       <div className="max-w-3xl mx-auto mb-8">
         <h2 className="text-xl font-semibold mb-4">Consents and Agreements</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="p-4 border rounded-md flex items-center gap-3">
+            <div className={`rounded-full p-1 ${parqAccepted ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
+              {parqAccepted ? <Check className="h-5 w-5" /> : <X className="h-5 w-5" />}
+            </div>
+            <div>
+              <p className="font-medium">Physical Activity Readiness</p>
+              <p className="text-sm text-slate-500">{parqAccepted ? 'Accepted' : 'Rejected'}</p>
+            </div>
+          </div>
+        
           <div className="p-4 border rounded-md flex items-center gap-3">
             <div className={`rounded-full p-1 ${indemnityAccepted ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
               {indemnityAccepted ? <Check className="h-5 w-5" /> : <X className="h-5 w-5" />}

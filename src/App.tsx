@@ -7,11 +7,13 @@ import ParentDetails from "./pages/ParentDetails";
 import AddChildren from "./pages/AddChildren";
 import PreviousTraining from "./pages/PreviousTraining";
 import MedicalCondition from "./pages/MedicalCondition";
+import PhysicalReadiness from "./pages/PhysicalReadiness";
 import Indemnity from "./pages/Indemnity";
 import Popia from "./pages/Popia";
 import Summary from "./pages/Summary";
 import Completion from "./pages/Completion";
 import RejectionMessage from "./pages/RejectionMessage";
+import ParQRejection from "./pages/ParQRejection";
 import NotFound from "./pages/NotFound";
 import { Toaster } from "./components/ui/toaster";
 
@@ -42,6 +44,10 @@ const router = createBrowserRouter([
     element: <MedicalCondition />,
   },
   {
+    path: "/physical-readiness",
+    element: <PhysicalReadiness />,
+  },
+  {
     path: "/indemnity",
     element: <Indemnity />,
   },
@@ -60,6 +66,10 @@ const router = createBrowserRouter([
   {
     path: "/rejection",
     element: <RejectionMessage />,
+  },
+  {
+    path: "/par-q-rejection",
+    element: <ParQRejection />,
   },
   {
     path: "*",

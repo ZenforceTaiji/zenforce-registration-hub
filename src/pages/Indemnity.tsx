@@ -11,6 +11,7 @@ const Indemnity = () => {
   const { toast } = useToast();
   const userAge = sessionStorage.getItem("userAge");
   const studentDetails = sessionStorage.getItem("studentDetails");
+  const parqAccepted = sessionStorage.getItem("parqAccepted");
   
   const [acceptIndemnity, setAcceptIndemnity] = useState<boolean | "indeterminate">(false);
   const [rejectIndemnity, setRejectIndemnity] = useState<boolean | "indeterminate">(false);
@@ -19,8 +20,15 @@ const Indemnity = () => {
   useEffect(() => {
     if (!userAge || !studentDetails) {
       navigate("/");
+      return;
     }
-  }, [userAge, studentDetails, navigate]);
+
+    // Check if PAR-Q was accepted
+    if (!parqAccepted || parqAccepted !== "true") {
+      navigate("/physical-readiness");
+      return;
+    }
+  }, [userAge, studentDetails, parqAccepted, navigate]);
 
   const handleAcceptChange = (checked: boolean | "indeterminate") => {
     setAcceptIndemnity(checked);
@@ -53,7 +61,7 @@ const Indemnity = () => {
     
     if (rejectIndemnity) {
       // Navigate to rejection message
-      navigate("/rejection-message");
+      navigate("/rejection");
     } else {
       // Navigate to POPIA page
       navigate("/popia");
@@ -124,8 +132,8 @@ const Indemnity = () => {
           </div>
 
           <div className="flex justify-between pt-4">
-            <Button type="button" variant="outline" onClick={() => navigate("/medical-condition")}>
-              Back to Medical Information
+            <Button type="button" variant="outline" onClick={() => navigate("/physical-readiness")}>
+              Back to Physical Activity Readiness
             </Button>
             <Button type="submit" className="bg-accent-red hover:bg-accent-red/90 text-white">
               Continue
