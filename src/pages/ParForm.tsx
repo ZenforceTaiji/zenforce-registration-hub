@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -57,13 +56,11 @@ const ParForm = () => {
   const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
   const [cameraActive, setCameraActive] = useState(false);
   
-  // Load saved form data if it exists
   const savedFormData = sessionStorage.getItem("parQForm");
   const initialFormData = savedFormData ? JSON.parse(savedFormData) : defaultFormData;
   
   const [formData, setFormData] = useState<ParQFormData>(initialFormData);
 
-  // Cleanup camera stream when component unmounts
   useEffect(() => {
     return () => {
       if (cameraStream) {
@@ -77,7 +74,6 @@ const ParForm = () => {
   };
 
   const handleSaveForLater = () => {
-    // Save current progress to session storage
     sessionStorage.setItem("parQForm", JSON.stringify(formData));
     
     toast({
@@ -85,14 +81,12 @@ const ParForm = () => {
       description: "Your PAR-Q form progress has been saved. You can continue later.",
     });
     
-    // Navigate to home
     navigate("/");
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Check if all required fields are filled
     const requiredFields: Array<keyof ParQFormData> = [
       "heartCondition", 
       "chestPain", 
@@ -113,7 +107,6 @@ const ParForm = () => {
       return;
     }
     
-    // Check if any answers are "yes" but no medical letter is provided
     const hasYesAnswers = requiredFields.some(field => formData[field] === "yes");
     
     if (hasYesAnswers && !formData.medicalLetter) {
@@ -125,17 +118,20 @@ const ParForm = () => {
       return;
     }
     
-    // Mark as completed and save to session storage
     const completedFormData = { ...formData, completed: true };
     sessionStorage.setItem("parQForm", JSON.stringify(completedFormData));
     
     toast({
       title: "PAR-Q Form Completed",
-      description: "Your Physical Activity Readiness form has been successfully submitted.",
+      description: "Your Physical Activity Readiness form has been successfully submitted. Now you can proceed with registration.",
     });
     
-    // Redirect based on form flow
-    navigate("/registration");
+    const userAge = sessionStorage.getItem("userAge");
+    if (!userAge) {
+      navigate("/");
+    } else {
+      navigate("/registration");
+    }
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -146,7 +142,6 @@ const ParForm = () => {
   };
 
   const processSelectedFile = (file: File) => {
-    // Check file size (limit to 20MB)
     if (file.size > 20 * 1024 * 1024) {
       toast({
         title: "File Too Large",
@@ -156,7 +151,6 @@ const ParForm = () => {
       return;
     }
 
-    // Check file type (allow images and PDF)
     if (!file.type.startsWith('image/') && file.type !== 'application/pdf') {
       toast({
         title: "Invalid File Type",
@@ -230,18 +224,14 @@ const ParForm = () => {
       const context = canvasRef.current.getContext('2d');
       
       if (context) {
-        // Set canvas dimensions to match video
         canvasRef.current.width = cameraRef.current.videoWidth;
         canvasRef.current.height = cameraRef.current.videoHeight;
         
-        // Draw video frame to canvas
         context.drawImage(cameraRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
         
-        // Convert canvas to image data URL
         const imageDataUrl = canvasRef.current.toDataURL('image/jpeg');
         setFormData(prev => ({ ...prev, medicalLetter: imageDataUrl }));
         
-        // Close camera
         stopCamera();
         
         toast({
@@ -253,7 +243,6 @@ const ParForm = () => {
   };
 
   const handleCloudUpload = (service: string) => {
-    // In a real implementation, this would integrate with cloud service APIs
     toast({
       description: `${service} integration would be implemented here for medical letter upload`,
     });
@@ -265,7 +254,10 @@ const ParForm = () => {
 
   return (
     <div className="zen-container py-12 animate-fade-in">
-      <h1 className="page-title mb-8">Physical Activity Readiness Questionnaire (PAR-Q)</h1>
+      <h1 className="page-title mb-4">Step 1: Physical Activity Readiness Questionnaire</h1>
+      <div className="text-center text-gray-600 mb-8">
+        <p>You must complete this health questionnaire before proceeding with registration</p>
+      </div>
       
       <div className="zen-card max-w-3xl mx-auto">
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -576,7 +568,7 @@ const ParForm = () => {
                 Cancel
               </Button>
               <Button type="submit" className="bg-accent-red hover:bg-accent-red/90 text-white">
-                Submit PAR-Q Form
+                Submit and Continue to Registration
               </Button>
             </div>
           </div>

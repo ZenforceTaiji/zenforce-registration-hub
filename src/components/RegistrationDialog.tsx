@@ -2,15 +2,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
 
 interface RegistrationDialogProps {
@@ -18,57 +18,63 @@ interface RegistrationDialogProps {
 }
 
 export function RegistrationDialog({ onClose }: RegistrationDialogProps) {
-  const [age, setAge] = useState("");
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [ageGroup, setAgeGroup] = useState<string>("");
 
   const handleContinue = () => {
-    const numAge = parseInt(age);
-    if (!age || isNaN(numAge) || numAge < 1) {
+    if (!ageGroup) {
       toast({
-        title: "Invalid Age",
-        description: "Please enter a valid age to continue.",
+        title: "Selection Required",
+        description: "Please select an age group to continue",
         variant: "destructive",
       });
       return;
     }
 
-    // Store age in session storage for the registration flow
-    sessionStorage.setItem("userAge", age);
+    // Store age selection in session storage
+    sessionStorage.setItem("userAge", ageGroup);
     onClose();
-    navigate("/registration");
+    
+    // Always redirect to PAR-Q form first, regardless of age
+    navigate("/par-form");
   };
 
   return (
-    <DialogContent className="sm:max-w-[425px]">
+    <DialogContent className="sm:max-w-md">
       <DialogHeader>
         <DialogTitle>Welcome to ZenForce TaijiQuan</DialogTitle>
         <DialogDescription>
-          Please enter your age to begin the registration process.
+          Please select your age group to begin the registration process
         </DialogDescription>
       </DialogHeader>
+
       <div className="grid gap-4 py-4">
-        <div className="grid gap-2">
-          <Label htmlFor="age">Age</Label>
-          <Input
-            id="age"
-            type="number"
-            value={age}
-            onChange={(e) => setAge(e.target.value)}
-            className="zen-input"
-            placeholder="Enter your age"
-            min="1"
-          />
-        </div>
+        <RadioGroup value={ageGroup} onValueChange={setAgeGroup}>
+          <div className="flex items-center space-x-2 mb-3">
+            <RadioGroupItem value="adult" id="adult" />
+            <Label htmlFor="adult" className="font-medium">I am 18 years or older</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="child" id="child" />
+            <Label htmlFor="child" className="font-medium">I am under 18 years old</Label>
+          </div>
+        </RadioGroup>
       </div>
-      <div className="flex justify-end gap-4">
-        <Button variant="outline" onClick={onClose}>
+
+      <DialogFooter>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onClose}
+          className="mt-2 sm:mt-0"
+        >
           Cancel
         </Button>
         <Button onClick={handleContinue} className="zen-button-primary">
           Continue
         </Button>
-      </div>
+      </DialogFooter>
     </DialogContent>
   );
 }

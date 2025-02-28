@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { AlertCircle } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 interface StudentDetails {
   firstName: string;
@@ -91,9 +93,37 @@ const Registration = () => {
     }
   };
 
+  // If PAR-Q not completed, show alert instead of form
+  if (!isPARQCompleted) {
+    return (
+      <div className="zen-container py-12 animate-fade-in">
+        <div className="max-w-2xl mx-auto">
+          <Alert variant="destructive" className="mb-6">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Required Step Missing</AlertTitle>
+            <AlertDescription>
+              You must complete the Physical Activity Readiness Questionnaire (PAR-Q) before proceeding with registration.
+            </AlertDescription>
+          </Alert>
+          
+          <div className="text-center">
+            <Button 
+              onClick={() => navigate("/par-form")}
+              className="bg-accent-red hover:bg-accent-red/90 text-white"
+            >
+              Complete PAR-Q Form
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="zen-container py-12 animate-fade-in">
-      <h1 className="page-title mb-8">Student Registration</h1>
+      <h1 className="page-title mb-2">Step 2: Student Registration</h1>
+      <p className="text-center text-gray-600 mb-8">Please enter your personal details</p>
+      
       <div className="zen-card max-w-2xl mx-auto">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -179,8 +209,8 @@ const Registration = () => {
           </div>
 
           <div className="flex justify-between pt-4">
-            <Button type="button" variant="outline" onClick={() => navigate("/")}>
-              Back to Home
+            <Button type="button" variant="outline" onClick={() => navigate("/par-form")}>
+              Back to PAR-Q Form
             </Button>
             <Button type="submit" className="bg-accent-red hover:bg-accent-red/90 text-white">
               Continue

@@ -1,9 +1,10 @@
+
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { RegistrationDialog } from "@/components/RegistrationDialog";
-import { FilePenLine } from "lucide-react";
+import { FilePenLine, ArrowRight } from "lucide-react";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const Index = () => {
   const [hasSavedParQ, setHasSavedParQ] = useState(false);
   const [hasCompletedParQ, setHasCompletedParQ] = useState(false);
 
+  // Check if there's a saved PAR-Q form
   useEffect(() => {
     const parQFormData = sessionStorage.getItem("parQForm");
     if (parQFormData) {
@@ -55,7 +57,36 @@ const Index = () => {
           <p className="mt-6 max-w-3xl text-xl text-gray-300">
             Discover the ancient art of balance, strength, and inner peace
           </p>
-          <div className="mt-10 space-y-4">
+          
+          <div className="mt-10 space-y-6">
+            {/* Registration Process Card */}
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 max-w-2xl">
+              <h2 className="text-2xl font-bold text-white mb-4">Registration Process</h2>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-accent-red text-white flex items-center justify-center font-bold">1</div>
+                  <div>
+                    <h3 className="text-white font-medium">Complete PAR-Q Form</h3>
+                    <p className="text-gray-300 text-sm">Physical Activity Readiness Questionnaire is required before registration</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center font-bold">2</div>
+                  <div>
+                    <h3 className="text-white font-medium">Personal Information</h3>
+                    <p className="text-gray-300 text-sm">Enter your contact and personal details</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center font-bold">3</div>
+                  <div>
+                    <h3 className="text-white font-medium">Terms & Conditions</h3>
+                    <p className="text-gray-300 text-sm">Review and accept terms before completing registration</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
             {hasSavedParQ && (
               <div className="bg-white/10 p-4 rounded-md backdrop-blur-sm max-w-md">
                 <h3 className="text-white font-medium mb-2">
@@ -65,38 +96,39 @@ const Index = () => {
                 </h3>
                 <Button 
                   onClick={handleContinueRegistration}
-                  className="zen-button-primary w-full"
+                  className="zen-button-primary w-full flex items-center justify-center gap-2"
                 >
                   {hasCompletedParQ 
                     ? "Continue to Registration" 
                     : "Continue Your PAR-Q Form"}
+                  <ArrowRight className="h-4 w-4" />
                 </Button>
               </div>
             )}
             
             <div className="flex flex-col sm:flex-row gap-4">
+              <Button
+                variant="outline"
+                size="lg"
+                className="bg-accent-red text-white hover:bg-accent-red/90 backdrop-blur-sm flex items-center gap-2"
+                onClick={() => navigate("/par-form")}
+              >
+                <FilePenLine className="h-5 w-5" />
+                Start Registration Process
+              </Button>
+              
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
                   <Button
                     variant="default"
                     size="lg"
-                    className="zen-button-primary"
+                    className="bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm"
                   >
-                    Begin Your Journey
+                    Learn More
                   </Button>
                 </DialogTrigger>
                 <RegistrationDialog onClose={() => setIsDialogOpen(false)} />
               </Dialog>
-              
-              <Button
-                variant="outline"
-                size="lg"
-                className="bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm flex items-center gap-2"
-                onClick={() => navigate("/par-form")}
-              >
-                <FilePenLine className="h-5 w-5" />
-                Fill PAR-Q Form
-              </Button>
             </div>
           </div>
         </div>
