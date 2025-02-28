@@ -8,6 +8,7 @@ import AddChildren from "./pages/AddChildren";
 import PreviousTraining from "./pages/PreviousTraining";
 import MedicalCondition from "./pages/MedicalCondition";
 import PhysicalReadiness from "./pages/PhysicalReadiness";
+import ParForm from "./pages/ParForm";
 import Indemnity from "./pages/Indemnity";
 import Popia from "./pages/Popia";
 import Summary from "./pages/Summary";
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Index />,
+  },
+  {
+    path: "/par-form",
+    element: <ParForm />,
   },
   {
     path: "/registration",

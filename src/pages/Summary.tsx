@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -86,11 +85,11 @@ const Summary = () => {
     takesMeds: string;
     entries: MedicationEntry[];
   } | null>(null);
+  const [parQFormData, setParQFormData] = useState<any>(null);
   const [parqAccepted, setParqAccepted] = useState<boolean>(false);
   const [indemnityAccepted, setIndemnityAccepted] = useState<boolean>(false);
   const [popiaAccepted, setPopiaAccepted] = useState<boolean>(false);
 
-  // Generate membership number
   useEffect(() => {
     const generateMemberNumber = () => {
       const randomDigits = Math.floor(1000 + Math.random() * 9000);
@@ -99,7 +98,6 @@ const Summary = () => {
 
     setMembershipNumber(generateMemberNumber());
     
-    // Generate membership numbers for additional children if any
     const childrenData = sessionStorage.getItem("multipleChildren");
     if (childrenData) {
       const children = JSON.parse(childrenData);
@@ -113,21 +111,17 @@ const Summary = () => {
     }
   }, []);
 
-  // Load all session data
   useEffect(() => {
-    // Check if required session data exists
     if (!userAge) {
       navigate("/");
       return;
     }
     
-    // Load student details
     const studentData = sessionStorage.getItem("studentDetails");
     if (studentData) {
       setStudentDetails(JSON.parse(studentData));
     }
     
-    // Load parent details if minor
     if (parseInt(userAge) < 18) {
       const parentData = sessionStorage.getItem("parentDetails");
       if (parentData) {
@@ -138,39 +132,40 @@ const Summary = () => {
       }
     }
     
-    // Load additional children
     const childrenData = sessionStorage.getItem("multipleChildren");
     if (childrenData) {
       setAdditionalChildren(JSON.parse(childrenData));
     }
     
-    // Load previous training
     const trainingData = sessionStorage.getItem("previousTraining");
     if (trainingData) {
       setPreviousTraining(JSON.parse(trainingData));
     }
     
-    // Load medical conditions
     const medicalData = sessionStorage.getItem("medicalConditions");
     if (medicalData) {
       setMedicalConditions(JSON.parse(medicalData));
     }
     
-    // Load medications
     const medicationData = sessionStorage.getItem("medications");
     if (medicationData) {
       setMedications(JSON.parse(medicationData));
     }
     
-    // Load PAR-Q acceptance
+    const parQData = sessionStorage.getItem("parQForm");
+    if (parQData) {
+      setParQFormData(JSON.parse(parQData));
+    } else {
+      navigate("/par-form");
+      return;
+    }
+    
     const parq = sessionStorage.getItem("parqAccepted");
     setParqAccepted(parq === "true");
     
-    // Load indemnity acceptance
     const indemnity = sessionStorage.getItem("indemnityAccepted");
     setIndemnityAccepted(indemnity === "true");
     
-    // Load POPIA acceptance
     const popia = sessionStorage.getItem("popiaAccepted");
     setPopiaAccepted(popia === "true");
     
@@ -179,26 +174,22 @@ const Summary = () => {
   const sendStudentConfirmationEmail = async () => {
     if (!studentDetails) return;
     
-    // Format previous training information
     const previousTrainingText = previousTraining 
       ? previousTraining.hasPrevious === 'yes'
         ? `Yes, ${previousTraining.entries.map(e => e.style).join(', ')}`
         : 'No previous training'
       : 'Not specified';
 
-    // Format medical conditions information
     const medicalConditionsText = medicalConditions
       ? medicalConditions.hasMedical === 'yes'
         ? `Yes, ${medicalConditions.entries.map(e => e.name).join(', ')}`
         : 'No medical conditions'
       : 'Not specified';
 
-    // Format additional children information
     const additionalChildrenText = additionalChildren.length > 0
       ? `Yes, ${additionalChildren.length} additional ${additionalChildren.length === 1 ? 'child' : 'children'}`
       : 'No additional children';
 
-    // Determine email address to use
     const emailToUse = studentDetails.email || 
       (parentDetails ? parentDetails.parentEmail : null);
 
@@ -216,7 +207,7 @@ const Summary = () => {
       telephone: studentDetails.telephone || (parentDetails ? parentDetails.parentTelephone : 'Not provided'),
       email: emailToUse,
       physicalAddress: studentDetails.physicalAddress || (parentDetails ? parentDetails.parentPhysicalAddress : 'Not provided'),
-      dateOfBirth: 'Not provided', // We don't collect date of birth, only age
+      dateOfBirth: 'Not provided',
       parentName: parentDetails ? `${parentDetails.parentName} ${parentDetails.parentSurname}` : 'Not applicable',
       parentContact: parentDetails ? parentDetails.parentMobile : 'Not applicable',
       previousTraining: previousTrainingText,
@@ -232,7 +223,7 @@ const Summary = () => {
         'service_vh484fl',
         'template_d4o59f2',
         templateParams,
-        'tc6-vGIjp7zf67CWM' // Using your provided public key
+        'tc6-vGIjp7zf67CWM'
       );
       console.log('Student email sent successfully!', response.status, response.text);
     } catch (error) {
@@ -243,7 +234,6 @@ const Summary = () => {
   const sendInstructorNotificationEmail = async () => {
     if (!studentDetails) return;
 
-    // Determine email address to display
     const emailToDisplay = studentDetails.email || 
       (parentDetails ? parentDetails.parentEmail : 'Not provided');
 
@@ -259,7 +249,7 @@ const Summary = () => {
         'service_vh484fl',
         'template_01wbmwi',
         templateParams,
-        'tc6-vGIjp7zf67CWM' // Using your provided public key
+        'tc6-vGIjp7zf67CWM'
       );
       console.log('Instructor email sent successfully!', response.status, response.text);
     } catch (error) {
@@ -271,23 +261,18 @@ const Summary = () => {
     setIsSubmitting(true);
     
     try {
-      // Store membership number in session storage
       sessionStorage.setItem("membershipNumber", membershipNumber);
       
-      // Store additional membership numbers if any
       if (additionalChildren.length > 0) {
         sessionStorage.setItem("additionalMembershipNumbers", JSON.stringify(additionalMembershipNumbers));
       }
       
-      // Create temporary password
       const tempPassword = `Temp${membershipNumber}`;
       sessionStorage.setItem("tempPassword", tempPassword);
       
-      // Send confirmation emails
       await sendStudentConfirmationEmail();
       await sendInstructorNotificationEmail();
       
-      // Navigate to completion page
       navigate("/completion");
     } catch (error) {
       console.error("Error during submission:", error);
@@ -301,7 +286,7 @@ const Summary = () => {
     }
   };
 
-  if (!studentDetails) {
+  if (!studentDetails || !parQFormData) {
     return <div className="zen-container py-12">Loading...</div>;
   }
 
@@ -323,7 +308,6 @@ const Summary = () => {
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        {/* Student Details */}
         <Card>
           <CardHeader>
             <CardTitle>Student Information</CardTitle>
@@ -409,7 +393,6 @@ const Summary = () => {
           </CardContent>
         </Card>
         
-        {/* Parent/Guardian Details */}
         {parentDetails && (
           <Card>
             <CardHeader>
@@ -517,7 +500,6 @@ const Summary = () => {
           </Card>
         )}
         
-        {/* Additional Children */}
         {additionalChildren.length > 0 && (
           <Card className="md:col-span-2">
             <CardHeader>
@@ -569,7 +551,6 @@ const Summary = () => {
           </Card>
         )}
         
-        {/* Previous Training */}
         {previousTraining && (
           <Card>
             <CardHeader>
@@ -619,7 +600,6 @@ const Summary = () => {
           </Card>
         )}
         
-        {/* Medical Conditions */}
         {medicalConditions && (
           <Card>
             <CardHeader>
@@ -704,10 +684,84 @@ const Summary = () => {
         )}
       </div>
       
-      {/* Consents */}
+      <div className="max-w-3xl mx-auto mb-8">
+        <h2 className="text-xl font-semibold mb-4">Physical Activity Readiness (PAR-Q)</h2>
+        <Card className="overflow-hidden">
+          <CardHeader className="bg-slate-50">
+            <CardTitle>PAR-Q Responses</CardTitle>
+          </CardHeader>
+          <CardContent className="p-6">
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                <div>
+                  <p className="text-sm text-slate-500">Heart Condition</p>
+                  <p className="font-medium capitalize">{parQFormData.heartCondition || "Not answered"}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500">Chest Pain</p>
+                  <p className="font-medium capitalize">{parQFormData.chestPain || "Not answered"}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500">Balance/Dizziness Issues</p>
+                  <p className="font-medium capitalize">{parQFormData.loseBalance || "Not answered"}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500">Joint Problems</p>
+                  <p className="font-medium capitalize">{parQFormData.jointProblems || "Not answered"}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500">Blood Pressure/Heart Medication</p>
+                  <p className="font-medium capitalize">{parQFormData.takingPrescription || "Not answered"}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500">Other Reasons</p>
+                  <p className="font-medium capitalize">{parQFormData.otherReason || "Not answered"}</p>
+                </div>
+              </div>
+              
+              {parQFormData.medicalLetter && (
+                <div className="mt-4 pt-4 border-t">
+                  <p className="text-sm text-slate-500 mb-2">Medical Clearance Letter</p>
+                  <div className="w-32 h-32 border rounded-md overflow-hidden">
+                    {parQFormData.medicalLetter.startsWith('data:image') ? (
+                      <img 
+                        src={parQFormData.medicalLetter} 
+                        alt="Medical Letter" 
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-slate-100 text-slate-500">
+                        <p className="text-xs text-center p-2">PDF Document</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+              
+              {parQFormData.additionalNotes && (
+                <div className="mt-4 pt-4 border-t">
+                  <p className="text-sm text-slate-500 mb-1">Additional Notes</p>
+                  <p className="text-sm">{parQFormData.additionalNotes}</p>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+      
       <div className="max-w-3xl mx-auto mb-8">
         <h2 className="text-xl font-semibold mb-4">Consents and Agreements</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="p-4 border rounded-md flex items-center gap-3">
+            <div className={`rounded-full p-1 ${parQFormData.completed ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
+              {parQFormData.completed ? <Check className="h-5 w-5" /> : <X className="h-5 w-5" />}
+            </div>
+            <div>
+              <p className="font-medium">PAR-Q Form</p>
+              <p className="text-sm text-slate-500">{parQFormData.completed ? 'Completed' : 'Incomplete'}</p>
+            </div>
+          </div>
+
           <div className="p-4 border rounded-md flex items-center gap-3">
             <div className={`rounded-full p-1 ${parqAccepted ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
               {parqAccepted ? <Check className="h-5 w-5" /> : <X className="h-5 w-5" />}
