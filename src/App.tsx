@@ -16,6 +16,7 @@ import Completion from "./pages/Completion";
 import RejectionMessage from "./pages/RejectionMessage";
 import ParQRejection from "./pages/ParQRejection";
 import NotFound from "./pages/NotFound";
+import StudentPortal from "./pages/StudentPortal";
 import { Toaster } from "./components/ui/toaster";
 import Navbar from "./components/Navbar";
 
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
   {
     path: "/par-q-rejection",
     element: <Layout><ParQRejection /></Layout>,
+  },
+  {
+    path: "/student-portal",
+    element: <Layout><StudentPortal /></Layout>,
   },
   {
     path: "*",
