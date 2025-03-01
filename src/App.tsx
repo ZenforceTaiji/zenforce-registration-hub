@@ -21,6 +21,7 @@ import InstructorPortal from "./pages/InstructorPortal";
 import AdminPortal from "./pages/AdminPortal";
 import { Toaster } from "./components/ui/toaster";
 import Navbar from "./components/Navbar";
+import BookingSystem from "./components/BookingSystem";
 
 // Layout with Navbar
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -101,6 +102,10 @@ const router = createBrowserRouter([
   {
     path: "/admin-portal",
     element: <Layout><AdminPortal /></Layout>,
+  },
+  {
+    path: "/booking",
+    element: <Layout><BookingSystem /></Layout>,
   },
   {
     path: "*",

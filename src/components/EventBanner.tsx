@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Calendar, Clock } from "lucide-react";
 import { Button } from "./ui/button";
+import { Link } from "react-router-dom";
 
 interface Event {
   id: number;
@@ -77,8 +78,8 @@ const EventBanner = () => {
               <Button size="sm" variant="outline" className="mr-2">
                 View Details
               </Button>
-              <Button size="sm">
-                Register
+              <Button size="sm" asChild>
+                <Link to="/booking">Register</Link>
               </Button>
             </div>
           </div>
