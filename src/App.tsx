@@ -18,6 +18,7 @@ import ParQRejection from "./pages/ParQRejection";
 import NotFound from "./pages/NotFound";
 import StudentPortal from "./pages/StudentPortal";
 import InstructorPortal from "./pages/InstructorPortal";
+import AdminPortal from "./pages/AdminPortal";
 import { Toaster } from "./components/ui/toaster";
 import Navbar from "./components/Navbar";
 
@@ -96,6 +97,10 @@ const router = createBrowserRouter([
   {
     path: "/instructor-portal",
     element: <Layout><InstructorPortal /></Layout>,
+  },
+  {
+    path: "/admin-portal",
+    element: <Layout><AdminPortal /></Layout>,
   },
   {
     path: "*",

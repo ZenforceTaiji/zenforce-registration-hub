@@ -9,6 +9,7 @@ import {
   LogIn,
   BookOpen,
   UserPlus,
+  Settings,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,9 +25,9 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [showLoginDialog, setShowLoginDialog] = useState(false);
-  const [loginType, setLoginType] = useState<"student" | "instructor">("student");
+  const [loginType, setLoginType] = useState<"student" | "instructor" | "admin">("student");
 
-  const handleLoginClick = (type: "student" | "instructor") => {
+  const handleLoginClick = (type: "student" | "instructor" | "admin") => {
     setLoginType(type);
     setShowLoginDialog(true);
   };
@@ -74,6 +75,14 @@ const Navbar = () => {
                   >
                     <LogIn className="mr-2 h-4 w-4" />
                     Instructor Login
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem 
+                    className="cursor-pointer flex items-center"
+                    onClick={() => handleLoginClick("admin")}
+                  >
+                    <Settings className="mr-2 h-4 w-4" />
+                    Admin Login
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -134,6 +143,16 @@ const Navbar = () => {
             >
               <LogIn className="mr-2 h-4 w-4" />
               Instructor Login
+            </button>
+            <button
+              className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 flex items-center"
+              onClick={() => {
+                handleLoginClick("admin");
+                setIsOpen(false);
+              }}
+            >
+              <Settings className="mr-2 h-4 w-4" />
+              Admin Login
             </button>
             <Link
               to="/par-form"

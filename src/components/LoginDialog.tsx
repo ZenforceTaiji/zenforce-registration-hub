@@ -19,7 +19,7 @@ import { PasswordResetDialog } from "./PasswordResetDialog";
 interface LoginDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  type: "student" | "instructor";
+  type: "student" | "instructor" | "admin";
 }
 
 export function LoginDialog({ open, onOpenChange, type }: LoginDialogProps) {
@@ -45,7 +45,7 @@ export function LoginDialog({ open, onOpenChange, type }: LoginDialogProps) {
     
     toast({
       title: "Login Successful",
-      description: `Welcome back, ${type === "student" ? "Student" : "Instructor"}!`,
+      description: `Welcome back, ${type === "student" ? "Student" : type === "instructor" ? "Instructor" : "Administrator"}!`,
     });
     
     onOpenChange(false);
@@ -63,6 +63,9 @@ export function LoginDialog({ open, onOpenChange, type }: LoginDialogProps) {
     } else if (type === "instructor") {
       // Redirect to instructor portal after successful instructor login
       navigate("/instructor-portal");
+    } else if (type === "admin") {
+      // Redirect to admin portal after successful admin login
+      navigate("/admin-portal");
     }
   };
 
@@ -72,10 +75,20 @@ export function LoginDialog({ open, onOpenChange, type }: LoginDialogProps) {
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>
-              {type === "student" ? "Student Login" : "Instructor Login"}
+              {type === "student" 
+                ? "Student Login" 
+                : type === "instructor" 
+                  ? "Instructor Login" 
+                  : "Administrator Login"}
             </DialogTitle>
             <DialogDescription>
-              Enter your credentials to access the {type === "student" ? "student" : "instructor"} portal
+              Enter your credentials to access the {
+                type === "student" 
+                  ? "student" 
+                  : type === "instructor" 
+                    ? "instructor" 
+                    : "administrator"
+              } portal
             </DialogDescription>
           </DialogHeader>
 
@@ -90,7 +103,13 @@ export function LoginDialog({ open, onOpenChange, type }: LoginDialogProps) {
                   id="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder={type === "student" ? "Enter membership number" : "Enter username"}
+                  placeholder={
+                    type === "student" 
+                      ? "Enter membership number" 
+                      : type === "instructor"
+                        ? "Enter username"
+                        : "Enter admin username"
+                  }
                   className="pl-10"
                 />
               </div>
@@ -152,7 +171,13 @@ export function LoginDialog({ open, onOpenChange, type }: LoginDialogProps) {
             </Button>
             <Button 
               onClick={handleLogin}
-              className={type === "student" ? "bg-accent-red hover:bg-accent-red/90 text-white" : ""}
+              className={
+                type === "student" 
+                  ? "bg-accent-red hover:bg-accent-red/90 text-white" 
+                  : type === "admin"
+                    ? "bg-indigo-600 hover:bg-indigo-700 text-white"
+                    : ""
+              }
             >
               Login
             </Button>
