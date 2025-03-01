@@ -60,6 +60,9 @@ export function LoginDialog({ open, onOpenChange, type }: LoginDialogProps) {
         // Redirect to student portal after successful student login
         navigate("/student-portal");
       }
+    } else if (type === "instructor") {
+      // Redirect to instructor portal after successful instructor login
+      navigate("/instructor-portal");
     }
   };
 
