@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,13 +13,13 @@ import {
   UserPlus, 
   Settings, 
   LineChart, 
-  PieChart, 
   Calendar, 
   CheckCircle,
   AlertCircle
 } from "lucide-react";
+import EventBanner from "@/components/EventBanner";
+import EventsCalendar from "@/components/EventsCalendar";
 
-// Mock data for the Admin Portal
 const mockInstructors = [
   { id: 1, name: "Master Liang", email: "liang@zenforce.com", status: "Active", students: 15, lastLogin: "2023-07-10" },
   { id: 2, name: "Shifu Chen", email: "chen@zenforce.com", status: "Active", students: 12, lastLogin: "2023-07-12" },
@@ -56,7 +55,6 @@ const AdminPortal = () => {
   const [maintenanceNote, setMaintenanceNote] = useState("");
   
   const handleAddInstructor = () => {
-    // Validate form
     if (!newInstructor.name || !newInstructor.email || !newInstructor.password) {
       toast({
         title: "Validation Error",
@@ -75,13 +73,11 @@ const AdminPortal = () => {
       return;
     }
     
-    // In a real app, this would be an API call to add the instructor
     toast({
       title: "Instructor Added",
       description: `${newInstructor.name} has been added as an instructor`,
     });
     
-    // Reset form
     setNewInstructor({
       name: "",
       email: "",
@@ -109,8 +105,6 @@ const AdminPortal = () => {
     setMaintenanceNote("");
   };
   
-  // Mock visualization of website activity using simple div elements
-  // In a real app, you would use a charting library like recharts
   const ActivityChart = ({ data, labels, title, icon: Icon }) => (
     <Card className="col-span-1">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -155,6 +149,8 @@ const AdminPortal = () => {
           <p className="text-gray-600 mt-1">Manage instructors, website maintenance, and view analytics</p>
         </div>
       </div>
+      
+      <EventBanner />
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <Card>
@@ -207,6 +203,7 @@ const AdminPortal = () => {
           <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
           <TabsTrigger value="instructors">Instructors</TabsTrigger>
           <TabsTrigger value="maintenance">Maintenance</TabsTrigger>
+          <TabsTrigger value="events">Events</TabsTrigger>
         </TabsList>
         
         <TabsContent value="dashboard">
@@ -501,6 +498,10 @@ const AdminPortal = () => {
               </CardContent>
             </Card>
           </div>
+        </TabsContent>
+        
+        <TabsContent value="events">
+          <EventsCalendar />
         </TabsContent>
       </Tabs>
     </div>

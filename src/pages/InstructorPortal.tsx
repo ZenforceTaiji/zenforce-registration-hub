@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,6 +13,8 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Users, Award, DollarSign, ClipboardList } from "lucide-react";
+import EventBanner from "@/components/EventBanner";
+import EventsCalendar from "@/components/EventsCalendar";
 
 const InstructorPortal = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -51,6 +52,8 @@ const InstructorPortal = () => {
           <Button variant="outline">Schedule Grading</Button>
         </div>
       </div>
+
+      <EventBanner />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <Card>
@@ -92,6 +95,7 @@ const InstructorPortal = () => {
               <TabsTrigger value="students">Students</TabsTrigger>
               <TabsTrigger value="gradings">Gradings</TabsTrigger>
               <TabsTrigger value="payments">Payments</TabsTrigger>
+              <TabsTrigger value="events">Events</TabsTrigger>
             </TabsList>
             
             <TabsContent value="students">
@@ -209,6 +213,10 @@ const InstructorPortal = () => {
                   </Table>
                 </CardContent>
               </Card>
+            </TabsContent>
+            
+            <TabsContent value="events">
+              <EventsCalendar />
             </TabsContent>
           </Tabs>
         </div>
