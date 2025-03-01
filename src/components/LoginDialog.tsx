@@ -56,6 +56,9 @@ export function LoginDialog({ open, onOpenChange, type }: LoginDialogProps) {
       if (tempPassword === password) {
         // Prompt the user to set a new password
         setShowResetDialog(true);
+      } else {
+        // Redirect to student portal after successful student login
+        navigate("/student-portal");
       }
     }
   };

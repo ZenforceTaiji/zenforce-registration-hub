@@ -9,7 +9,6 @@ import {
   LogIn,
   BookOpen,
   UserPlus,
-  GraduationCap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -50,13 +49,6 @@ const Navbar = () => {
             <div className="flex space-x-2">
               <Link to="/">
                 <Button variant="ghost">Home</Button>
-              </Link>
-              
-              <Link to="/student-portal">
-                <Button variant="ghost" className="flex items-center gap-1">
-                  <GraduationCap className="h-4 w-4" />
-                  Student Portal
-                </Button>
               </Link>
               
               <DropdownMenu>
@@ -122,14 +114,6 @@ const Navbar = () => {
               onClick={() => setIsOpen(false)}
             >
               Home
-            </Link>
-            <Link
-              to="/student-portal"
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 flex items-center"
-              onClick={() => setIsOpen(false)}
-            >
-              <GraduationCap className="mr-2 h-4 w-4" />
-              Student Portal
             </Link>
             <button
               className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 flex items-center"
