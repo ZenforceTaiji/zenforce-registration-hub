@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
@@ -69,7 +68,7 @@ const EventsCalendar = () => {
   });
 
   // Check if user has permission to manage events
-  const canManageEvents = mockUserRole === "admin" || mockUserRole === "instructor";
+  const canManageEvents = (mockUserRole === "admin" || mockUserRole === "instructor");
 
   const handleAddEvent = () => {
     // Validate form
