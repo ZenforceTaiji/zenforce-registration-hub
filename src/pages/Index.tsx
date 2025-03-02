@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { RegistrationDialog } from "@/components/RegistrationDialog";
 import { FilePenLine, ArrowRight } from "lucide-react";
+import EventBanner from "@/components/EventBanner";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -51,6 +52,11 @@ const Index = () => {
           </p>
           
           <div className="mt-10 space-y-6">
+            {/* Floating Event Banner */}
+            <div className="fixed bottom-6 right-6 z-50 max-w-md">
+              <EventBanner />
+            </div>
+            
             {/* Registration Process Card */}
             <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 max-w-2xl">
               <h2 className="text-2xl font-bold text-white mb-4">Registration Process</h2>

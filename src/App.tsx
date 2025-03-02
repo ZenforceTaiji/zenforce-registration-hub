@@ -22,6 +22,7 @@ import AdminPortal from "./pages/AdminPortal";
 import { Toaster } from "./components/ui/toaster";
 import Navbar from "./components/Navbar";
 import BookingSystem from "./components/BookingSystem";
+import { EventsCalendar } from "./components/EventsCalendar";
 
 // Layout with Navbar
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -106,6 +107,10 @@ const router = createBrowserRouter([
   {
     path: "/booking",
     element: <Layout><BookingSystem /></Layout>,
+  },
+  {
+    path: "/events",
+    element: <Layout><EventsCalendar /></Layout>,
   },
   {
     path: "*",

@@ -10,6 +10,8 @@ import {
   BookOpen,
   UserPlus,
   Settings,
+  Calendar,
+  BookMarked,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -50,6 +52,20 @@ const Navbar = () => {
             <div className="flex space-x-2">
               <Link to="/">
                 <Button variant="ghost">Home</Button>
+              </Link>
+
+              <Link to="/booking">
+                <Button variant="ghost" className="flex items-center gap-1">
+                  <BookMarked className="h-4 w-4" />
+                  Book a Session
+                </Button>
+              </Link>
+
+              <Link to="/events">
+                <Button variant="ghost" className="flex items-center gap-1">
+                  <Calendar className="h-4 w-4" />
+                  Events
+                </Button>
               </Link>
               
               <DropdownMenu>
@@ -123,6 +139,22 @@ const Navbar = () => {
               onClick={() => setIsOpen(false)}
             >
               Home
+            </Link>
+            <Link
+              to="/booking"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 flex items-center"
+              onClick={() => setIsOpen(false)}
+            >
+              <BookMarked className="mr-2 h-4 w-4" />
+              Book a Session
+            </Link>
+            <Link
+              to="/events"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 flex items-center"
+              onClick={() => setIsOpen(false)}
+            >
+              <Calendar className="mr-2 h-4 w-4" />
+              Events
             </Link>
             <button
               className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 flex items-center"
