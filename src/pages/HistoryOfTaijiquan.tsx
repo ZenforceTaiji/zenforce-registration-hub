@@ -457,24 +457,33 @@ const HistoryOfTaijiquan = () => {
             <CardContent className="space-y-6">
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-4">
-                  <h3 className="text-xl font-semibold">Historical Context</h3>
+                  <h3 className="text-xl font-semibold">Origins and Identity</h3>
+                  <p>
+                    The Hua people (華族, Huá zú) were an ancient ethnic group primarily concentrated in central China's river valleys. They were descendants of the early agricultural societies that flourished along the Yellow River basin during the Neolithic period. Over centuries, they developed a distinct cultural identity while assimilating elements from neighboring peoples.
+                  </p>
+                  <p>
+                    By the Ming and Qing dynasties, the Hua had established themselves as expert practitioners of various martial arts, with distinctive lineages preserved through family traditions. Their isolated mountain communities allowed them to maintain unique cultural practices even as the larger Han Chinese identity became more dominant in the region.
+                  </p>
+                  
+                  <h3 className="text-xl font-semibold mt-6">Religious and Philosophical Beliefs</h3>
+                  <div className="mt-3 p-4 bg-gray-50 rounded-md border">
+                    <h4 className="font-medium mb-2">Spiritual Practices of the Hua People:</h4>
+                    <ul className="list-disc pl-5 space-y-2">
+                      <li><strong>Syncretism:</strong> The Hua practiced a syncretic spiritual system that blended elements of Taoism, local animism, and ancestor worship</li>
+                      <li><strong>Nature Reverence:</strong> They held a profound respect for natural forces, believing that mountains, rivers, and forests contained spiritual energy that could be channeled</li>
+                      <li><strong>Breath Cultivation:</strong> Their religious practices emphasized specialized breathing techniques (导引, dǎoyǐn) designed to accumulate and direct vital energy</li>
+                      <li><strong>Ancestral Rituals:</strong> Regular ceremonies to honor ancestors were central to their spiritual life, with martial achievements of forebears playing a significant role</li>
+                      <li><strong>Seasonal Observances:</strong> Solstices and equinoxes were marked with specific martial demonstrations and community gatherings</li>
+                    </ul>
+                  </div>
+                  
+                  <h3 className="text-xl font-semibold mt-6">Historical Context</h3>
                   <p>
                     The Hua people, an ethnic group with origins in central China, have made significant but often underacknowledged contributions to the development of TaijiQuan. Their influence dates back to the late Ming and early Qing dynasties (17th-18th centuries), coinciding with the formative period of TaijiQuan as we know it today.
                   </p>
                   <p>
                     Historical records suggest that several Hua martial artists were among those who exchanged knowledge with Chen village masters during the refinement of Chen-style TaijiQuan, bringing their unique perspective on internal energy cultivation.
                   </p>
-                  
-                  <h3 className="text-xl font-semibold mt-6">Unique Technical Contributions</h3>
-                  <div className="mt-3 p-4 bg-gray-50 rounded-md border">
-                    <h4 className="font-medium mb-2">The Hua Legacy in TaijiQuan:</h4>
-                    <ul className="list-disc pl-5 space-y-2">
-                      <li><strong>Circular Footwork:</strong> The distinctive circular stepping patterns found in some TaijiQuan movements show influence from Hua martial traditions</li>
-                      <li><strong>Breath Coordination:</strong> Specific breathing techniques integrating lower dantian activation with movement transitions</li>
-                      <li><strong>Hand Formations:</strong> Certain subtle hand positions, particularly in transitional movements</li>
-                      <li><strong>Energy Pathways:</strong> Concepts of energy circulation that complement traditional meridian theory</li>
-                    </ul>
-                  </div>
                 </div>
                 
                 <div className="space-y-4">
@@ -483,6 +492,25 @@ const HistoryOfTaijiquan = () => {
                     alt="Representation of Hua martial arts practitioners" 
                     className="rounded-lg shadow-md object-cover w-full h-64"
                   />
+                  
+                  <h3 className="text-xl font-semibold mt-6">Religious Influence on Martial Practice</h3>
+                  <p>
+                    The Hua people's spiritual beliefs profoundly shaped their approach to martial arts, including their contributions to TaijiQuan:
+                  </p>
+                  
+                  <div className="mt-4 p-4 bg-gray-50 rounded-md border">
+                    <h4 className="font-medium">Integration of Spiritual Elements</h4>
+                    <p className="mt-2 text-sm">
+                      Their practice of martials arts was inseparable from spiritual cultivation. Unlike some martial traditions focused purely on combat efficiency, Hua martial artists viewed physical movement as a form of moving meditation and spiritual expression.
+                    </p>
+                  </div>
+                  
+                  <div className="mt-4 p-4 bg-gray-50 rounded-md border">
+                    <h4 className="font-medium">Ritual Context</h4>
+                    <p className="mt-2 text-sm">
+                      Many of the circular patterns and rhythmic movements they contributed to TaijiQuan originated in ceremonial dances performed during religious observances. These movements were seen as ways to harmonize with cosmic forces and ancestral spirits.
+                    </p>
+                  </div>
                   
                   <h3 className="text-xl font-semibold mt-6">Hua Masters and Lineages</h3>
                   <p>
@@ -508,7 +536,7 @@ const HistoryOfTaijiquan = () => {
               </div>
               
               <div className="mt-8">
-                <h3 className="text-xl font-semibold mb-4">Modern Rediscovery and Research</h3>
+                <h3 className="text-xl font-semibold mb-4">Cultural Preservation and Legacy</h3>
                 <div className="grid md:grid-cols-2 gap-8">
                   <div>
                     <img 
@@ -517,7 +545,7 @@ const HistoryOfTaijiquan = () => {
                       className="rounded-lg shadow-md object-cover w-full h-48 mb-4"
                     />
                     <p>
-                      In recent decades, historians and martial arts researchers have begun to uncover and recognize the Hua people's contributions to TaijiQuan. Manuscripts and oral histories preserved in remote villages have provided new insights into these historical connections.
+                      While the distinct Hua ethnic identity gradually merged with the broader Han Chinese population over centuries, their spiritual and martial traditions survived through lineage-based transmission. Today, certain TaijiQuan schools preserve what they identify as Hua-influenced elements, particularly in the relationship between breath control and spiritual attunement.
                     </p>
                   </div>
                   
@@ -528,7 +556,7 @@ const HistoryOfTaijiquan = () => {
                       className="rounded-lg shadow-md object-cover w-full h-48 mb-4"
                     />
                     <p>
-                      Contemporary practitioners are now integrating rediscovered Hua techniques into their practice, enriching the diversity of modern TaijiQuan. Digital archives and academic research continue to shed light on the intricate web of influences that shaped this martial art.
+                      Contemporary practitioners are now integrating rediscovered Hua techniques into their practice, enriching the diversity of modern TaijiQuan. Digital archives and academic research continue to shed light on the intricate web of influences that shaped this martial art, giving proper recognition to previously marginalized contributions from groups like the Hua people.
                     </p>
                   </div>
                 </div>
