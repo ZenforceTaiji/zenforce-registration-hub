@@ -20,6 +20,9 @@ interface Event {
   description: string;
 }
 
+// Define a type for user roles
+type UserRole = "admin" | "instructor" | "student" | "guest";
+
 // Mock data for events - in a real app, this would come from an API
 const initialEvents: Event[] = [
   {
@@ -50,7 +53,7 @@ const initialEvents: Event[] = [
 
 // User role simulation - in a real app, this would come from authentication context
 // Roles: "admin", "instructor", "student", "guest"
-const mockUserRole = "student"; // Change this to test different roles
+const mockUserRole: UserRole = "student"; // Change this to test different roles
 
 const EventsCalendar = () => {
   const { toast } = useToast();
