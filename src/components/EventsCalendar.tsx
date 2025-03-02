@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { CalendarPlus, Clock, MapPin, Calendar as CalendarIcon, Trash2 } from "lucide-react";
+import { CalendarPlus, Clock, MapPin, Calendar as CalendarIcon, Trash2, LockKeyhole } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface Event {
@@ -48,6 +48,10 @@ const initialEvents: Event[] = [
   }
 ];
 
+// User role simulation - in a real app, this would come from authentication context
+// Roles: "admin", "instructor", "student", "guest"
+const mockUserRole = "student"; // Change this to test different roles
+
 const EventsCalendar = () => {
   const { toast } = useToast();
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -60,6 +64,9 @@ const EventsCalendar = () => {
     location: "",
     description: ""
   });
+
+  // Check if user has permission to manage events
+  const canManageEvents = mockUserRole === "admin" || mockUserRole === "instructor";
 
   const handleAddEvent = () => {
     // Validate form
@@ -97,11 +104,30 @@ const EventsCalendar = () => {
   };
 
   const handleDeleteEvent = (id: number) => {
+    // Only allow admin/instructors to delete events
+    if (!canManageEvents) {
+      toast({
+        title: "Permission denied",
+        description: "You don't have permission to delete events",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     setEvents(events.filter(event => event.id !== id));
     toast({
       title: "Event deleted",
       description: "The event has been removed from the calendar",
     });
+  };
+
+  const handleBookEvent = (eventId: number) => {
+    toast({
+      title: "Booking initiated",
+      description: "Redirecting to booking form for this event",
+    });
+    // In a real app, this would redirect to the booking form with the event ID
+    window.location.href = `/booking?eventId=${eventId}`;
   };
 
   // Filter events for the selected date
@@ -116,75 +142,82 @@ const EventsCalendar = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Events Calendar</h2>
-        <Dialog open={isAddingEvent} onOpenChange={setIsAddingEvent}>
-          <DialogTrigger asChild>
-            <Button>
-              <CalendarPlus className="mr-2 h-4 w-4" />
-              Add Event
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[500px]">
-            <DialogHeader>
-              <DialogTitle>Add New Event</DialogTitle>
-              <DialogDescription>
-                Create a new event for the calendar. Fill in all the required information.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                <Label htmlFor="title">Event Title</Label>
-                <Input 
-                  id="title" 
-                  value={newEvent.title}
-                  onChange={(e) => setNewEvent({...newEvent, title: e.target.value})}
-                  placeholder="Enter event title"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
+        {canManageEvents ? (
+          <Dialog open={isAddingEvent} onOpenChange={setIsAddingEvent}>
+            <DialogTrigger asChild>
+              <Button>
+                <CalendarPlus className="mr-2 h-4 w-4" />
+                Add Event
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[500px]">
+              <DialogHeader>
+                <DialogTitle>Add New Event</DialogTitle>
+                <DialogDescription>
+                  Create a new event for the calendar. Fill in all the required information.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="date">Date</Label>
+                  <Label htmlFor="title">Event Title</Label>
                   <Input 
-                    id="date" 
-                    type="date"
-                    value={newEvent.date}
-                    onChange={(e) => setNewEvent({...newEvent, date: e.target.value})}
+                    id="title" 
+                    value={newEvent.title}
+                    onChange={(e) => setNewEvent({...newEvent, title: e.target.value})}
+                    placeholder="Enter event title"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="date">Date</Label>
+                    <Input 
+                      id="date" 
+                      type="date"
+                      value={newEvent.date}
+                      onChange={(e) => setNewEvent({...newEvent, date: e.target.value})}
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="time">Time</Label>
+                    <Input 
+                      id="time" 
+                      type="time"
+                      value={newEvent.time}
+                      onChange={(e) => setNewEvent({...newEvent, time: e.target.value})}
+                    />
+                  </div>
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="location">Location</Label>
+                  <Input 
+                    id="location" 
+                    value={newEvent.location}
+                    onChange={(e) => setNewEvent({...newEvent, location: e.target.value})}
+                    placeholder="Enter event location"
                   />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="time">Time</Label>
-                  <Input 
-                    id="time" 
-                    type="time"
-                    value={newEvent.time}
-                    onChange={(e) => setNewEvent({...newEvent, time: e.target.value})}
+                  <Label htmlFor="description">Description</Label>
+                  <Textarea 
+                    id="description" 
+                    value={newEvent.description}
+                    onChange={(e) => setNewEvent({...newEvent, description: e.target.value})}
+                    placeholder="Enter event description"
                   />
                 </div>
               </div>
-              <div className="grid gap-2">
-                <Label htmlFor="location">Location</Label>
-                <Input 
-                  id="location" 
-                  value={newEvent.location}
-                  onChange={(e) => setNewEvent({...newEvent, location: e.target.value})}
-                  placeholder="Enter event location"
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="description">Description</Label>
-                <Textarea 
-                  id="description" 
-                  value={newEvent.description}
-                  onChange={(e) => setNewEvent({...newEvent, description: e.target.value})}
-                  placeholder="Enter event description"
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setIsAddingEvent(false)}>Cancel</Button>
-              <Button onClick={handleAddEvent}>Add Event</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setIsAddingEvent(false)}>Cancel</Button>
+                <Button onClick={handleAddEvent}>Add Event</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        ) : (
+          <div className="flex items-center text-muted-foreground">
+            <LockKeyhole className="mr-2 h-4 w-4" />
+            <span className="text-sm">Event management restricted to admin/instructors</span>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -277,13 +310,25 @@ const EventsCalendar = () => {
                         </div>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button 
-                          variant="ghost" 
-                          size="sm"
-                          onClick={() => handleDeleteEvent(event.id)}
-                        >
-                          <Trash2 className="h-4 w-4 text-red-500" />
-                        </Button>
+                        <div className="flex justify-end gap-2">
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => handleBookEvent(event.id)}
+                          >
+                            Book
+                          </Button>
+                          
+                          {canManageEvents && (
+                            <Button 
+                              variant="ghost" 
+                              size="sm"
+                              onClick={() => handleDeleteEvent(event.id)}
+                            >
+                              <Trash2 className="h-4 w-4 text-red-500" />
+                            </Button>
+                          )}
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
