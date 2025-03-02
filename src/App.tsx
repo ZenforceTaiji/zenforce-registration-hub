@@ -1,3 +1,4 @@
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 import Index from "./pages/Index";
@@ -22,6 +23,7 @@ import { Toaster } from "./components/ui/toaster";
 import Navbar from "./components/Navbar";
 import BookingSystem from "./components/BookingSystem";
 import EventsCalendar from "./components/EventsCalendar";
+import HistoryOfTaijiquan from "./pages/HistoryOfTaijiquan";
 
 // Layout with Navbar
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -110,6 +112,10 @@ const router = createBrowserRouter([
   {
     path: "/events",
     element: <Layout><EventsCalendar /></Layout>,
+  },
+  {
+    path: "/history-of-taijiquan",
+    element: <Layout><HistoryOfTaijiquan /></Layout>,
   },
   {
     path: "*",

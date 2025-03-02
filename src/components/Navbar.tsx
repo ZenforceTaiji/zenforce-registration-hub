@@ -12,6 +12,7 @@ import {
   Settings,
   Calendar,
   BookMarked,
+  History,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -52,6 +53,13 @@ const Navbar = () => {
             <div className="flex space-x-2">
               <Link to="/">
                 <Button variant="ghost">Home</Button>
+              </Link>
+
+              <Link to="/history-of-taijiquan">
+                <Button variant="ghost" className="flex items-center gap-1">
+                  <History className="h-4 w-4" />
+                  History of TaijiQuan
+                </Button>
               </Link>
 
               <Link to="/booking">
@@ -139,6 +147,14 @@ const Navbar = () => {
               onClick={() => setIsOpen(false)}
             >
               Home
+            </Link>
+            <Link
+              to="/history-of-taijiquan"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 flex items-center"
+              onClick={() => setIsOpen(false)}
+            >
+              <History className="mr-2 h-4 w-4" />
+              History of TaijiQuan
             </Link>
             <Link
               to="/booking"
