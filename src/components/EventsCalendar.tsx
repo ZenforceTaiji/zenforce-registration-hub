@@ -68,7 +68,7 @@ const EventsCalendar = () => {
   });
 
   // Check if user has permission to manage events
-  const canManageEvents = (mockUserRole === "admin" || mockUserRole === "instructor");
+  const canManageEvents = ["admin", "instructor"].includes(mockUserRole);
 
   const handleAddEvent = () => {
     // Validate form
