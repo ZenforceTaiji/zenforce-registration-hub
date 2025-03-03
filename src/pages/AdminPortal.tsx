@@ -15,10 +15,14 @@ import {
   LineChart, 
   Calendar, 
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  MapPin,
+  User
 } from "lucide-react";
 import EventBanner from "@/components/EventBanner";
 import EventsCalendar from "@/components/EventsCalendar";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const mockInstructors = [
   { id: 1, name: "Master Liang", email: "liang@zenforce.com", status: "Active", students: 15, lastLogin: "2023-07-10" },
@@ -43,6 +47,25 @@ const mockActivityData = {
   ]
 };
 
+const mockAreas = [
+  { id: 1, name: "North District", students: 25, instructors: 2 },
+  { id: 2, name: "Central District", students: 30, instructors: 2 },
+  { id: 3, name: "East District", students: 18, instructors: 1 },
+  { id: 4, name: "West District", students: 22, instructors: 1 },
+  { id: 5, name: "South District", students: 15, instructors: 1 },
+];
+
+const mockStudents = [
+  { id: 1, name: "John Lee", email: "john@example.com", area: "North District", level: "Intermediate" },
+  { id: 2, name: "Sarah Wong", email: "sarah@example.com", area: "Central District", level: "Beginner" },
+  { id: 3, name: "Michael Chen", email: "michael@example.com", area: "East District", level: "Advanced" },
+  { id: 4, name: "Emily Zhang", email: "emily@example.com", area: "West District", level: "Beginner" },
+  { id: 5, name: "David Liu", email: "david@example.com", area: "South District", level: "Intermediate" },
+  { id: 6, name: "Jennifer Wu", email: "jennifer@example.com", area: "North District", level: "Beginner" },
+  { id: 7, name: "Robert Kim", email: "robert@example.com", area: "Central District", level: "Advanced" },
+  { id: 8, name: "Lisa Wang", email: "lisa@example.com", area: "East District", level: "Intermediate" },
+];
+
 const AdminPortal = () => {
   const { toast } = useToast();
   const [newInstructor, setNewInstructor] = useState({
@@ -53,6 +76,12 @@ const AdminPortal = () => {
     confirmPassword: ""
   });
   const [maintenanceNote, setMaintenanceNote] = useState("");
+  
+  const [isAssignDialogOpen, setIsAssignDialogOpen] = useState(false);
+  const [assignmentType, setAssignmentType] = useState<"area" | "students">("area");
+  const [selectedInstructor, setSelectedInstructor] = useState<number | null>(null);
+  const [selectedAreas, setSelectedAreas] = useState<string[]>([]);
+  const [selectedStudents, setSelectedStudents] = useState<number[]>([]);
   
   const handleAddInstructor = () => {
     if (!newInstructor.name || !newInstructor.email || !newInstructor.password) {
@@ -141,6 +170,49 @@ const AdminPortal = () => {
     </Card>
   );
   
+  const openAssignDialog = (instructorId: number) => {
+    setSelectedInstructor(instructorId);
+    setIsAssignDialogOpen(true);
+  };
+  
+  const handleAssignSubmit = () => {
+    const instructorName = mockInstructors.find(i => i.id === selectedInstructor)?.name || "Instructor";
+    
+    if (assignmentType === "area") {
+      if (selectedAreas.length === 0) {
+        toast({
+          title: "No Areas Selected",
+          description: "Please select at least one area to assign",
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      toast({
+        title: "Areas Assigned",
+        description: `${selectedAreas.length} area(s) assigned to ${instructorName}`,
+      });
+    } else {
+      if (selectedStudents.length === 0) {
+        toast({
+          title: "No Students Selected",
+          description: "Please select at least one student to assign",
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      toast({
+        title: "Students Assigned",
+        description: `${selectedStudents.length} student(s) assigned to ${instructorName}`,
+      });
+    }
+    
+    setSelectedAreas([]);
+    setSelectedStudents([]);
+    setIsAssignDialogOpen(false);
+  };
+  
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8">
@@ -202,6 +274,7 @@ const AdminPortal = () => {
         <TabsList className="mb-4">
           <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
           <TabsTrigger value="instructors">Instructors</TabsTrigger>
+          <TabsTrigger value="areas">Geographic Areas</TabsTrigger>
           <TabsTrigger value="maintenance">Maintenance</TabsTrigger>
           <TabsTrigger value="events">Events</TabsTrigger>
         </TabsList>
@@ -314,7 +387,16 @@ const AdminPortal = () => {
                           <TableCell>{instructor.students}</TableCell>
                           <TableCell>{instructor.lastLogin}</TableCell>
                           <TableCell className="text-right">
-                            <Button variant="ghost" size="sm">Edit</Button>
+                            <div className="flex justify-end gap-2">
+                              <Button 
+                                variant="ghost" 
+                                size="sm"
+                                onClick={() => openAssignDialog(instructor.id)}
+                              >
+                                Assign
+                              </Button>
+                              <Button variant="ghost" size="sm">Edit</Button>
+                            </div>
                           </TableCell>
                         </TableRow>
                       ))}
@@ -391,6 +473,113 @@ const AdminPortal = () => {
                     onClick={handleAddInstructor}
                   >
                     Add Instructor
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="areas">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="md:col-span-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Geographic Areas</CardTitle>
+                  <CardDescription>
+                    Manage teaching areas and assigned instructors
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Area Name</TableHead>
+                        <TableHead>Students</TableHead>
+                        <TableHead>Instructors</TableHead>
+                        <TableHead className="text-right">Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {mockAreas.map((area) => (
+                        <TableRow key={area.id}>
+                          <TableCell className="font-medium">{area.name}</TableCell>
+                          <TableCell>{area.students}</TableCell>
+                          <TableCell>{area.instructors}</TableCell>
+                          <TableCell className="text-right">
+                            <Button variant="ghost" size="sm">Manage</Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+              
+              <Card className="mt-6">
+                <CardHeader>
+                  <CardTitle>Students List</CardTitle>
+                  <CardDescription>
+                    View and manage all registered students
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Email</TableHead>
+                        <TableHead>Area</TableHead>
+                        <TableHead>Level</TableHead>
+                        <TableHead className="text-right">Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {mockStudents.map((student) => (
+                        <TableRow key={student.id}>
+                          <TableCell className="font-medium">{student.name}</TableCell>
+                          <TableCell>{student.email}</TableCell>
+                          <TableCell>{student.area}</TableCell>
+                          <TableCell>{student.level}</TableCell>
+                          <TableCell className="text-right">
+                            <Button variant="ghost" size="sm">View</Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+            </div>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Add New Area</CardTitle>
+                <CardDescription>
+                  Create a new geographic teaching area
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="areaName">Area Name</Label>
+                    <Input 
+                      id="areaName" 
+                      placeholder="Enter area name"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="areaDescription">Area Description</Label>
+                    <Textarea 
+                      id="areaDescription" 
+                      placeholder="Describe the geographic area"
+                      className="min-h-[100px]"
+                    />
+                  </div>
+                  
+                  <Button className="w-full mt-4">
+                    Add Area
                   </Button>
                 </div>
               </CardContent>
@@ -504,6 +693,143 @@ const AdminPortal = () => {
           <EventsCalendar />
         </TabsContent>
       </Tabs>
+      
+      <Dialog open={isAssignDialogOpen} onOpenChange={setIsAssignDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Assign to Instructor</DialogTitle>
+            <DialogDescription>
+              Assign geographic areas or specific students to this instructor.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>Assignment Type</Label>
+              <div className="flex space-x-4">
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    id="area-option"
+                    name="assignment-type"
+                    checked={assignmentType === "area"}
+                    onChange={() => setAssignmentType("area")}
+                    className="h-4 w-4 border-gray-300 text-primary focus:ring-primary"
+                  />
+                  <Label htmlFor="area-option" className="cursor-pointer">Geographic Area</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    id="students-option"
+                    name="assignment-type"
+                    checked={assignmentType === "students"}
+                    onChange={() => setAssignmentType("students")}
+                    className="h-4 w-4 border-gray-300 text-primary focus:ring-primary"
+                  />
+                  <Label htmlFor="students-option" className="cursor-pointer">Specific Students</Label>
+                </div>
+              </div>
+            </div>
+            
+            {assignmentType === "area" ? (
+              <div className="space-y-2">
+                <Label htmlFor="area-select">Select Areas</Label>
+                <Select 
+                  onValueChange={(value) => setSelectedAreas([...selectedAreas, value])}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select an area" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Available Areas</SelectLabel>
+                      {mockAreas.map(area => (
+                        <SelectItem key={area.id} value={area.name}>
+                          {area.name} ({area.students} students)
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                
+                {selectedAreas.length > 0 && (
+                  <div className="mt-4">
+                    <Label>Selected Areas:</Label>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {selectedAreas.map((area, index) => (
+                        <div key={index} className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded-full text-sm">
+                          <MapPin className="h-3 w-3" />
+                          {area}
+                          <button 
+                            onClick={() => setSelectedAreas(selectedAreas.filter((_, i) => i !== index))}
+                            className="ml-1 text-gray-500 hover:text-gray-700"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <Label htmlFor="student-select">Select Students</Label>
+                <Select 
+                  onValueChange={(value) => setSelectedStudents([...selectedStudents, parseInt(value)])}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a student" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Available Students</SelectLabel>
+                      {mockStudents.map(student => (
+                        <SelectItem key={student.id} value={student.id.toString()}>
+                          {student.name} ({student.level})
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                
+                {selectedStudents.length > 0 && (
+                  <div className="mt-4">
+                    <Label>Selected Students:</Label>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {selectedStudents.map((studentId, index) => {
+                        const student = mockStudents.find(s => s.id === studentId);
+                        return (
+                          <div key={index} className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded-full text-sm">
+                            <User className="h-3 w-3" />
+                            {student?.name}
+                            <button 
+                              onClick={() => setSelectedStudents(selectedStudents.filter((_, i) => i !== index))}
+                              className="ml-1 text-gray-500 hover:text-gray-700"
+                            >
+                              ×
+                            </button>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+          
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsAssignDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleAssignSubmit}>
+              Assign
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
