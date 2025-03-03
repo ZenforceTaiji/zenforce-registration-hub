@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -68,6 +69,7 @@ const mockStudents = [
 
 const AdminPortal = () => {
   const { toast } = useToast();
+  const [activeTab, setActiveTab] = useState("dashboard");
   const [newInstructor, setNewInstructor] = useState({
     name: "",
     email: "",
@@ -270,7 +272,7 @@ const AdminPortal = () => {
         </Card>
       </div>
       
-      <Tabs defaultValue="dashboard" className="w-full">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="mb-4">
           <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
           <TabsTrigger value="instructors">Instructors</TabsTrigger>
