@@ -1,4 +1,4 @@
-<lov-code>
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Card, 
@@ -607,4 +607,71 @@ const HistoryOfTaijiquan = () => {
                       <div className="text-center p-6">
                         <div className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-4">
                           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                            <polygon points="5 3 19 12 5 21
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                          </svg>
+                        </div>
+                        <p>Video player will be implemented soon</p>
+                        <p className="text-sm text-gray-400 mt-2">This feature is currently under development</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="grid md:grid-cols-3 gap-6">
+                  <div className="border rounded-lg overflow-hidden">
+                    <div className="bg-gray-200 h-40 flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="text-gray-500">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                      </svg>
+                    </div>
+                    <div className="p-4">
+                      <h4 className="font-semibold">Yang Style 24 Form Tutorial</h4>
+                      <p className="text-sm text-gray-500 mt-2">Complete step-by-step instruction of the simplified 24 movement form</p>
+                    </div>
+                  </div>
+                  
+                  <div className="border rounded-lg overflow-hidden">
+                    <div className="bg-gray-200 h-40 flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="text-gray-500">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                      </svg>
+                    </div>
+                    <div className="p-4">
+                      <h4 className="font-semibold">Understanding Silk Reeling Energy</h4>
+                      <p className="text-sm text-gray-500 mt-2">Demonstration of Chen style's distinctive spiraling movement principle</p>
+                    </div>
+                  </div>
+                  
+                  <div className="border rounded-lg overflow-hidden">
+                    <div className="bg-gray-200 h-40 flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="text-gray-500">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                      </svg>
+                    </div>
+                    <div className="p-4">
+                      <h4 className="font-semibold">TaijiQuan for Health and Wellness</h4>
+                      <p className="text-sm text-gray-500 mt-2">Research-backed health benefits and adaptations for therapeutic use</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="p-5 bg-gray-50 rounded-lg border text-center">
+                  <h3 className="text-xl font-semibold mb-2">Coming Soon</h3>
+                  <p>
+                    We're working on a comprehensive video library featuring demonstrations from masters across all major styles.
+                    Check back soon for updates!
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+};
+
+export default HistoryOfTaijiquan;
