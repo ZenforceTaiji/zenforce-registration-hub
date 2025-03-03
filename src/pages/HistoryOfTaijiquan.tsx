@@ -1,3 +1,4 @@
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Card, 
@@ -602,4 +603,69 @@ const HistoryOfTaijiquan = () => {
                 
                 <h3 className="text-xl font-semibold">Video Demonstrations by Style</h3>
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="border
+                  <div className="border rounded-lg overflow-hidden shadow-sm">
+                    <div className="aspect-w-16 aspect-h-9 bg-gray-100">
+                      <div className="w-full h-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400">
+                          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                      </div>
+                    </div>
+                    <div className="p-4">
+                      <h4 className="font-semibold">Chen Style Demonstration</h4>
+                      <p className="text-sm mt-2">
+                        Master Chen Xiaowang performs the traditional Laojia (Old Frame) form, showcasing the distinctive explosive movements and silk-reeling energy.
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="border rounded-lg overflow-hidden shadow-sm">
+                    <div className="aspect-w-16 aspect-h-9 bg-gray-100">
+                      <div className="w-full h-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400">
+                          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                      </div>
+                    </div>
+                    <div className="p-4">
+                      <h4 className="font-semibold">Yang Style 24 Form</h4>
+                      <p className="text-sm mt-2">
+                        A step-by-step tutorial of the most widely practiced simplified form, ideal for beginners to learn the fundamental movements and principles.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="p-6 bg-gray-50 rounded-lg border mt-8">
+                  <h3 className="text-xl font-semibold mb-4">Philosophical Concepts in Movement</h3>
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <div className="border rounded bg-white p-4 shadow-sm">
+                      <h4 className="font-medium mb-2">Understanding Qi</h4>
+                      <p className="text-sm">
+                        This lecture demonstration explains the concept of qi (vital energy) and how TaijiQuan movements are designed to cultivate and direct this energy.
+                      </p>
+                    </div>
+                    <div className="border rounded bg-white p-4 shadow-sm">
+                      <h4 className="font-medium mb-2">The Taiji Classics</h4>
+                      <p className="text-sm">
+                        An exploration of the ancient texts that guide TaijiQuan practice, with demonstrations of how these principles manifest in movement.
+                      </p>
+                    </div>
+                    <div className="border rounded bg-white p-4 shadow-sm">
+                      <h4 className="font-medium mb-2">Martial Applications</h4>
+                      <p className="text-sm">
+                        A demonstration of how the flowing movements of TaijiQuan translate into effective martial techniques, revealing the combat essence behind the art.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+};
+
+export default HistoryOfTaijiquan;
