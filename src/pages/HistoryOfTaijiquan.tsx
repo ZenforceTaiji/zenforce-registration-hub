@@ -1,4 +1,4 @@
-
+<lov-code>
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Card, 
@@ -309,8 +309,11 @@ const HistoryOfTaijiquan = () => {
                   <div className="space-y-6">
                     <div className="flex items-start space-x-4">
                       <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
-                        {/* Historical image would go here */}
-                        <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-gray-400">张</div>
+                        <img 
+                          src="https://images.unsplash.com/photo-1526649661456-89c7ed4d00b8" 
+                          alt="Zhang Sanfeng" 
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                       <div>
                         <h3 className="text-xl font-semibold">Zhang Sanfeng</h3>
@@ -323,8 +326,11 @@ const HistoryOfTaijiquan = () => {
                     
                     <div className="flex items-start space-x-4">
                       <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
-                        {/* Historical image would go here */}
-                        <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-gray-400">陈</div>
+                        <img 
+                          src="https://images.unsplash.com/photo-1552196563-55cd4e45efb3" 
+                          alt="Chen Wangting" 
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                       <div>
                         <h3 className="text-xl font-semibold">Chen Wangting</h3>
@@ -337,8 +343,11 @@ const HistoryOfTaijiquan = () => {
                     
                     <div className="flex items-start space-x-4">
                       <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
-                        {/* Historical image would go here */}
-                        <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-gray-400">杨</div>
+                        <img 
+                          src="https://images.unsplash.com/photo-1552058544-f2b08422138a" 
+                          alt="Yang Luchan" 
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                       <div>
                         <h3 className="text-xl font-semibold">Yang Luchan</h3>
@@ -353,8 +362,11 @@ const HistoryOfTaijiquan = () => {
                   <div className="space-y-6">
                     <div className="flex items-start space-x-4">
                       <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
-                        {/* Historical image would go here */}
-                        <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-gray-400">吴</div>
+                        <img 
+                          src="https://images.unsplash.com/photo-1571945192246-4fcee13c27b1" 
+                          alt="Wu Jianquan" 
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                       <div>
                         <h3 className="text-xl font-semibold">Wu Jianquan</h3>
@@ -367,8 +379,11 @@ const HistoryOfTaijiquan = () => {
                     
                     <div className="flex items-start space-x-4">
                       <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
-                        {/* Historical image would go here */}
-                        <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-gray-400">孙</div>
+                        <img 
+                          src="https://images.unsplash.com/photo-1574279606130-09958dc756f7" 
+                          alt="Sun Lutang" 
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                       <div>
                         <h3 className="text-xl font-semibold">Sun Lutang</h3>
@@ -381,8 +396,11 @@ const HistoryOfTaijiquan = () => {
                     
                     <div className="flex items-start space-x-4">
                       <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
-                        {/* Historical image would go here */}
-                        <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-gray-400">陈</div>
+                        <img 
+                          src="https://images.unsplash.com/photo-1566652521483-6c9d5503bbc7" 
+                          alt="Chen Fake" 
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                       <div>
                         <h3 className="text-xl font-semibold">Chen Fake</h3>
@@ -400,7 +418,7 @@ const HistoryOfTaijiquan = () => {
                   <div className="border rounded-lg overflow-hidden shadow-sm">
                     <img 
                       src="https://images.unsplash.com/photo-1617113930975-f9c7243ae527" 
-                      alt="Modern TaijiQuan Master" 
+                      alt="Cheng Man-ch'ing" 
                       className="w-full h-48 object-cover"
                     />
                     <div className="p-4">
@@ -415,7 +433,7 @@ const HistoryOfTaijiquan = () => {
                   <div className="border rounded-lg overflow-hidden shadow-sm">
                     <img 
                       src="https://images.unsplash.com/photo-1605296868161-feb3d470646e" 
-                      alt="Modern TaijiQuan Master" 
+                      alt="Chen Xiaowang" 
                       className="w-full h-48 object-cover"
                     />
                     <div className="p-4">
@@ -430,7 +448,7 @@ const HistoryOfTaijiquan = () => {
                   <div className="border rounded-lg overflow-hidden shadow-sm">
                     <img 
                       src="https://images.unsplash.com/photo-1524673450801-b5aa9b621b76" 
-                      alt="Modern TaijiQuan Master" 
+                      alt="Yang Zhenduo" 
                       className="w-full h-48 object-cover"
                     />
                     <div className="p-4">
@@ -589,83 +607,4 @@ const HistoryOfTaijiquan = () => {
                       <div className="text-center p-6">
                         <div className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-4">
                           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                          </svg>
-                        </div>
-                        <p className="text-xl font-medium">TaijiQuan: The Art of Balance and Harmony</p>
-                        <p className="text-sm mt-2 text-gray-300">
-                          This video would showcase the fundamental principles and movements of TaijiQuan across different styles, with commentary from masters.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <h3 className="text-xl font-semibold">Video Demonstrations by Style</h3>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="border rounded-lg overflow-hidden shadow-sm">
-                    <div className="aspect-w-16 aspect-h-9 bg-gray-100">
-                      <div className="w-full h-full flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400">
-                          <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                        </svg>
-                      </div>
-                    </div>
-                    <div className="p-4">
-                      <h4 className="font-semibold">Chen Style Demonstration</h4>
-                      <p className="text-sm mt-2">
-                        Master Chen Xiaowang performs the traditional Laojia (Old Frame) form, showcasing the distinctive explosive movements and silk-reeling energy.
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="border rounded-lg overflow-hidden shadow-sm">
-                    <div className="aspect-w-16 aspect-h-9 bg-gray-100">
-                      <div className="w-full h-full flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400">
-                          <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                        </svg>
-                      </div>
-                    </div>
-                    <div className="p-4">
-                      <h4 className="font-semibold">Yang Style 24 Form</h4>
-                      <p className="text-sm mt-2">
-                        A step-by-step tutorial of the most widely practiced simplified form, ideal for beginners to learn the fundamental movements and principles.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="p-6 bg-gray-50 rounded-lg border mt-8">
-                  <h3 className="text-xl font-semibold mb-4">Philosophical Concepts in Movement</h3>
-                  <div className="grid md:grid-cols-3 gap-4">
-                    <div className="border rounded bg-white p-4 shadow-sm">
-                      <h4 className="font-medium mb-2">Understanding Qi</h4>
-                      <p className="text-sm">
-                        This lecture demonstration explains the concept of qi (vital energy) and how TaijiQuan movements are designed to cultivate and direct this energy.
-                      </p>
-                    </div>
-                    <div className="border rounded bg-white p-4 shadow-sm">
-                      <h4 className="font-medium mb-2">The Taiji Classics</h4>
-                      <p className="text-sm">
-                        An exploration of the ancient texts that guide TaijiQuan practice, with demonstrations of how these principles manifest in movement.
-                      </p>
-                    </div>
-                    <div className="border rounded bg-white p-4 shadow-sm">
-                      <h4 className="font-medium mb-2">Martial Applications</h4>
-                      <p className="text-sm">
-                        A demonstration of how the flowing movements of TaijiQuan translate into effective martial techniques, revealing the combat essence behind the art.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
-    </div>
-  );
-};
-
-export default HistoryOfTaijiquan;
+                            <polygon points="5 3 19 12 5 21
