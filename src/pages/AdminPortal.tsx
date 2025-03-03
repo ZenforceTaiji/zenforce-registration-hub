@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,7 +17,9 @@ import {
   CheckCircle,
   AlertCircle,
   MapPin,
-  User
+  User,
+  FileText,
+  Upload
 } from "lucide-react";
 import EventBanner from "@/components/EventBanner";
 import EventsCalendar from "@/components/EventsCalendar";
@@ -26,9 +27,9 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const mockInstructors = [
-  { id: 1, name: "Master Liang", email: "liang@zenforce.com", status: "Active", students: 15, lastLogin: "2023-07-10" },
-  { id: 2, name: "Shifu Chen", email: "chen@zenforce.com", status: "Active", students: 12, lastLogin: "2023-07-12" },
-  { id: 3, name: "Teacher Wong", email: "wong@zenforce.com", status: "Inactive", students: 8, lastLogin: "2023-06-30" },
+  { id: 1, name: "Master Liang", email: "liang@zenforce.com", status: "Active", students: 15, lastLogin: "2023-07-10", certificateNumber: "ZRI2023_01" },
+  { id: 2, name: "Shifu Chen", email: "chen@zenforce.com", status: "Active", students: 12, lastLogin: "2023-07-12", certificateNumber: "ZRI2023_02" },
+  { id: 3, name: "Teacher Wong", email: "wong@zenforce.com", status: "Inactive", students: 8, lastLogin: "2023-06-30", certificateNumber: "ZRI2023_03" },
 ];
 
 const mockActivityData = {
@@ -75,15 +76,50 @@ const AdminPortal = () => {
     email: "",
     qualifications: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    certificateNumber: ""
   });
   const [maintenanceNote, setMaintenanceNote] = useState("");
+  const [certificateFile, setCertificateFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [isAssignDialogOpen, setIsAssignDialogOpen] = useState(false);
   const [assignmentType, setAssignmentType] = useState<"area" | "students">("area");
   const [selectedInstructor, setSelectedInstructor] = useState<number | null>(null);
   const [selectedAreas, setSelectedAreas] = useState<string[]>([]);
   const [selectedStudents, setSelectedStudents] = useState<number[]>([]);
+  
+  const generateCertificateNumber = () => {
+    const currentYear = new Date().getFullYear();
+    const existingNumbers = mockInstructors
+      .filter(instructor => instructor.certificateNumber?.startsWith(`ZRI${currentYear}_`))
+      .map(instructor => {
+        const numPart = instructor.certificateNumber?.split('_')[1];
+        return numPart ? parseInt(numPart, 10) : 0;
+      });
+    
+    const highestNumber = existingNumbers.length > 0 ? Math.max(...existingNumbers) : 0;
+    const nextNumber = highestNumber + 1;
+    const paddedNumber = nextNumber.toString().padStart(2, '0');
+    
+    return `ZRI${currentYear}_${paddedNumber}`;
+  };
+  
+  const handleCertificateUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      setCertificateFile(files[0]);
+      toast({
+        title: "Certificate Uploaded",
+        description: `File "${files[0].name}" has been uploaded`,
+      });
+      
+      if (!newInstructor.certificateNumber) {
+        const generatedNumber = generateCertificateNumber();
+        setNewInstructor({...newInstructor, certificateNumber: generatedNumber});
+      }
+    }
+  };
   
   const handleAddInstructor = () => {
     if (!newInstructor.name || !newInstructor.email || !newInstructor.password) {
@@ -104,9 +140,20 @@ const AdminPortal = () => {
       return;
     }
     
+    if (!certificateFile) {
+      toast({
+        title: "Certificate Required",
+        description: "Please upload an instructor certificate",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    const certificateNumber = newInstructor.certificateNumber || generateCertificateNumber();
+    
     toast({
       title: "Instructor Added",
-      description: `${newInstructor.name} has been added as an instructor`,
+      description: `${newInstructor.name} has been added as an instructor with certificate #${certificateNumber}`,
     });
     
     setNewInstructor({
@@ -114,8 +161,13 @@ const AdminPortal = () => {
       email: "",
       qualifications: "",
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
+      certificateNumber: ""
     });
+    setCertificateFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
   
   const handleMaintenanceTask = () => {
@@ -368,7 +420,7 @@ const AdminPortal = () => {
                         <TableHead>Email</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead>Students</TableHead>
-                        <TableHead>Last Login</TableHead>
+                        <TableHead>Certificate #</TableHead>
                         <TableHead className="text-right">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
@@ -387,7 +439,7 @@ const AdminPortal = () => {
                             </span>
                           </TableCell>
                           <TableCell>{instructor.students}</TableCell>
-                          <TableCell>{instructor.lastLogin}</TableCell>
+                          <TableCell>{instructor.certificateNumber || "N/A"}</TableCell>
                           <TableCell className="text-right">
                             <div className="flex justify-end gap-2">
                               <Button 
@@ -446,6 +498,64 @@ const AdminPortal = () => {
                       onChange={(e) => setNewInstructor({...newInstructor, qualifications: e.target.value})}
                       placeholder="Enter instructor qualifications"
                     />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="certificate">Instructor Certificate</Label>
+                    <div className="grid grid-cols-1 gap-2">
+                      <div className="flex items-center gap-2">
+                        <Input 
+                          id="certificate" 
+                          type="file"
+                          ref={fileInputRef}
+                          onChange={handleCertificateUpload}
+                          accept=".pdf,.jpg,.jpeg,.png"
+                          className="hidden"
+                        />
+                        <Button 
+                          type="button" 
+                          variant="outline" 
+                          className="w-full flex items-center gap-2"
+                          onClick={() => fileInputRef.current?.click()}
+                        >
+                          <Upload className="h-4 w-4" />
+                          {certificateFile ? 'Change Certificate' : 'Upload Certificate'}
+                        </Button>
+                        {certificateFile && (
+                          <span className="text-sm text-gray-500 flex items-center gap-1">
+                            <FileText className="h-4 w-4" />
+                            {certificateFile.name}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="certificateNumber">Certificate Number</Label>
+                    <div className="flex gap-2">
+                      <Input 
+                        id="certificateNumber" 
+                        value={newInstructor.certificateNumber}
+                        onChange={(e) => setNewInstructor({...newInstructor, certificateNumber: e.target.value})}
+                        placeholder="Auto-generated on upload"
+                        readOnly={!!newInstructor.certificateNumber}
+                      />
+                      <Button 
+                        variant="outline" 
+                        type="button"
+                        onClick={() => {
+                          const generatedNumber = generateCertificateNumber();
+                          setNewInstructor({...newInstructor, certificateNumber: generatedNumber});
+                        }}
+                        className="whitespace-nowrap"
+                      >
+                        Generate
+                      </Button>
+                    </div>
+                    <p className="text-xs text-gray-500">
+                      Certificate number will be auto-generated on certificate upload or click generate button
+                    </p>
                   </div>
                   
                   <div className="space-y-2">
