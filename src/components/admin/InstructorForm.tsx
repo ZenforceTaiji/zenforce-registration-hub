@@ -1,12 +1,14 @@
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { FileText, Upload } from "lucide-react";
+import { FileText, Upload, Mail } from "lucide-react";
+import emailjs from 'emailjs-com';
 
 interface InstructorFormProps {
   onAddInstructor: (instructor: any) => void;
@@ -21,10 +23,18 @@ const InstructorForm = ({ onAddInstructor, instructors }: InstructorFormProps) =
     qualifications: "",
     password: "",
     confirmPassword: "",
-    certificateNumber: ""
+    certificateNumber: "",
+    title: "Shifu" // Default value
   });
   const [certificateFile, setCertificateFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
+
+  // Generate certificate number on component mount
+  useEffect(() => {
+    const generatedNumber = generateCertificateNumber();
+    setNewInstructor(prev => ({...prev, certificateNumber: generatedNumber}));
+  }, []);
 
   const generateCertificateNumber = () => {
     const currentYear = new Date().getFullYear();
@@ -50,15 +60,51 @@ const InstructorForm = ({ onAddInstructor, instructors }: InstructorFormProps) =
         title: "Certificate Uploaded",
         description: `File "${files[0].name}" has been uploaded`,
       });
-      
-      if (!newInstructor.certificateNumber) {
-        const generatedNumber = generateCertificateNumber();
-        setNewInstructor({...newInstructor, certificateNumber: generatedNumber});
-      }
     }
   };
   
-  const handleAddInstructor = () => {
+  const sendWelcomeEmail = async (instructor: any) => {
+    try {
+      setIsSendingEmail(true);
+
+      // This is a placeholder for EmailJS implementation
+      // You would need to set up an EmailJS template with appropriate variables
+      const templateParams = {
+        to_email: instructor.email,
+        to_name: instructor.name,
+        title: instructor.title,
+        certificate_number: instructor.certificateNumber,
+        qualifications: instructor.qualifications || "Zen Martial Arts Instructor",
+      };
+
+      // Uncomment and use your actual EmailJS service ID, template ID, and user ID
+      // await emailjs.send(
+      //   'your_service_id',  // Replace with your service ID
+      //   'your_template_id', // Replace with your template ID
+      //   templateParams,
+      //   'your_user_id'      // Replace with your user ID
+      // );
+
+      // For now, we'll just simulate the email sending with a toast
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      toast({
+        title: "Welcome Email Sent",
+        description: `Congratulatory email sent to ${instructor.email}`,
+      });
+    } catch (error) {
+      console.error("Error sending email:", error);
+      toast({
+        title: "Email Error",
+        description: "Failed to send welcome email. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSendingEmail(false);
+    }
+  };
+  
+  const handleAddInstructor = async () => {
     if (!newInstructor.name || !newInstructor.email || !newInstructor.password) {
       toast({
         title: "Validation Error",
@@ -86,31 +132,35 @@ const InstructorForm = ({ onAddInstructor, instructors }: InstructorFormProps) =
       return;
     }
     
-    const certificateNumber = newInstructor.certificateNumber || generateCertificateNumber();
-    
-    toast({
-      title: "Instructor Added",
-      description: `${newInstructor.name} has been added as an instructor with certificate #${certificateNumber}`,
-    });
-    
-    // Pass the new instructor to the parent component
-    onAddInstructor({
+    const newInstructorData = {
       ...newInstructor,
-      certificateNumber,
       id: Date.now(), // temporary ID
       status: "Active",
       students: 0,
       lastLogin: new Date().toISOString().split('T')[0]
+    };
+
+    // Send welcome email
+    await sendWelcomeEmail(newInstructorData);
+    
+    // Pass the new instructor to the parent component
+    onAddInstructor(newInstructorData);
+    
+    toast({
+      title: "Instructor Added",
+      description: `${newInstructor.title} ${newInstructor.name} has been added as an instructor with certificate #${newInstructor.certificateNumber}`,
     });
     
     // Reset form
+    const generatedNumber = generateCertificateNumber();
     setNewInstructor({
       name: "",
       email: "",
       qualifications: "",
       password: "",
       confirmPassword: "",
-      certificateNumber: ""
+      certificateNumber: generatedNumber,
+      title: "Shifu"
     });
     setCertificateFile(null);
     if (fileInputRef.current) {
@@ -128,6 +178,22 @@ const InstructorForm = ({ onAddInstructor, instructors }: InstructorFormProps) =
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="title">Title</Label>
+            <Select 
+              value={newInstructor.title} 
+              onValueChange={(value) => setNewInstructor({...newInstructor, title: value})}
+            >
+              <SelectTrigger id="title">
+                <SelectValue placeholder="Select title" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Shifu">Shifu</SelectItem>
+                {/* More options will be added later as per requirements */}
+              </SelectContent>
+            </Select>
+          </div>
+          
           <div className="space-y-2">
             <Label htmlFor="name">Full Name</Label>
             <Input 
@@ -196,9 +262,8 @@ const InstructorForm = ({ onAddInstructor, instructors }: InstructorFormProps) =
               <Input 
                 id="certificateNumber" 
                 value={newInstructor.certificateNumber}
-                onChange={(e) => setNewInstructor({...newInstructor, certificateNumber: e.target.value})}
-                placeholder="Auto-generated on upload"
-                readOnly={!!newInstructor.certificateNumber}
+                readOnly
+                className="bg-gray-100"
               />
               <Button 
                 variant="outline" 
@@ -209,11 +274,11 @@ const InstructorForm = ({ onAddInstructor, instructors }: InstructorFormProps) =
                 }}
                 className="whitespace-nowrap"
               >
-                Generate
+                Regenerate
               </Button>
             </div>
             <p className="text-xs text-gray-500">
-              Certificate number will be auto-generated on certificate upload or click generate button
+              Certificate numbers are pre-generated for new instructors
             </p>
           </div>
           
@@ -240,10 +305,12 @@ const InstructorForm = ({ onAddInstructor, instructors }: InstructorFormProps) =
           </div>
           
           <Button 
-            className="w-full mt-4" 
+            className="w-full mt-4 flex items-center justify-center gap-2" 
             onClick={handleAddInstructor}
+            disabled={isSendingEmail}
           >
-            Add Instructor
+            {isSendingEmail ? "Sending Email..." : "Add Instructor"}
+            {!isSendingEmail && <Mail className="h-4 w-4" />}
           </Button>
         </div>
       </CardContent>

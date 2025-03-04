@@ -14,6 +14,7 @@ interface Instructor {
   students: number;
   lastLogin: string;
   certificateNumber?: string;
+  title?: string;
 }
 
 interface InstructorsTabProps {
@@ -53,6 +54,7 @@ const InstructorsTab = ({ instructors: initialInstructors, students, areas }: In
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead>Title</TableHead>
                   <TableHead>Name</TableHead>
                   <TableHead>Email</TableHead>
                   <TableHead>Status</TableHead>
@@ -64,6 +66,7 @@ const InstructorsTab = ({ instructors: initialInstructors, students, areas }: In
               <TableBody>
                 {instructors.map((instructor) => (
                   <TableRow key={instructor.id}>
+                    <TableCell>{instructor.title || "Shifu"}</TableCell>
                     <TableCell className="font-medium">{instructor.name}</TableCell>
                     <TableCell>{instructor.email}</TableCell>
                     <TableCell>
