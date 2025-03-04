@@ -82,7 +82,7 @@ const AdminPortal = () => {
         pendingTasksCount={pendingTasksCount}
       />
       
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+      <Tabs defaultValue="dashboard" value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="mb-4">
           <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
           <TabsTrigger value="instructors">Instructors</TabsTrigger>
