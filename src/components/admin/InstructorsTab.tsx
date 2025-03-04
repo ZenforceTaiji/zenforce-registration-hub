@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { InstructorAssignmentDialog } from "@/components/admin";
 import InstructorForm from "./InstructorForm";
+import { useToast } from "@/hooks/use-toast";
+import { RefreshCw } from "lucide-react";
 
 interface Instructor {
   id: number;
@@ -27,6 +29,7 @@ const InstructorsTab = ({ instructors: initialInstructors, students, areas }: In
   const [instructors, setInstructors] = useState<Instructor[]>(initialInstructors);
   const [isAssignDialogOpen, setIsAssignDialogOpen] = useState(false);
   const [selectedInstructor, setSelectedInstructor] = useState<{ id: number; name: string } | null>(null);
+  const { toast } = useToast();
 
   const handleAddInstructor = (newInstructor: Instructor) => {
     setInstructors([...instructors, newInstructor]);
@@ -38,6 +41,39 @@ const InstructorsTab = ({ instructors: initialInstructors, students, areas }: In
       setSelectedInstructor({ id: instructor.id, name: instructor.name });
       setIsAssignDialogOpen(true);
     }
+  };
+
+  const regenerateCertificateNumber = (instructorId: number) => {
+    const updatedInstructors = instructors.map(instructor => {
+      if (instructor.id === instructorId) {
+        // Generate a new certificate number with the format ZRI2025_XX
+        const currentYear = 2025; // Hardcoded as per request
+        const existingNumbers = instructors
+          .filter(i => i.certificateNumber?.startsWith(`ZRI${currentYear}_`))
+          .map(i => {
+            const numPart = i.certificateNumber?.split('_')[1];
+            return numPart ? parseInt(numPart, 10) : 0;
+          });
+        
+        const highestNumber = existingNumbers.length > 0 ? Math.max(...existingNumbers) : 0;
+        const nextNumber = highestNumber + 1;
+        const paddedNumber = nextNumber.toString().padStart(2, '0');
+        const newCertificateNumber = `ZRI${currentYear}_${paddedNumber}`;
+        
+        toast({
+          title: "Certificate Number Updated",
+          description: `New certificate number ${newCertificateNumber} generated for ${instructor.name}`,
+        });
+        
+        return {
+          ...instructor,
+          certificateNumber: newCertificateNumber
+        };
+      }
+      return instructor;
+    });
+    
+    setInstructors(updatedInstructors);
   };
 
   return (
@@ -79,7 +115,18 @@ const InstructorsTab = ({ instructors: initialInstructors, students, areas }: In
                       </span>
                     </TableCell>
                     <TableCell>{instructor.students}</TableCell>
-                    <TableCell>{instructor.certificateNumber || "N/A"}</TableCell>
+                    <TableCell className="flex items-center gap-2">
+                      {instructor.certificateNumber || "N/A"}
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        className="p-0 h-6 w-6"
+                        onClick={() => regenerateCertificateNumber(instructor.id)}
+                        title="Regenerate certificate number"
+                      >
+                        <RefreshCw className="h-3 w-3" />
+                      </Button>
+                    </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
                         <Button 
