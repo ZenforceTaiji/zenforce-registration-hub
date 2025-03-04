@@ -1,17 +1,16 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import AreaForm from "./AreaForm";
 
 interface Area {
   id: number;
   name: string;
   students: number;
   instructors: number;
+  description?: string;
 }
 
 interface Student {
@@ -27,7 +26,13 @@ interface AreasTabProps {
   students: Student[];
 }
 
-const AreasTab = ({ areas, students }: AreasTabProps) => {
+const AreasTab = ({ areas: initialAreas, students }: AreasTabProps) => {
+  const [areas, setAreas] = useState<Area[]>(initialAreas);
+
+  const handleAddArea = (newArea: Area) => {
+    setAreas([...areas, newArea]);
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div className="md:col-span-2">
@@ -100,38 +105,7 @@ const AreasTab = ({ areas, students }: AreasTabProps) => {
         </Card>
       </div>
       
-      <Card>
-        <CardHeader>
-          <CardTitle>Add New Area</CardTitle>
-          <CardDescription>
-            Create a new geographic teaching area
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="areaName">Area Name</Label>
-              <Input 
-                id="areaName" 
-                placeholder="Enter area name"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="areaDescription">Area Description</Label>
-              <Textarea 
-                id="areaDescription" 
-                placeholder="Describe the geographic area"
-                className="min-h-[100px]"
-              />
-            </div>
-            
-            <Button className="w-full mt-4">
-              Add Area
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+      <AreaForm onAddArea={handleAddArea} />
     </div>
   );
 };

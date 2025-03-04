@@ -2,43 +2,32 @@
 import React, { useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useToast } from "@/hooks/use-toast";
+import MaintenanceForm from "./MaintenanceForm";
 
 interface MaintenanceTask {
   id: number;
   task: string;
   status: string;
   date: string;
+  priority?: string;
 }
 
 interface MaintenanceTabProps {
   maintenanceTasks: MaintenanceTask[];
 }
 
-const MaintenanceTab = ({ maintenanceTasks }: MaintenanceTabProps) => {
-  const { toast } = useToast();
-  const [maintenanceNote, setMaintenanceNote] = useState("");
+const MaintenanceTab = ({ maintenanceTasks: initialTasks }: MaintenanceTabProps) => {
+  const [tasks, setTasks] = useState<MaintenanceTask[]>(initialTasks);
   
-  const handleMaintenanceTask = () => {
-    if (!maintenanceNote.trim()) {
-      toast({
-        title: "Input Required",
-        description: "Please enter a maintenance task description",
-        variant: "destructive"
-      });
-      return;
-    }
-    
-    toast({
-      title: "Maintenance Task Added",
-      description: "The maintenance task has been recorded",
-    });
-    
-    setMaintenanceNote("");
+  const handleAddTask = (newTask: MaintenanceTask) => {
+    setTasks([...tasks, newTask]);
+  };
+
+  const handleUpdateStatus = (taskId: number, newStatus: string) => {
+    setTasks(tasks.map(task => 
+      task.id === taskId ? { ...task, status: newStatus } : task
+    ));
   };
 
   return (
@@ -62,7 +51,7 @@ const MaintenanceTab = ({ maintenanceTasks }: MaintenanceTabProps) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {maintenanceTasks.map((task) => (
+                {tasks.map((task) => (
                   <TableRow key={task.id}>
                     <TableCell className="font-medium">{task.task}</TableCell>
                     <TableCell>
@@ -78,7 +67,18 @@ const MaintenanceTab = ({ maintenanceTasks }: MaintenanceTabProps) => {
                     </TableCell>
                     <TableCell>{task.date}</TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="sm">Update</Button>
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={() => {
+                          const nextStatus = 
+                            task.status === 'Pending' ? 'In Progress' :
+                            task.status === 'In Progress' ? 'Completed' : 'Pending';
+                          handleUpdateStatus(task.id, nextStatus);
+                        }}
+                      >
+                        Update
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -88,58 +88,7 @@ const MaintenanceTab = ({ maintenanceTasks }: MaintenanceTabProps) => {
         </Card>
       </div>
       
-      <Card>
-        <CardHeader>
-          <CardTitle>Add Maintenance Task</CardTitle>
-          <CardDescription>
-            Create a new maintenance task
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="maintenanceNote">Task Description</Label>
-              <Textarea 
-                id="maintenanceNote" 
-                value={maintenanceNote}
-                onChange={(e) => setMaintenanceNote(e.target.value)}
-                placeholder="Describe the maintenance task"
-                className="min-h-[120px]"
-              />
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="priority">Priority</Label>
-                <select 
-                  id="priority"
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  <option>Low</option>
-                  <option>Medium</option>
-                  <option>High</option>
-                  <option>Critical</option>
-                </select>
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="dueDate">Due Date</Label>
-                <Input 
-                  id="dueDate" 
-                  type="date"
-                />
-              </div>
-            </div>
-            
-            <Button 
-              className="w-full mt-4" 
-              onClick={handleMaintenanceTask}
-            >
-              Add Task
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+      <MaintenanceForm onAddTask={handleAddTask} />
     </div>
   );
 };
