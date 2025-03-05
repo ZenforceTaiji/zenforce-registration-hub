@@ -13,6 +13,7 @@ import {
   Calendar,
   BookMarked,
   History,
+  GalleryHorizontal,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -59,6 +60,13 @@ const Navbar = () => {
                 <Button variant="ghost" className="flex items-center gap-1">
                   <History className="h-4 w-4" />
                   History of TaijiQuan
+                </Button>
+              </Link>
+
+              <Link to="/gallery">
+                <Button variant="ghost" className="flex items-center gap-1">
+                  <GalleryHorizontal className="h-4 w-4" />
+                  Gallery
                 </Button>
               </Link>
 
@@ -155,6 +163,14 @@ const Navbar = () => {
             >
               <History className="mr-2 h-4 w-4" />
               History of TaijiQuan
+            </Link>
+            <Link
+              to="/gallery"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 flex items-center"
+              onClick={() => setIsOpen(false)}
+            >
+              <GalleryHorizontal className="mr-2 h-4 w-4" />
+              Gallery
             </Link>
             <Link
               to="/booking"

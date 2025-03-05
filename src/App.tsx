@@ -24,6 +24,7 @@ import Navbar from "./components/Navbar";
 import BookingSystem from "./components/BookingSystem";
 import EventsCalendar from "./components/EventsCalendar";
 import HistoryOfTaijiquan from "./pages/HistoryOfTaijiquan";
+import Gallery from "./pages/Gallery";
 
 // Layout with Navbar
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -116,6 +117,10 @@ const router = createBrowserRouter([
   {
     path: "/history-of-taijiquan",
     element: <Layout><HistoryOfTaijiquan /></Layout>,
+  },
+  {
+    path: "/gallery",
+    element: <Layout><Gallery /></Layout>,
   },
   {
     path: "*",
