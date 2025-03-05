@@ -4,7 +4,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { InstructorAssignmentDialog } from "@/components/admin";
-import InstructorForm from "./InstructorForm";
+import InstructorForm from "./instructor-form";
 import { useToast } from "@/hooks/use-toast";
 import { RefreshCw } from "lucide-react";
 
