@@ -80,6 +80,39 @@ export type Database = {
           },
         ]
       }
+      password_tracking: {
+        Row: {
+          created_at: string | null
+          expiry_date: string
+          id: string
+          is_suspended: boolean
+          last_changed: string
+          reminder_sent: boolean
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          expiry_date: string
+          id?: string
+          is_suspended?: boolean
+          last_changed?: string
+          reminder_sent?: boolean
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          expiry_date?: string
+          id?: string
+          is_suspended?: boolean
+          last_changed?: string
+          reminder_sent?: boolean
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string | null

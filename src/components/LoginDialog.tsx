@@ -1,7 +1,7 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { User, Lock, Eye, EyeOff } from "lucide-react";
+import { User, Lock, Eye, EyeOff, AlertTriangle } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -15,6 +15,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { PasswordResetDialog } from "./PasswordResetDialog";
+import { supabase } from "@/integrations/supabase/client";
+import { checkPasswordStatus } from "@/services/passwordService";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface LoginDialogProps {
   open: boolean;
@@ -29,8 +32,13 @@ export function LoginDialog({ open, onOpenChange, type }: LoginDialogProps) {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showResetDialog, setShowResetDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [passwordExpiring, setPasswordExpiring] = useState(false);
+  const [daysUntilExpiry, setDaysUntilExpiry] = useState<number | null>(null);
+  const [isFirstLogin, setIsFirstLogin] = useState(false);
+  const [forcePasswordReset, setForcePasswordReset] = useState(false);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!username || !password) {
       toast({
         title: "Required Fields",
@@ -40,38 +48,111 @@ export function LoginDialog({ open, onOpenChange, type }: LoginDialogProps) {
       return;
     }
 
-    // For a real implementation, this would be an API call to verify credentials
-    // For now, we'll just show a success toast and close the dialog
-    
-    toast({
-      title: "Login Successful",
-      description: `Welcome back, ${type === "student" ? "Student" : type === "instructor" ? "Instructor" : "Administrator"}!`,
-    });
-    
-    onOpenChange(false);
-    
-    // Check if this is a first-time login with a temporary password
-    if (type === "student") {
-      const tempPassword = sessionStorage.getItem("tempPassword");
-      if (tempPassword === password) {
-        // Prompt the user to set a new password
+    setLoading(true);
+
+    try {
+      // Attempt to authenticate the user
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: type === "student" ? `${username}@zen.martial.arts` : username,
+        password: password,
+      });
+
+      if (error) {
+        toast({
+          title: "Login Failed",
+          description: error.message,
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
+      }
+
+      if (!data.user) {
+        toast({
+          title: "Login Failed",
+          description: "User not found",
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
+      }
+
+      // Check password status
+      const passwordStatus = await checkPasswordStatus(data.user.id);
+      
+      // Handle suspended account
+      if (passwordStatus.isSuspended) {
+        toast({
+          title: "Account Suspended",
+          description: "Your account has been suspended due to password expiration. Please reset your password.",
+          variant: "destructive",
+        });
+        setForcePasswordReset(true);
+        setShowResetDialog(true);
+        setLoading(false);
+        return;
+      }
+      
+      // Handle expired password
+      if (passwordStatus.isExpired) {
+        toast({
+          title: "Password Expired",
+          description: "Your password has expired. Please reset it now.",
+          variant: "destructive",
+        });
+        setForcePasswordReset(true);
+        setShowResetDialog(true);
+        setLoading(false);
+        return;
+      }
+      
+      // Check if password is expiring soon (within 7 days)
+      if (passwordStatus.daysUntilExpiry !== null && passwordStatus.daysUntilExpiry <= 7) {
+        setPasswordExpiring(true);
+        setDaysUntilExpiry(passwordStatus.daysUntilExpiry);
+      }
+
+      // Check if this is a first-time login with a temporary password
+      if (type === "student" && sessionStorage.getItem("tempPassword") === password) {
+        setIsFirstLogin(true);
         setShowResetDialog(true);
       } else {
-        // Redirect to student portal after successful student login
-        navigate("/student-portal");
+        // Login successful, redirect to appropriate portal
+        toast({
+          title: "Login Successful",
+          description: `Welcome back, ${type === "student" ? "Student" : type === "instructor" ? "Instructor" : "Administrator"}!`,
+        });
+        
+        onOpenChange(false);
+        
+        if (type === "student") {
+          navigate("/student-portal");
+        } else if (type === "instructor") {
+          navigate("/instructor-portal");
+        } else if (type === "admin") {
+          navigate("/admin-portal");
+        }
       }
-    } else if (type === "instructor") {
-      // Redirect to instructor portal after successful instructor login
-      navigate("/instructor-portal");
-    } else if (type === "admin") {
-      // Redirect to admin portal after successful admin login
-      navigate("/admin-portal");
+    } catch (error) {
+      console.error("Login error:", error);
+      toast({
+        title: "Login Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
-      <Dialog open={open} onOpenChange={onOpenChange}>
+      <Dialog open={open} onOpenChange={(isOpen) => {
+        // Only allow closing if not a forced password reset
+        if (!forcePasswordReset || !isOpen) {
+          onOpenChange(isOpen);
+        }
+      }}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>
@@ -91,6 +172,16 @@ export function LoginDialog({ open, onOpenChange, type }: LoginDialogProps) {
               } portal
             </DialogDescription>
           </DialogHeader>
+
+          {passwordExpiring && (
+            <Alert variant="warning" className="bg-amber-50 border-amber-200">
+              <AlertTriangle className="h-4 w-4 text-amber-500" />
+              <AlertDescription>
+                Your password will expire in {daysUntilExpiry} day{daysUntilExpiry !== 1 ? 's' : ''}. 
+                Please consider changing it soon.
+              </AlertDescription>
+            </Alert>
+          )}
 
           <div className="grid gap-4 py-4">
             <div className="space-y-2">
@@ -166,6 +257,7 @@ export function LoginDialog({ open, onOpenChange, type }: LoginDialogProps) {
               variant="outline"
               onClick={() => onOpenChange(false)}
               className="mt-2 sm:mt-0"
+              disabled={loading || forcePasswordReset}
             >
               Cancel
             </Button>
@@ -178,8 +270,9 @@ export function LoginDialog({ open, onOpenChange, type }: LoginDialogProps) {
                     ? "bg-indigo-600 hover:bg-indigo-700 text-white"
                     : ""
               }
+              disabled={loading}
             >
-              Login
+              {loading ? "Logging in..." : "Login"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -187,8 +280,21 @@ export function LoginDialog({ open, onOpenChange, type }: LoginDialogProps) {
 
       <PasswordResetDialog
         open={showResetDialog}
-        onOpenChange={setShowResetDialog}
-        isFirstLogin={password === sessionStorage.getItem("tempPassword")}
+        onOpenChange={(open) => {
+          // Only allow dialog to close if it's not a forced password reset
+          if (!forcePasswordReset || !open) {
+            setShowResetDialog(open);
+            
+            // If this is a forced reset and dialog is closing, log the user out
+            if (forcePasswordReset && !open) {
+              supabase.auth.signOut();
+              setForcePasswordReset(false);
+            }
+          }
+        }}
+        isFirstLogin={isFirstLogin}
+        forceReset={forcePasswordReset}
+        membershipNumber={username}
       />
     </>
   );

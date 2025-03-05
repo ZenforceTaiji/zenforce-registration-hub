@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Lock, Eye, EyeOff } from "lucide-react";
+import { Lock, Eye, EyeOff, AlertTriangle } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -13,27 +13,35 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { supabase } from "@/integrations/supabase/client";
+import { updatePassword } from "@/services/passwordService";
 
 interface PasswordResetDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   isFirstLogin?: boolean;
+  forceReset?: boolean;
+  membershipNumber?: string;
 }
 
 export function PasswordResetDialog({ 
   open, 
   onOpenChange,
-  isFirstLogin = false
+  isFirstLogin = false,
+  forceReset = false,
+  membershipNumber = ""
 }: PasswordResetDialogProps) {
   const { toast } = useToast();
-  const [membershipNumber, setMembershipNumber] = useState("");
+  const [userMembershipNumber, setUserMembershipNumber] = useState(membershipNumber);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleResetPassword = () => {
-    if (!isFirstLogin && !membershipNumber) {
+  const handleResetPassword = async () => {
+    if (!isFirstLogin && !forceReset && !userMembershipNumber) {
       toast({
         title: "Required Field",
         description: "Please enter your membership number",
@@ -68,18 +76,60 @@ export function PasswordResetDialog({
       });
       return;
     }
-
-    // In a real implementation, this would be an API call to reset the password
-    // For now, we'll just show a success toast and close the dialog
     
-    toast({
-      title: "Password Updated",
-      description: isFirstLogin 
-        ? "Your password has been set successfully. It will expire in 30 days." 
-        : "Your password has been reset successfully. Check your email for confirmation.",
-    });
+    setLoading(true);
     
-    onOpenChange(false);
+    try {
+      if (isFirstLogin || forceReset) {
+        // User is already authenticated, just update their password
+        const user = await supabase.auth.getUser();
+        
+        if (user.error || !user.data.user) {
+          throw new Error("User not authenticated");
+        }
+        
+        const success = await updatePassword(user.data.user.id, newPassword);
+        
+        if (!success) {
+          throw new Error("Failed to update password");
+        }
+        
+        toast({
+          title: "Password Updated",
+          description: isFirstLogin 
+            ? "Your password has been set successfully. It will expire in 30 days." 
+            : "Your password has been reset successfully.",
+        });
+      } else {
+        // User is not authenticated, send password reset email
+        const { error } = await supabase.auth.resetPasswordForEmail(
+          `${userMembershipNumber}@zen.martial.arts`,
+          {
+            redirectTo: `${window.location.origin}/student-portal?reset=true`,
+          }
+        );
+        
+        if (error) {
+          throw error;
+        }
+        
+        toast({
+          title: "Password Reset Email Sent",
+          description: "Check your email for a link to reset your password.",
+        });
+      }
+      
+      onOpenChange(false);
+    } catch (error) {
+      console.error("Password reset error:", error);
+      toast({
+        title: "Password Reset Failed",
+        description: error.message || "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -87,23 +137,34 @@ export function PasswordResetDialog({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
-            {isFirstLogin ? "Set New Password" : "Reset Password"}
+            {isFirstLogin ? "Set New Password" : forceReset ? "Password Expired" : "Reset Password"}
           </DialogTitle>
           <DialogDescription>
             {isFirstLogin 
               ? "Please set a new password to replace your temporary password." 
-              : "Enter your membership number and we'll send you a password reset link."}
+              : forceReset
+                ? "Your password has expired. Please set a new password to continue."
+                : "Enter your membership number and we'll send you a password reset link."}
           </DialogDescription>
         </DialogHeader>
+        
+        {forceReset && (
+          <Alert variant="destructive" className="mt-2">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertDescription>
+              Your account has been locked until you reset your password.
+            </AlertDescription>
+          </Alert>
+        )}
 
         <div className="grid gap-4 py-4">
-          {!isFirstLogin && (
+          {!isFirstLogin && !forceReset && (
             <div className="space-y-2">
               <Label htmlFor="membershipNumber">Membership Number</Label>
               <Input
                 id="membershipNumber"
-                value={membershipNumber}
-                onChange={(e) => setMembershipNumber(e.target.value)}
+                value={userMembershipNumber}
+                onChange={(e) => setUserMembershipNumber(e.target.value)}
                 placeholder="Enter your membership number"
               />
             </div>
@@ -175,14 +236,22 @@ export function PasswordResetDialog({
             variant="outline"
             onClick={() => onOpenChange(false)}
             className="mt-2 sm:mt-0"
+            disabled={loading || forceReset}
           >
-            Cancel
+            {forceReset ? "Log Out" : "Cancel"}
           </Button>
           <Button 
             onClick={handleResetPassword}
             className="bg-accent-red hover:bg-accent-red/90 text-white"
+            disabled={loading}
           >
-            {isFirstLogin ? "Set Password" : "Reset Password"}
+            {loading 
+              ? "Processing..." 
+              : isFirstLogin 
+                ? "Set Password" 
+                : forceReset 
+                  ? "Update Password" 
+                  : "Reset Password"}
           </Button>
         </DialogFooter>
       </DialogContent>
