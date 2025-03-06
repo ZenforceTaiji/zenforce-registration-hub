@@ -1,7 +1,7 @@
 
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Expand } from "lucide-react";
-import { StudentGalleryImage } from "./types";
+import { StudentGalleryImage } from "../types";
 
 interface ImageGalleryItemProps {
   image: StudentGalleryImage;

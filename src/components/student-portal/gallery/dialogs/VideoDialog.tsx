@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { FileDown, Play } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { StudentGalleryVideo } from "../types";
+import { StudentGalleryVideo } from "../../types";
 
 interface VideoDialogProps {
   video: StudentGalleryVideo | null;

@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { FileDown } from "lucide-react";
-import { StudentGalleryImage } from "../types";
+import { StudentGalleryImage } from "../../types";
 
 interface ImageDialogProps {
   image: StudentGalleryImage | null;

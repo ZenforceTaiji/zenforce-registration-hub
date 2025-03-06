@@ -1,9 +1,9 @@
 
 import { useState } from "react";
-import { StudentGalleryImage } from "./types";
+import { StudentGalleryImage } from "../types";
 import ImageGalleryItem from "./ImageGalleryItem";
 import ImageDialog from "./dialogs/ImageDialog";
-import { studentGalleryImages } from "./mockData";
+import { studentGalleryImages } from "../mockData";
 
 const ImagesGallery = () => {
   const [selectedImage, setSelectedImage] = useState<StudentGalleryImage | null>(null);

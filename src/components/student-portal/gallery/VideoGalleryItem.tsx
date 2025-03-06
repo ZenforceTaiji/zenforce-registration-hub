@@ -1,7 +1,7 @@
 
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Play } from "lucide-react";
-import { StudentGalleryVideo } from "./types";
+import { StudentGalleryVideo } from "../types";
 
 interface VideoGalleryItemProps {
   video: StudentGalleryVideo;

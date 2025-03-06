@@ -1,9 +1,9 @@
 
 import { useState } from "react";
-import { StudentGalleryVideo } from "./types";
+import { StudentGalleryVideo } from "../types";
 import VideoGalleryItem from "./VideoGalleryItem";
 import VideoDialog from "./dialogs/VideoDialog";
-import { studentGalleryVideos } from "./mockData";
+import { studentGalleryVideos } from "../mockData";
 
 const VideosGallery = () => {
   const [selectedVideo, setSelectedVideo] = useState<StudentGalleryVideo | null>(null);
