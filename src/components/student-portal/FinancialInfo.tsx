@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -17,7 +17,7 @@ import {
 import { FileDown, ArrowUpRight, CreditCard, Receipt, ExternalLink } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
-import { createPaymentLink } from "@/services/paymentService";
+import { createTypedPayment, PaymentType, getPaymentStatus } from "@/services/paymentService";
 
 // Sample financial data
 const samplePayments = [
@@ -66,28 +66,39 @@ const samplePayments = [
 const FinancialInfo = () => {
   const { toast } = useToast();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [pendingPaymentId, setPendingPaymentId] = useState<string | null>(null);
 
   const handlePayment = async () => {
     try {
       setIsProcessing(true);
       
-      const paymentData = {
-        amount: 35000, // Amount in cents (R350.00)
-        reference: `MEM-${Date.now()}`,
-        description: "Monthly Membership Fee - ZenForce TaijiQuan",
-        successUrl: `${window.location.origin}/student-portal/financial?status=success`,
-        cancelUrl: `${window.location.origin}/student-portal/financial?status=cancelled`,
-      };
+      // Create a monthly membership payment of R350.00 (35000 cents)
+      const paymentResponse = await createTypedPayment(
+        35000, 
+        PaymentType.MONTHLY,
+        "Monthly Membership Fee - ZenForce TaijiQuan",
+        `${window.location.origin}/student-portal/financial?status=success`,
+        `${window.location.origin}/student-portal/financial?status=cancelled`
+      );
       
-      const paymentUrl = await createPaymentLink(paymentData);
-      
-      // Open the payment URL in a new tab
-      window.open(paymentUrl, "_blank");
-      
-      toast({
-        title: "Payment Initiated",
-        description: "You've been redirected to the iKhokha payment gateway.",
-      });
+      if (paymentResponse.success && paymentResponse.paymentUrl) {
+        // Store the payment ID for later verification
+        if (paymentResponse.paymentId) {
+          setPendingPaymentId(paymentResponse.paymentId);
+          // We could also store this in sessionStorage to persist across page refreshes
+          sessionStorage.setItem("pendingPaymentId", paymentResponse.paymentId);
+        }
+        
+        // Open the payment URL in a new tab
+        window.open(paymentResponse.paymentUrl, "_blank");
+        
+        toast({
+          title: "Payment Initiated",
+          description: "You've been redirected to the iKhokha payment gateway.",
+        });
+      } else {
+        throw new Error(paymentResponse.errorMessage || "Failed to create payment");
+      }
     } catch (error) {
       console.error("Payment error:", error);
       toast({
@@ -99,30 +110,102 @@ const FinancialInfo = () => {
       setIsProcessing(false);
     }
   };
-
-  // Check for payment status from URL params when returning from payment gateway
-  const checkPaymentStatus = () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const status = urlParams.get('status');
-    
-    if (status === 'success') {
+  
+  const handleGradingPayment = async () => {
+    try {
+      setIsProcessing(true);
+      
+      // Create a grading fee payment of R250.00 (25000 cents)
+      const paymentResponse = await createTypedPayment(
+        25000, 
+        PaymentType.GRADING,
+        "Grading Fee - ZenForce TaijiQuan",
+        `${window.location.origin}/student-portal/financial?status=success&type=grading`,
+        `${window.location.origin}/student-portal/financial?status=cancelled&type=grading`
+      );
+      
+      if (paymentResponse.success && paymentResponse.paymentUrl) {
+        // Store the payment ID for later verification
+        if (paymentResponse.paymentId) {
+          setPendingPaymentId(paymentResponse.paymentId);
+          sessionStorage.setItem("pendingPaymentId", paymentResponse.paymentId);
+          sessionStorage.setItem("pendingPaymentType", "grading");
+        }
+        
+        // Open the payment URL in a new tab
+        window.open(paymentResponse.paymentUrl, "_blank");
+        
+        toast({
+          title: "Grading Payment Initiated",
+          description: "You've been redirected to the iKhokha payment gateway.",
+        });
+      } else {
+        throw new Error(paymentResponse.errorMessage || "Failed to create payment");
+      }
+    } catch (error) {
+      console.error("Grading payment error:", error);
       toast({
-        title: "Payment Successful",
-        description: "Your payment has been processed successfully.",
-      });
-    } else if (status === 'cancelled') {
-      toast({
-        title: "Payment Cancelled",
-        description: "Your payment was cancelled.",
+        title: "Payment Error",
+        description: "There was a problem initiating your grading payment. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsProcessing(false);
     }
   };
 
-  // Call checkPaymentStatus on component mount
-  useState(() => {
+  // Check for payment status from URL params when returning from payment gateway
+  useEffect(() => {
+    const checkPaymentStatus = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const status = urlParams.get('status');
+      const type = urlParams.get('type');
+      
+      // Clear the URL parameters
+      if (status) {
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+      
+      if (status === 'success') {
+        // Try to get the stored payment ID
+        const paymentId = sessionStorage.getItem("pendingPaymentId");
+        const paymentType = sessionStorage.getItem("pendingPaymentType") || "monthly";
+        
+        if (paymentId) {
+          // Here we would normally verify the payment with the backend
+          // For demo purposes, we're just showing a success message
+          
+          toast({
+            title: "Payment Successful",
+            description: `Your ${paymentType === "grading" ? "grading" : "membership"} payment has been processed successfully.`,
+          });
+          
+          // Clear the stored payment ID
+          sessionStorage.removeItem("pendingPaymentId");
+          sessionStorage.removeItem("pendingPaymentType");
+          setPendingPaymentId(null);
+        } else {
+          toast({
+            title: "Payment Successful",
+            description: "Your payment has been processed successfully.",
+          });
+        }
+      } else if (status === 'cancelled') {
+        toast({
+          title: "Payment Cancelled",
+          description: "Your payment was cancelled.",
+          variant: "destructive",
+        });
+        
+        // Clear the stored payment ID
+        sessionStorage.removeItem("pendingPaymentId");
+        sessionStorage.removeItem("pendingPaymentType");
+        setPendingPaymentId(null);
+      }
+    };
+    
     checkPaymentStatus();
-  });
+  }, [toast]);
 
   return (
     <div className="space-y-8">
@@ -196,6 +279,24 @@ const FinancialInfo = () => {
           <p>Reference: Your membership number</p>
         </AlertDescription>
       </Alert>
+      
+      {/* Added Grading Fee Payment Card */}
+      <div className="bg-slate-50 p-4 rounded-lg border">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <h3 className="text-lg font-medium">Upcoming Grading</h3>
+            <p className="text-sm text-slate-500">24 Step Form G03 - May 15, 2024</p>
+            <p className="font-medium mt-1">Grading Fee: R250.00</p>
+          </div>
+          <Button 
+            onClick={handleGradingPayment} 
+            disabled={isProcessing}
+            className="bg-amber-600 hover:bg-amber-700 text-white"
+          >
+            {isProcessing ? "Processing..." : "Pay Grading Fee"}
+          </Button>
+        </div>
+      </div>
 
       <div>
         <div className="flex justify-between items-center mb-4">

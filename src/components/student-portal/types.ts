@@ -15,3 +15,22 @@ export interface StudentGalleryVideo {
   duration: string;
   category: string;
 }
+
+export interface PaymentRecord {
+  id: string;
+  date: string;
+  description: string;
+  amount: string;
+  status: "Paid" | "Pending" | "Failed";
+  receipt?: string;
+  paymentMethod: string;
+}
+
+export interface GradingFee {
+  id: string;
+  gradingName: string;
+  gradingDate: string;
+  amount: number;
+  isPaid: boolean;
+  receiptId?: string;
+}

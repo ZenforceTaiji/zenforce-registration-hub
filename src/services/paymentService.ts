@@ -11,6 +11,13 @@ interface PaymentRequest {
   callbackUrl?: string;
 }
 
+export interface PaymentResponse {
+  success: boolean;
+  paymentUrl?: string;
+  errorMessage?: string;
+  paymentId?: string;
+}
+
 export const IKHOKHA_APP_KEY = "IK9NX5EM6KL0LGZY6UPCMYGXUQ9UIMN7";
 // Note: In a production environment, the API secret should not be stored in the frontend
 // This is included here for demonstration purposes only
@@ -59,5 +66,58 @@ export const getPaymentStatus = async (paymentId: string): Promise<any> => {
   } catch (error) {
     console.error("Error checking payment status:", error);
     throw error;
+  }
+};
+
+// Payment types for different purposes
+export enum PaymentType {
+  REGISTRATION = "Registration Fee",
+  MONTHLY = "Monthly Membership Fee",
+  GRADING = "Grading Fee",
+  OTHER = "Other Fee"
+}
+
+// Create payment for specific payment types
+export const createTypedPayment = async (
+  amount: number, 
+  type: PaymentType, 
+  description?: string,
+  successUrl?: string,
+  cancelUrl?: string
+): Promise<PaymentResponse> => {
+  try {
+    const timestamp = Date.now();
+    const typePrefix = type === PaymentType.REGISTRATION ? "REG" :
+                        type === PaymentType.MONTHLY ? "MEM" :
+                        type === PaymentType.GRADING ? "GRD" : "OTH";
+    
+    const reference = `${typePrefix}-${timestamp}`;
+    const fullDescription = description || `ZenForce TaijiQuan - ${type}`;
+    
+    // Default URLs if not provided
+    const defaultSuccessUrl = `${window.location.origin}/payment-success`;
+    const defaultCancelUrl = `${window.location.origin}/payment-cancelled`;
+    
+    const paymentData: PaymentRequest = {
+      amount: amount, // Amount in cents
+      reference: reference,
+      description: fullDescription,
+      successUrl: successUrl || defaultSuccessUrl,
+      cancelUrl: cancelUrl || defaultCancelUrl
+    };
+    
+    const paymentUrl = await createPaymentLink(paymentData);
+    
+    return {
+      success: true,
+      paymentUrl: paymentUrl,
+      paymentId: reference
+    };
+  } catch (error) {
+    console.error("Error creating typed payment:", error);
+    return {
+      success: false,
+      errorMessage: error instanceof Error ? error.message : "Unknown payment error"
+    };
   }
 };
