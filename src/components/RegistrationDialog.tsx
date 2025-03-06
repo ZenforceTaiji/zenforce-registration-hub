@@ -11,6 +11,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Separator } from "@/components/ui/separator";
+import { Check } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { createTypedPayment, PaymentType } from "@/services/paymentService";
 
@@ -18,11 +20,82 @@ interface RegistrationDialogProps {
   onClose: () => void;
 }
 
+// Package types with their prices
+interface Package {
+  id: string;
+  title: string;
+  price: number;
+  description: string;
+}
+
+// Packages organized by level and type
+interface PackageOptions {
+  [level: string]: {
+    [type: string]: Package;
+  };
+}
+
 export function RegistrationDialog({ onClose }: RegistrationDialogProps) {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [ageGroup, setAgeGroup] = useState<string>("");
+  const [level, setLevel] = useState<string>("beginner");
+  const [selectedPackage, setSelectedPackage] = useState<string>("");
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+
+  // Define all available packages
+  const packages: PackageOptions = {
+    beginner: {
+      taijiquan: {
+        id: "beginner-taijiquan",
+        title: "TaijiQuan Only",
+        price: 64000, // R640 in cents
+        description: "Basic TaijiQuan training for beginners"
+      },
+      qigong: {
+        id: "beginner-qigong",
+        title: "Qi Gong Only",
+        price: 48000, // R480 in cents
+        description: "Basic Qi Gong training for beginners"
+      },
+      full: {
+        id: "beginner-full",
+        title: "Full Package",
+        price: 120000, // R1200 in cents
+        description: "Complete training including TaijiQuan and Qigong"
+      }
+    },
+    intermediate: {
+      taijiquan: {
+        id: "intermediate-taijiquan",
+        title: "TaijiQuan Only",
+        price: 72000, // R720 in cents
+        description: "Intermediate TaijiQuan training"
+      },
+      qigong: {
+        id: "intermediate-qigong",
+        title: "Qi Gong Only",
+        price: 64000, // R640 in cents
+        description: "Intermediate Qi Gong training"
+      },
+      full: {
+        id: "intermediate-full",
+        title: "Full Package",
+        price: 180000, // R1800 in cents
+        description: "Complete training including TaijiQuan and Qigong for intermediate practitioners"
+      }
+    }
+  };
+
+  // Get the current selected package details
+  const getSelectedPackageDetails = (): Package | null => {
+    if (!selectedPackage || !level) return null;
+    
+    const [packageType] = selectedPackage.split('-');
+    return packages[level]?.[packageType] || null;
+  };
+
+  const selectedPackageDetails = getSelectedPackageDetails();
 
   const handleContinue = () => {
     if (!ageGroup) {
@@ -34,8 +107,24 @@ export function RegistrationDialog({ onClose }: RegistrationDialogProps) {
       return;
     }
 
-    // Store age selection in session storage
+    if (!selectedPackage) {
+      toast({
+        title: "Package Selection Required",
+        description: "Please select a training package to continue",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Store selections in session storage
     sessionStorage.setItem("userAge", ageGroup);
+    sessionStorage.setItem("trainingLevel", level);
+    sessionStorage.setItem("trainingPackage", selectedPackage);
+    
+    if (selectedPackageDetails) {
+      sessionStorage.setItem("packageDetails", JSON.stringify(selectedPackageDetails));
+    }
+    
     onClose();
     
     // Always redirect to PAR-Q form first, regardless of age
@@ -52,17 +141,33 @@ export function RegistrationDialog({ onClose }: RegistrationDialogProps) {
       return;
     }
 
+    if (!selectedPackage) {
+      toast({
+        title: "Package Selection Required",
+        description: "Please select a training package before payment",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const packageDetails = getSelectedPackageDetails();
+    if (!packageDetails) {
+      toast({
+        title: "Invalid Package",
+        description: "Please select a valid training package",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
       setIsProcessingPayment(true);
       
-      // Registration fee amount: R500 (50000 cents)
-      const registrationFee = 50000; 
-      
-      // Create a registration payment
+      // Create payment for the selected package
       const paymentResponse = await createTypedPayment(
-        registrationFee,
+        packageDetails.price,
         PaymentType.REGISTRATION,
-        `ZenForce TaijiQuan Registration Fee - ${ageGroup === "adult" ? "Adult" : "Under 18"}`,
+        `ZenForce ${packageDetails.title} Registration - ${ageGroup === "adult" ? "Adult" : "Under 18"}`,
         `${window.location.origin}/par-form?status=success&payment=complete`,
         `${window.location.origin}/par-form?status=cancelled`
       );
@@ -70,6 +175,9 @@ export function RegistrationDialog({ onClose }: RegistrationDialogProps) {
       if (paymentResponse.success && paymentResponse.paymentUrl) {
         // Store registration data before redirecting to payment
         sessionStorage.setItem("userAge", ageGroup);
+        sessionStorage.setItem("trainingLevel", level);
+        sessionStorage.setItem("trainingPackage", selectedPackage);
+        sessionStorage.setItem("packageDetails", JSON.stringify(packageDetails));
         sessionStorage.setItem("registrationPaymentInitiated", "true");
         
         if (paymentResponse.paymentId) {
@@ -106,12 +214,13 @@ export function RegistrationDialog({ onClose }: RegistrationDialogProps) {
       <DialogHeader>
         <DialogTitle>Welcome to ZenForce TaijiQuan</DialogTitle>
         <DialogDescription>
-          Please select your age group to begin the registration process
+          Please complete the registration selections below
         </DialogDescription>
       </DialogHeader>
 
-      <div className="grid gap-4 py-4">
-        <RadioGroup value={ageGroup} onValueChange={setAgeGroup}>
+      <div className="grid gap-4 py-2">
+        <h3 className="text-sm font-medium mb-1">Select your age group</h3>
+        <RadioGroup value={ageGroup} onValueChange={setAgeGroup} className="mb-2">
           <div className="flex items-center space-x-2 mb-3">
             <RadioGroupItem value="adult" id="adult" />
             <Label htmlFor="adult" className="font-medium">I am 18 years or older</Label>
@@ -122,12 +231,49 @@ export function RegistrationDialog({ onClose }: RegistrationDialogProps) {
           </div>
         </RadioGroup>
         
-        <div className="mt-2 p-3 bg-slate-50 rounded-md">
-          <p className="text-sm font-medium">Registration Fee: R500.00</p>
-          <p className="text-xs text-slate-500 mt-1">
-            This one-time fee covers your initial registration, welcome pack, and first month's membership.
-          </p>
-        </div>
+        <Separator className="my-2" />
+        
+        <h3 className="text-sm font-medium mb-1">Select your experience level</h3>
+        <RadioGroup value={level} onValueChange={setLevel} className="mb-2">
+          <div className="flex items-center space-x-2 mb-3">
+            <RadioGroupItem value="beginner" id="beginner" />
+            <Label htmlFor="beginner" className="font-medium">Beginner</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="intermediate" id="intermediate" />
+            <Label htmlFor="intermediate" className="font-medium">Intermediate</Label>
+          </div>
+        </RadioGroup>
+        
+        <Separator className="my-2" />
+        
+        <h3 className="text-sm font-medium mb-1">Choose your training package</h3>
+        {level && (
+          <div className="grid gap-3">
+            {Object.entries(packages[level]).map(([type, pkg]) => (
+              <div 
+                key={pkg.id}
+                className={`border rounded-md p-3 cursor-pointer relative transition-all ${
+                  selectedPackage === type ? 'border-primary bg-primary-foreground' : 'hover:border-gray-300'
+                }`}
+                onClick={() => setSelectedPackage(type)}
+              >
+                <div className="flex justify-between items-start">
+                  <div>
+                    <p className="font-medium">{pkg.title}</p>
+                    <p className="text-sm text-gray-500">{pkg.description}</p>
+                  </div>
+                  <p className="font-bold text-lg">R{pkg.price / 100}</p>
+                </div>
+                {selectedPackage === type && (
+                  <div className="absolute right-3 bottom-3 text-primary">
+                    <Check className="h-5 w-5" />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <DialogFooter className="flex flex-col sm:flex-row gap-2">
@@ -143,12 +289,16 @@ export function RegistrationDialog({ onClose }: RegistrationDialogProps) {
         <Button 
           onClick={handleRegistrationPayment} 
           className="bg-accent-red hover:bg-accent-red/90 text-white w-full sm:w-auto"
-          disabled={isProcessingPayment}
+          disabled={isProcessingPayment || !selectedPackage}
         >
           {isProcessingPayment ? "Processing..." : "Pay Registration Fee"}
         </Button>
         
-        <Button onClick={handleContinue} className="zen-button-primary w-full sm:w-auto">
+        <Button 
+          onClick={handleContinue} 
+          className="zen-button-primary w-full sm:w-auto"
+          disabled={!selectedPackage}
+        >
           Continue Without Payment
         </Button>
       </DialogFooter>
