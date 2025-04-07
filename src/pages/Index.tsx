@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useState, useEffect } from "react";
@@ -6,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { RegistrationDialog } from "@/components/RegistrationDialog";
 import { FilePenLine, ArrowRight } from "lucide-react";
 import EventBanner from "@/components/EventBanner";
+import FloatingWhatsAppButton from "@/components/FloatingWhatsAppButton";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -13,7 +13,6 @@ const Index = () => {
   const [hasSavedParQ, setHasSavedParQ] = useState(false);
   const [hasCompletedParQ, setHasCompletedParQ] = useState(false);
 
-  // Check if there's a saved PAR-Q form
   useEffect(() => {
     const parQFormData = sessionStorage.getItem("parQForm");
     if (parQFormData) {
@@ -52,12 +51,12 @@ const Index = () => {
           </p>
           
           <div className="mt-10 space-y-6">
-            {/* Floating Event Banner */}
+            <FloatingWhatsAppButton phoneNumber="27731742969" />
+            
             <div className="fixed bottom-6 right-6 z-50 max-w-md">
               <EventBanner />
             </div>
             
-            {/* Registration Process Card */}
             <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 max-w-2xl">
               <h2 className="text-2xl font-bold text-white mb-4">Registration Process</h2>
               <div className="space-y-4">
