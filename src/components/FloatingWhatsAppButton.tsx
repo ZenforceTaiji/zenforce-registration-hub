@@ -14,19 +14,29 @@ import {
 interface FloatingWhatsAppButtonProps {
   phoneNumber: string;
   message?: string;
+  isExistingUser?: boolean;
 }
 
 const FloatingWhatsAppButton = ({
   phoneNumber,
-  message = "Hello, I'm interested in ZenForce TaijiQuan classes.",
+  message,
+  isExistingUser = false,
 }: FloatingWhatsAppButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
   
   // Format phone number (remove any non-digit characters)
   const formattedPhone = phoneNumber.replace(/\D/g, "");
+
+  // Set default messages based on whether user is existing or new
+  const defaultMessage = isExistingUser
+    ? "Hello, Welcome back to Zenforce TaijiQuan SA, How may we help you?"
+    : "Hello, Welcome to Zenforce TaijiQuan SA, How may we help you?";
+  
+  // Use provided message or default based on user status
+  const whatsappMessage = message || defaultMessage;
   
   // Create WhatsApp URLs
-  const whatsappChatUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(message)}`;
+  const whatsappChatUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(whatsappMessage)}`;
   const whatsappVideoUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent("I would like to start a video call for assistance with ZenForce TaijiQuan.")}`;
   const whatsappCallUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent("I would like to start a voice call for assistance with ZenForce TaijiQuan.")}`;
   

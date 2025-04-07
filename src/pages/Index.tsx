@@ -12,6 +12,7 @@ const Index = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [hasSavedParQ, setHasSavedParQ] = useState(false);
   const [hasCompletedParQ, setHasCompletedParQ] = useState(false);
+  const [isExistingUser, setIsExistingUser] = useState(false);
 
   useEffect(() => {
     const parQFormData = sessionStorage.getItem("parQForm");
@@ -20,6 +21,9 @@ const Index = () => {
       setHasSavedParQ(true);
       setHasCompletedParQ(parsedData.completed);
     }
+    
+    const studentDetails = sessionStorage.getItem("studentDetails");
+    setIsExistingUser(!!studentDetails);
   }, []);
 
   const handleContinueRegistration = () => {
@@ -51,7 +55,7 @@ const Index = () => {
           </p>
           
           <div className="mt-10 space-y-6">
-            <FloatingWhatsAppButton phoneNumber="27731742969" />
+            <FloatingWhatsAppButton phoneNumber="27731742969" isExistingUser={isExistingUser} />
             
             <div className="fixed bottom-6 right-6 z-50 max-w-md">
               <EventBanner />

@@ -30,7 +30,7 @@ const ParQAlert = () => {
           <p className="text-sm text-gray-500">Need help? Use the WhatsApp button in the bottom right.</p>
         </div>
 
-        <FloatingWhatsAppButton phoneNumber="27731742969" message="Hello, I need assistance with the PAR-Q form for TaijiQuan registration." />
+        <FloatingWhatsAppButton phoneNumber="27731742969" message="Hello, I need assistance with the PAR-Q form for TaijiQuan registration." isExistingUser={false} />
       </div>
     </div>
   );
