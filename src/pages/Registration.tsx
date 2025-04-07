@@ -21,6 +21,8 @@ interface StudentDetails {
 const Registration = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  
+  // Get user age from session storage
   const userAge = sessionStorage.getItem("userAge");
   
   // Check if PAR-Q form is completed
@@ -49,20 +51,24 @@ const Registration = () => {
       return;
     }
     
+    // If no age is set, redirect to homepage
+    if (!userAge) {
+      toast({
+        title: "Age Selection Required",
+        description: "Please select your age group before proceeding with registration.",
+        variant: "destructive",
+      });
+      navigate("/");
+      return;
+    }
+    
     // Load saved student details if they exist
     const savedData = sessionStorage.getItem("studentDetails");
     
     if (savedData) {
       setFormData(JSON.parse(savedData));
     }
-  }, [isPARQCompleted, navigate, toast]);
-
-  // If no age is set, redirect to homepage
-  useEffect(() => {
-    if (!userAge) {
-      navigate("/");
-    }
-  }, [userAge, navigate]);
+  }, [isPARQCompleted, navigate, toast, userAge]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -85,8 +91,8 @@ const Registration = () => {
     // Save form data to session storage
     sessionStorage.setItem("studentDetails", JSON.stringify(formData));
     
-    // Navigate to parent details page if minor, or previous training if adult
-    if (parseInt(userAge) < 18) {
+    // Navigate to parent details page if user is under 18, or to previous training if 18+
+    if (userAge === "child") {
       navigate("/parent-details");
     } else {
       navigate("/previous-training");
@@ -112,6 +118,32 @@ const Registration = () => {
               className="bg-accent-red hover:bg-accent-red/90 text-white"
             >
               Complete PAR-Q Form
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // If no age is set, show alert instead of form
+  if (!userAge) {
+    return (
+      <div className="zen-container py-12 animate-fade-in">
+        <div className="max-w-2xl mx-auto">
+          <Alert variant="destructive" className="mb-6">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Required Step Missing</AlertTitle>
+            <AlertDescription>
+              You must select your age group before proceeding with registration.
+            </AlertDescription>
+          </Alert>
+          
+          <div className="text-center">
+            <Button 
+              onClick={() => navigate("/")}
+              className="bg-accent-red hover:bg-accent-red/90 text-white"
+            >
+              Return to Homepage
             </Button>
           </div>
         </div>

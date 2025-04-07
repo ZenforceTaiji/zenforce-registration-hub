@@ -45,10 +45,30 @@ const ParentDetails = () => {
     idPhotoBack: "",
   });
 
-  // Check if required session data exists
+  // Check if required session data exists and validate age
   useEffect(() => {
-    if (!userAge || !studentDetails) {
+    // Only show this page for users who selected "child" (under 18)
+    if (!userAge) {
       navigate("/");
+      return;
+    }
+    
+    if (userAge !== "child") {
+      // If user is adult, redirect to previous training page
+      navigate("/previous-training");
+      return;
+    }
+    
+    if (!studentDetails) {
+      // If student details not found, redirect to registration page
+      navigate("/registration");
+      return;
+    }
+    
+    // Load saved parent details if they exist
+    const savedData = sessionStorage.getItem("parentDetails");
+    if (savedData) {
+      setFormData(JSON.parse(savedData));
     }
   }, [userAge, studentDetails, navigate]);
 
