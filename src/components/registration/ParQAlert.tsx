@@ -1,12 +1,12 @@
 
-import { AlertCircle, MessageCircle } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import FloatingWhatsAppButton from "@/components/FloatingWhatsAppButton";
 
 const ParQAlert = () => {
   const navigate = useNavigate();
-  const whatsappUrl = "https://wa.me/27731742969?text=" + encodeURIComponent("Hello, I need assistance with the PAR-Q form for TaijiQuan registration.");
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -26,17 +26,11 @@ const ParQAlert = () => {
           Complete PAR-Q Form
         </Button>
         
-        <div className="flex justify-center">
-          <a 
-            href={whatsappUrl}
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="inline-flex items-center text-green-600 hover:text-green-700"
-          >
-            <MessageCircle className="h-4 w-4 mr-2" />
-            Need help? Contact us on WhatsApp
-          </a>
+        <div className="mt-4 text-center">
+          <p className="text-sm text-gray-500">Need help? Use the WhatsApp button in the bottom right.</p>
         </div>
+
+        <FloatingWhatsAppButton phoneNumber="27731742969" message="Hello, I need assistance with the PAR-Q form for TaijiQuan registration." />
       </div>
     </div>
   );
