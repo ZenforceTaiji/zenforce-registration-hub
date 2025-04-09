@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import ParQAlert from "@/components/registration/ParQAlert";
 import AgeAlert from "@/components/registration/AgeAlert";
 import RegistrationForm from "@/components/registration/RegistrationForm";
+import AgeSelectionDialog from "@/components/registration/AgeSelectionDialog";
 
 interface StudentDetails {
   firstName: string;
@@ -53,15 +54,8 @@ const Registration = () => {
       return;
     }
     
-    // If no age is set, prompt for age selection but don't redirect automatically
-    if (!userAge) {
-      toast({
-        title: "Age Selection Required",
-        description: "Please select your age group for proper registration.",
-        variant: "destructive",
-      });
-      // Don't redirect here, show the age alert instead (handled in render)
-    }
+    // Show age selection dialog handled in the render method
+    // No redirect needed as we'll display the dialog
     
     // Load saved student details if they exist
     const savedData = sessionStorage.getItem("studentDetails");
@@ -80,23 +74,27 @@ const Registration = () => {
     );
   }
 
-  // If no age is set, show alert instead of form
-  if (!userAge) {
-    return (
-      <div className="zen-container py-12 animate-fade-in">
-        <AgeAlert />
-      </div>
-    );
-  }
-
   return (
     <div className="zen-container py-12 animate-fade-in">
-      <h1 className="page-title mb-2">Step 2: Student Registration</h1>
-      <p className="text-center text-gray-600 mb-8">Please enter your personal details</p>
+      {/* Age Selection Dialog - shown when no age is set */}
+      {isPARQCompleted && !userAge && <AgeSelectionDialog open={true} />}
       
-      <div className="zen-card max-w-2xl mx-auto">
-        <RegistrationForm initialData={formData} userAge={userAge} />
-      </div>
+      {/* Only display the registration form if both PAR-Q is completed and age is set */}
+      {isPARQCompleted && userAge ? (
+        <>
+          <h1 className="page-title mb-2">Step 2: Student Registration</h1>
+          <p className="text-center text-gray-600 mb-8">Please enter your personal details</p>
+          
+          <div className="zen-card max-w-2xl mx-auto">
+            <RegistrationForm initialData={formData} userAge={userAge} />
+          </div>
+        </>
+      ) : (
+        // If no age set (and dialog is showing), display a simple loading message
+        isPARQCompleted && !userAge && (
+          <div className="text-center">Please select your age group to continue</div>
+        )
+      )}
     </div>
   );
 };
