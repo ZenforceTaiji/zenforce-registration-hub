@@ -15,6 +15,7 @@ import Completion from "./pages/Completion";
 import AgeAlert from "./components/registration/AgeAlert";
 import ParQAlert from "./components/registration/ParQAlert";
 import MembershipReactivation from "./pages/MembershipReactivation";
+import PhysicalReadiness from "./pages/PhysicalReadiness";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -35,6 +36,7 @@ function App() {
         <Route path="/parent-details" element={<ParentDetails />} />
         <Route path="/previous-training" element={<PreviousTraining />} />
         <Route path="/medical-conditions" element={<MedicalCondition />} />
+        <Route path="/physical-readiness" element={<PhysicalReadiness />} />
         <Route path="/upload-id" element={<UploadId />} />
         <Route path="/indemnity" element={<Indemnity />} />
         <Route path="/popia" element={<Popia />} />

@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -44,14 +43,12 @@ const MedicalCondition = () => {
     dosage: "",
   });
 
-  // Check if required session data exists and load saved data
   useEffect(() => {
     if (!userAge) {
       navigate("/");
       return;
     }
     
-    // Load medical conditions if exists
     const savedMedical = sessionStorage.getItem("medicalConditions");
     if (savedMedical) {
       const parsedMedical = JSON.parse(savedMedical);
@@ -59,7 +56,6 @@ const MedicalCondition = () => {
       setMedicalConditions(parsedMedical.entries);
     }
     
-    // Load medications if exists
     const savedMeds = sessionStorage.getItem("medications");
     if (savedMeds) {
       const parsedMeds = JSON.parse(savedMeds);
@@ -125,7 +121,6 @@ const MedicalCondition = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Basic validation
     if (!hasMedical) {
       toast({
         title: "Required Selection",
@@ -162,7 +157,6 @@ const MedicalCondition = () => {
       return;
     }
     
-    // Save to session storage
     sessionStorage.setItem("medicalConditions", JSON.stringify({
       hasMedical,
       entries: medicalConditions,
@@ -173,8 +167,7 @@ const MedicalCondition = () => {
       entries: medications,
     }));
     
-    // Navigate to physical readiness page (changed from indemnity)
-    navigate("/physical-readiness");
+    navigate("/upload-id");
   };
 
   const renderConditionList = () => {
@@ -266,7 +259,6 @@ const MedicalCondition = () => {
       <h1 className="page-title mb-8">Medical Information</h1>
       <div className="zen-card max-w-3xl mx-auto">
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Medical Conditions Section */}
           <div>
             <h2 className="text-xl font-semibold mb-4">Medical Conditions</h2>
             
@@ -341,7 +333,6 @@ const MedicalCondition = () => {
             )}
           </div>
           
-          {/* Medications Section */}
           <div className="pt-6 border-t border-slate-200">
             <h2 className="text-xl font-semibold mb-4">Medications</h2>
             
