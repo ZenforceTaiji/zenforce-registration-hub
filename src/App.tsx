@@ -1,12 +1,13 @@
+
 import { useState, useEffect } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Index from "./pages/Index";
 import Registration from "./pages/Registration";
-import ParQForm from "./pages/ParQForm";
+import ParForm from "./pages/ParForm"; // Fixed import name
 import ParentDetails from "./pages/ParentDetails";
 import PreviousTraining from "./pages/PreviousTraining";
-import MedicalConditions from "./pages/MedicalConditions";
-import UploadId from "./pages/UploadId";
+import MedicalCondition from "./pages/MedicalCondition"; // Fixed import name
+import UploadId from "./pages/UploadId"; // This import might need to be created
 import Indemnity from "./pages/Indemnity";
 import Popia from "./pages/Popia";
 import Summary from "./pages/Summary";
@@ -30,10 +31,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/registration" element={<Registration />} />
-        <Route path="/par-form" element={<ParQForm />} />
+        <Route path="/par-form" element={<ParForm />} />
         <Route path="/parent-details" element={<ParentDetails />} />
         <Route path="/previous-training" element={<PreviousTraining />} />
-        <Route path="/medical-conditions" element={<MedicalConditions />} />
+        <Route path="/medical-conditions" element={<MedicalCondition />} />
         <Route path="/upload-id" element={<UploadId />} />
         <Route path="/indemnity" element={<Indemnity />} />
         <Route path="/popia" element={<Popia />} />
