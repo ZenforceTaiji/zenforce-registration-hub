@@ -1,139 +1,49 @@
-
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./App.css";
+import { useState, useEffect } from "react";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Index from "./pages/Index";
 import Registration from "./pages/Registration";
+import ParQForm from "./pages/ParQForm";
 import ParentDetails from "./pages/ParentDetails";
-import AddChildren from "./pages/AddChildren";
 import PreviousTraining from "./pages/PreviousTraining";
-import MedicalCondition from "./pages/MedicalCondition";
-import PhysicalReadiness from "./pages/PhysicalReadiness";
-import ParForm from "./pages/ParForm";
+import MedicalConditions from "./pages/MedicalConditions";
+import UploadId from "./pages/UploadId";
 import Indemnity from "./pages/Indemnity";
 import Popia from "./pages/Popia";
 import Summary from "./pages/Summary";
 import Completion from "./pages/Completion";
-import RejectionMessage from "./pages/RejectionMessage";
-import ParQRejection from "./pages/ParQRejection";
-import NotFound from "./pages/NotFound";
-import StudentPortal from "./pages/StudentPortal";
-import InstructorPortal from "./pages/InstructorPortal";
-import AdminPortal from "./pages/AdminPortal";
-import { Toaster } from "./components/ui/toaster";
-import Navbar from "./components/Navbar";
-import BookingSystem from "./components/BookingSystem";
-import EventsCalendar from "./components/EventsCalendar";
-import HistoryOfTaijiquan from "./pages/HistoryOfTaijiquan";
-import Gallery from "./pages/Gallery";
-
-// Layout with Navbar
-const Layout = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <>
-      <Navbar />
-      {children}
-    </>
-  );
-};
-
-// Create routes
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout><Index /></Layout>,
-  },
-  {
-    path: "/par-form",
-    element: <Layout><ParForm /></Layout>,
-  },
-  {
-    path: "/registration",
-    element: <Layout><Registration /></Layout>,
-  },
-  {
-    path: "/parent-details",
-    element: <Layout><ParentDetails /></Layout>,
-  },
-  {
-    path: "/add-children",
-    element: <Layout><AddChildren /></Layout>,
-  },
-  {
-    path: "/previous-training",
-    element: <Layout><PreviousTraining /></Layout>,
-  },
-  {
-    path: "/medical-condition",
-    element: <Layout><MedicalCondition /></Layout>,
-  },
-  {
-    path: "/physical-readiness",
-    element: <Layout><PhysicalReadiness /></Layout>,
-  },
-  {
-    path: "/indemnity",
-    element: <Layout><Indemnity /></Layout>,
-  },
-  {
-    path: "/popia",
-    element: <Layout><Popia /></Layout>,
-  },
-  {
-    path: "/summary",
-    element: <Layout><Summary /></Layout>,
-  },
-  {
-    path: "/completion",
-    element: <Layout><Completion /></Layout>,
-  },
-  {
-    path: "/rejection",
-    element: <Layout><RejectionMessage /></Layout>,
-  },
-  {
-    path: "/par-q-rejection",
-    element: <Layout><ParQRejection /></Layout>,
-  },
-  {
-    path: "/student-portal",
-    element: <Layout><StudentPortal /></Layout>,
-  },
-  {
-    path: "/instructor-portal",
-    element: <Layout><InstructorPortal /></Layout>,
-  },
-  {
-    path: "/admin-portal",
-    element: <Layout><AdminPortal /></Layout>,
-  },
-  {
-    path: "/booking",
-    element: <Layout><BookingSystem /></Layout>,
-  },
-  {
-    path: "/events",
-    element: <Layout><EventsCalendar /></Layout>,
-  },
-  {
-    path: "/history-of-taijiquan",
-    element: <Layout><HistoryOfTaijiquan /></Layout>,
-  },
-  {
-    path: "/gallery",
-    element: <Layout><Gallery /></Layout>,
-  },
-  {
-    path: "*",
-    element: <Layout><NotFound /></Layout>,
-  },
-]);
+import AgeAlert from "./components/registration/AgeAlert";
+import ParQAlert from "./components/registration/ParQAlert";
+import MembershipReactivation from "./pages/MembershipReactivation";
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  }, []);
+
   return (
-    <>
-      <RouterProvider router={router} />
-      <Toaster />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/registration" element={<Registration />} />
+        <Route path="/par-form" element={<ParQForm />} />
+        <Route path="/parent-details" element={<ParentDetails />} />
+        <Route path="/previous-training" element={<PreviousTraining />} />
+        <Route path="/medical-conditions" element={<MedicalConditions />} />
+        <Route path="/upload-id" element={<UploadId />} />
+        <Route path="/indemnity" element={<Indemnity />} />
+        <Route path="/popia" element={<Popia />} />
+        <Route path="/summary" element={<Summary />} />
+        <Route path="/completion" element={<Completion />} />
+        <Route path="/age-alert" element={<AgeAlert />} />
+        <Route path="/parq-alert" element={<ParQAlert />} />
+        <Route path="/membership-reactivation" element={<MembershipReactivation />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

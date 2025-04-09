@@ -171,6 +171,26 @@ const Summary = () => {
     
   }, [userAge, navigate]);
 
+  useEffect(() => {
+    const checkForExistingMembership = () => {
+      const email = studentDetails?.email || parentDetails?.parentEmail;
+      if (email) {
+        const storedEmail = localStorage.getItem("userEmail");
+        if (storedEmail === email) {
+          const existingMembership = localStorage.getItem("membershipNumber");
+          if (existingMembership) {
+            localStorage.setItem("existingMembershipFound", "true");
+            sessionStorage.setItem("existingMembership", existingMembership);
+          }
+        }
+      }
+    };
+    
+    if (studentDetails) {
+      checkForExistingMembership();
+    }
+  }, [studentDetails, parentDetails]);
+
   const sendStudentConfirmationEmail = async () => {
     if (!studentDetails) return;
     
@@ -262,6 +282,13 @@ const Summary = () => {
     
     try {
       sessionStorage.setItem("membershipNumber", membershipNumber);
+      localStorage.setItem("membershipNumber", membershipNumber);
+      
+      if (studentDetails?.email) {
+        localStorage.setItem("userEmail", studentDetails.email);
+      } else if (parentDetails?.parentEmail) {
+        localStorage.setItem("userEmail", parentDetails.parentEmail);
+      }
       
       if (additionalChildren.length > 0) {
         sessionStorage.setItem("additionalMembershipNumbers", JSON.stringify(additionalMembershipNumbers));

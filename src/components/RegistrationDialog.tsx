@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   DialogContent,
@@ -42,6 +42,21 @@ export function RegistrationDialog({ onClose }: RegistrationDialogProps) {
   const [level, setLevel] = useState<string>("beginner");
   const [selectedPackage, setSelectedPackage] = useState<string>("");
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const [existingMembership, setExistingMembership] = useState<string | null>(null);
+
+  // Check for existing membership data in storage
+  useEffect(() => {
+    // For this implementation, we'll check if any membership data exists in browser storage
+    // In a real application, this would likely be a database check
+    const checkExistingMembership = () => {
+      const storedMembershipNumber = localStorage.getItem("membershipNumber");
+      if (storedMembershipNumber) {
+        setExistingMembership(storedMembershipNumber);
+      }
+    };
+    
+    checkExistingMembership();
+  }, []);
 
   // Define all available packages
   const packages: PackageOptions = {
@@ -125,9 +140,18 @@ export function RegistrationDialog({ onClose }: RegistrationDialogProps) {
       sessionStorage.setItem("packageDetails", JSON.stringify(selectedPackageDetails));
     }
     
+    // Close the dialog
     onClose();
     
-    // Always redirect to PAR-Q form first, regardless of age
+    // Check for existing membership
+    if (existingMembership) {
+      // Redirect to reactivation page instead of PAR-Q
+      sessionStorage.setItem("existingMembership", existingMembership);
+      navigate("/membership-reactivation");
+      return;
+    }
+    
+    // Always redirect to PAR-Q form first for new registrations
     navigate("/par-form");
   };
 
