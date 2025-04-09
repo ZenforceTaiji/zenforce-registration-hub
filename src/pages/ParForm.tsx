@@ -126,12 +126,7 @@ const ParForm = () => {
       description: "Your Physical Activity Readiness form has been successfully submitted. Now you can proceed with registration.",
     });
     
-    const userAge = sessionStorage.getItem("userAge");
-    if (!userAge) {
-      navigate("/");
-    } else {
-      navigate("/registration");
-    }
+    navigate("/registration");
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

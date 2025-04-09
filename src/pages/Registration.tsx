@@ -39,6 +39,10 @@ const Registration = () => {
 
   // Check for prerequisites and load saved data
   useEffect(() => {
+    console.log("Registration component mounted");
+    console.log("PAR-Q completed:", isPARQCompleted);
+    console.log("User age:", userAge);
+    
     if (!isPARQCompleted) {
       toast({
         title: "PAR-Q Required",
@@ -49,15 +53,14 @@ const Registration = () => {
       return;
     }
     
-    // If no age is set, redirect to homepage
+    // If no age is set, prompt for age selection but don't redirect automatically
     if (!userAge) {
       toast({
         title: "Age Selection Required",
-        description: "Please select your age group before proceeding with registration.",
+        description: "Please select your age group for proper registration.",
         variant: "destructive",
       });
-      navigate("/");
-      return;
+      // Don't redirect here, show the age alert instead (handled in render)
     }
     
     // Load saved student details if they exist
