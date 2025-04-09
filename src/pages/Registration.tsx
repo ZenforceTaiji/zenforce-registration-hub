@@ -21,12 +21,16 @@ const Registration = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   
+  // State for dialog control
+  const [showAgeDialog, setShowAgeDialog] = useState(false);
+  
   // Get user age from session storage
-  const userAge = sessionStorage.getItem("userAge");
+  const [userAge, setUserAge] = useState<string | null>(
+    sessionStorage.getItem("userAge")
+  );
   
   // Check if PAR-Q form is completed
-  const parQFormData = sessionStorage.getItem("parQForm");
-  const isPARQCompleted = parQFormData ? JSON.parse(parQFormData).completed : false;
+  const [isPARQCompleted, setIsPARQCompleted] = useState(false);
   
   const [formData, setFormData] = useState<StudentDetails>({
     firstName: "",
@@ -41,10 +45,19 @@ const Registration = () => {
   // Check for prerequisites and load saved data
   useEffect(() => {
     console.log("Registration component mounted");
-    console.log("PAR-Q completed:", isPARQCompleted);
-    console.log("User age:", userAge);
     
-    if (!isPARQCompleted) {
+    // Check PAR-Q completion
+    const parQFormData = sessionStorage.getItem("parQForm");
+    const parqCompleted = parQFormData ? JSON.parse(parQFormData).completed : false;
+    setIsPARQCompleted(parqCompleted);
+    console.log("PAR-Q completed:", parqCompleted);
+    
+    // Check user age
+    const age = sessionStorage.getItem("userAge");
+    setUserAge(age);
+    console.log("User age:", age);
+    
+    if (!parqCompleted) {
       toast({
         title: "PAR-Q Required",
         description: "You must complete the Physical Activity Readiness Questionnaire before registration.",
@@ -54,8 +67,10 @@ const Registration = () => {
       return;
     }
     
-    // Show age selection dialog handled in the render method
-    // No redirect needed as we'll display the dialog
+    // If PAR-Q is completed but no age is set, show the age dialog
+    if (parqCompleted && !age) {
+      setShowAgeDialog(true);
+    }
     
     // Load saved student details if they exist
     const savedData = sessionStorage.getItem("studentDetails");
@@ -63,7 +78,7 @@ const Registration = () => {
     if (savedData) {
       setFormData(JSON.parse(savedData));
     }
-  }, [isPARQCompleted, navigate, toast, userAge]);
+  }, [navigate, toast]);
 
   // If PAR-Q not completed, show alert instead of form
   if (!isPARQCompleted) {
@@ -77,7 +92,10 @@ const Registration = () => {
   return (
     <div className="zen-container py-12 animate-fade-in">
       {/* Age Selection Dialog - shown when no age is set */}
-      {isPARQCompleted && !userAge && <AgeSelectionDialog open={true} />}
+      <AgeSelectionDialog 
+        open={showAgeDialog} 
+        onOpenChange={setShowAgeDialog} 
+      />
       
       {/* Only display the registration form if both PAR-Q is completed and age is set */}
       {isPARQCompleted && userAge ? (
@@ -89,12 +107,11 @@ const Registration = () => {
             <RegistrationForm initialData={formData} userAge={userAge} />
           </div>
         </>
-      ) : (
-        // If no age set (and dialog is showing), display a simple loading message
-        isPARQCompleted && !userAge && (
-          <div className="text-center">Please select your age group to continue</div>
-        )
-      )}
+      ) : isPARQCompleted && !userAge && !showAgeDialog ? (
+        <div className="text-center">
+          <AgeAlert />
+        </div>
+      ) : null}
     </div>
   );
 };

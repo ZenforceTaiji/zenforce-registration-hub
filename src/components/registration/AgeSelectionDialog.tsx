@@ -21,9 +21,10 @@ import { Label } from "@/components/ui/label";
 
 interface AgeSelectionDialogProps {
   open: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
-const AgeSelectionDialog = ({ open }: AgeSelectionDialogProps) => {
+const AgeSelectionDialog = ({ open, onOpenChange }: AgeSelectionDialogProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [selectedAge, setSelectedAge] = useState<string>("");
@@ -41,12 +42,17 @@ const AgeSelectionDialog = ({ open }: AgeSelectionDialogProps) => {
     // Save age to session storage
     sessionStorage.setItem("userAge", selectedAge);
     
+    // Notify parent component
+    if (onOpenChange) {
+      onOpenChange(false);
+    }
+    
     // Refresh the current page to apply the age selection
     window.location.reload();
   };
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Select Your Age Group</DialogTitle>
