@@ -1,8 +1,10 @@
+
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { RegistrationDialog } from "@/components/RegistrationDialog";
+import AgeSelectionDialog from "@/components/registration/AgeSelectionDialog";
 import { FilePenLine, ArrowRight } from "lucide-react";
 import EventBanner from "@/components/EventBanner";
 import FloatingWhatsAppButton from "@/components/FloatingWhatsAppButton";
@@ -10,6 +12,7 @@ import FloatingWhatsAppButton from "@/components/FloatingWhatsAppButton";
 const Index = () => {
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [showAgeDialog, setShowAgeDialog] = useState(false);
   const [hasSavedParQ, setHasSavedParQ] = useState(false);
   const [hasCompletedParQ, setHasCompletedParQ] = useState(false);
   const [isExistingUser, setIsExistingUser] = useState(false);
@@ -26,6 +29,15 @@ const Index = () => {
     setIsExistingUser(!!studentDetails);
   }, []);
 
+  const handleStartRegistration = () => {
+    const userAge = sessionStorage.getItem("userAge");
+    if (!userAge) {
+      setShowAgeDialog(true);
+    } else {
+      navigate("/par-form");
+    }
+  };
+
   const handleContinueRegistration = () => {
     if (hasCompletedParQ) {
       navigate("/registration");
@@ -36,6 +48,13 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
+      {/* Age Selection Dialog */}
+      <AgeSelectionDialog 
+        open={showAgeDialog} 
+        onOpenChange={setShowAgeDialog}
+        onContinue={() => navigate("/par-form")}
+      />
+    
       <div className="relative">
         <div className="absolute inset-0">
           <img
@@ -112,7 +131,7 @@ const Index = () => {
                 variant="outline"
                 size="lg"
                 className="bg-accent-red text-white hover:bg-accent-red/90 backdrop-blur-sm flex items-center gap-2"
-                onClick={() => navigate("/par-form")}
+                onClick={handleStartRegistration}
               >
                 <FilePenLine className="h-5 w-5" />
                 Start Registration Process

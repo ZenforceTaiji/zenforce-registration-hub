@@ -94,7 +94,7 @@ const Registration = () => {
       {/* Age Selection Dialog - shown when no age is set */}
       <AgeSelectionDialog 
         open={showAgeDialog} 
-        onOpenChange={setShowAgeDialog} 
+        onOpenChange={setShowAgeDialog}
       />
       
       {/* Only display the registration form if both PAR-Q is completed and age is set */}

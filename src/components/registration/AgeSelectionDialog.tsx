@@ -22,9 +22,10 @@ import { Label } from "@/components/ui/label";
 interface AgeSelectionDialogProps {
   open: boolean;
   onOpenChange?: (open: boolean) => void;
+  onContinue?: () => void;
 }
 
-const AgeSelectionDialog = ({ open, onOpenChange }: AgeSelectionDialogProps) => {
+const AgeSelectionDialog = ({ open, onOpenChange, onContinue }: AgeSelectionDialogProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [selectedAge, setSelectedAge] = useState<string>("");
@@ -47,8 +48,10 @@ const AgeSelectionDialog = ({ open, onOpenChange }: AgeSelectionDialogProps) => 
       onOpenChange(false);
     }
     
-    // Refresh the current page to apply the age selection
-    window.location.reload();
+    // Call the onContinue callback if provided
+    if (onContinue) {
+      onContinue();
+    }
   };
 
   return (
