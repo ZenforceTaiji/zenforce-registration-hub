@@ -1,17 +1,18 @@
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { FileUp, Save } from "lucide-react";
+import { FileUp, Save, Upload } from "lucide-react";
 
 const UploadId = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [idDocument, setIdDocument] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -47,6 +48,10 @@ const UploadId = () => {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
   };
 
   const handleSaveForLater = () => {
@@ -89,14 +94,38 @@ const UploadId = () => {
                 Identity Document or Passport
               </Label>
               
-              <div className="flex items-center gap-4">
-                <Input
+              <div className="flex flex-col gap-4">
+                <input
+                  ref={fileInputRef}
                   id="id-document"
                   type="file"
                   accept="image/*,application/pdf"
                   onChange={handleFileUpload}
-                  className="file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-accent-red file:text-white hover:file:bg-accent-red/90"
+                  className="hidden"
                 />
+                
+                <Button
+                  type="button"
+                  onClick={triggerFileInput}
+                  variant="outline"
+                  className="w-fit flex items-center gap-2"
+                  disabled={isUploading}
+                >
+                  <Upload className="h-4 w-4" />
+                  {isUploading ? "Uploading..." : "Choose File"}
+                </Button>
+                
+                {idDocument && (
+                  <div className="mt-2 flex items-center gap-2">
+                    <div className="h-10 w-10 flex items-center justify-center bg-green-100 text-green-600 rounded-full">
+                      <FileUp className="h-5 w-5" />
+                    </div>
+                    <div className="text-sm">
+                      <p className="font-medium">Document uploaded successfully</p>
+                      <p className="text-slate-500 text-xs">Ready to continue</p>
+                    </div>
+                  </div>
+                )}
               </div>
               
               <p className="text-xs text-slate-500">
