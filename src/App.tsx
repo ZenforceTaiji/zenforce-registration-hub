@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Index from "./pages/Index";
-import Registration from "./pages/Registration"; // Ensure this import matches the file path
+import Registration from "./pages/Registration"; 
 import ParForm from "./pages/ParForm";
 import ParentDetails from "./pages/ParentDetails";
 import PreviousTraining from "./pages/PreviousTraining";

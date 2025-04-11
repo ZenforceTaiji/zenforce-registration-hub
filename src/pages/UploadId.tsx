@@ -95,22 +95,8 @@ const UploadId = () => {
                   type="file"
                   accept="image/*,application/pdf"
                   onChange={handleFileUpload}
-                  className="hidden"
+                  className="file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-accent-red file:text-white hover:file:bg-accent-red/90"
                 />
-                <Button
-                  type="button"
-                  onClick={() => document.getElementById("id-document")?.click()}
-                  variant="outline"
-                  className="flex items-center gap-2"
-                  disabled={isUploading}
-                >
-                  <FileUp className="h-4 w-4" />
-                  {isUploading ? "Uploading..." : "Select File"}
-                </Button>
-                
-                <div className="text-sm text-slate-500">
-                  {idDocument ? "Document uploaded successfully" : "No document uploaded yet"}
-                </div>
               </div>
               
               <p className="text-xs text-slate-500">
@@ -133,7 +119,7 @@ const UploadId = () => {
               <Button 
                 type="button" 
                 variant="outline" 
-                onClick={() => navigate("/medical-conditions")}
+                onClick={() => navigate("/medical-condition")}
               >
                 Back
               </Button>

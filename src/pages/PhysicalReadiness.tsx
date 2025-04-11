@@ -6,6 +6,7 @@ const PhysicalReadiness = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("PhysicalReadiness component mounted");
     // Redirect to upload-id page
     navigate("/upload-id");
   }, [navigate]);
