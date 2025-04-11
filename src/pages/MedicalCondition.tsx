@@ -44,7 +44,10 @@ const MedicalCondition = () => {
   });
 
   useEffect(() => {
+    console.log("MedicalCondition component mounted");
+    
     if (!userAge) {
+      console.log("No user age found, redirecting to home");
       navigate("/");
       return;
     }
@@ -167,7 +170,7 @@ const MedicalCondition = () => {
       entries: medications,
     }));
     
-    navigate("/upload-id");
+    navigate("/physical-readiness");
   };
 
   const renderConditionList = () => {

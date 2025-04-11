@@ -45,6 +45,7 @@ function App() {
         <Route path="/age-alert" element={<AgeAlert />} />
         <Route path="/parq-alert" element={<ParQAlert />} />
         <Route path="/membership-reactivation" element={<MembershipReactivation />} />
+        <Route path="/medical-condition" element={<MedicalCondition />} />
       </Routes>
     </BrowserRouter>
   );
