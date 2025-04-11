@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -21,15 +20,12 @@ const Registration = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   
-  // State for dialog control
   const [showAgeDialog, setShowAgeDialog] = useState(false);
   
-  // Get user age from session storage
   const [userAge, setUserAge] = useState<string | null>(
     sessionStorage.getItem("userAge")
   );
   
-  // Check if PAR-Q form is completed
   const [isPARQCompleted, setIsPARQCompleted] = useState(false);
   
   const [formData, setFormData] = useState<StudentDetails>({
@@ -42,17 +38,14 @@ const Registration = () => {
     physicalAddress: "",
   });
 
-  // Check for prerequisites and load saved data
   useEffect(() => {
     console.log("Registration component mounted");
     
-    // Check PAR-Q completion
     const parQFormData = sessionStorage.getItem("parQForm");
     const parqCompleted = parQFormData ? JSON.parse(parQFormData).completed : false;
     setIsPARQCompleted(parqCompleted);
     console.log("PAR-Q completed:", parqCompleted);
     
-    // Check user age
     const age = sessionStorage.getItem("userAge");
     setUserAge(age);
     console.log("User age:", age);
@@ -67,12 +60,10 @@ const Registration = () => {
       return;
     }
     
-    // If PAR-Q is completed but no age is set, show the age dialog
     if (parqCompleted && !age) {
       setShowAgeDialog(true);
     }
     
-    // Load saved student details if they exist
     const savedData = sessionStorage.getItem("studentDetails");
     
     if (savedData) {
@@ -80,7 +71,6 @@ const Registration = () => {
     }
   }, [navigate, toast]);
 
-  // If PAR-Q not completed, show alert instead of form
   if (!isPARQCompleted) {
     return (
       <div className="zen-container py-12 animate-fade-in">
@@ -91,13 +81,11 @@ const Registration = () => {
 
   return (
     <div className="zen-container py-12 animate-fade-in">
-      {/* Age Selection Dialog - shown when no age is set */}
       <AgeSelectionDialog 
         open={showAgeDialog} 
         onOpenChange={setShowAgeDialog}
       />
       
-      {/* Only display the registration form if both PAR-Q is completed and age is set */}
       {isPARQCompleted && userAge ? (
         <>
           <h1 className="page-title mb-2">Step 2: Student Registration</h1>

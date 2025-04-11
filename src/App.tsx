@@ -2,12 +2,12 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Index from "./pages/Index";
-import Registration from "./pages/Registration";
-import ParForm from "./pages/ParForm"; // Fixed import name
+import Registration from "./pages/Registration"; // Ensure this import matches the file path
+import ParForm from "./pages/ParForm";
 import ParentDetails from "./pages/ParentDetails";
 import PreviousTraining from "./pages/PreviousTraining";
-import MedicalCondition from "./pages/MedicalCondition"; // Fixed import name
-import UploadId from "./pages/UploadId"; // This import might need to be created
+import MedicalCondition from "./pages/MedicalCondition";
+import UploadId from "./pages/UploadId";
 import Indemnity from "./pages/Indemnity";
 import Popia from "./pages/Popia";
 import Summary from "./pages/Summary";
