@@ -17,6 +17,8 @@ import ParQAlert from "./components/registration/ParQAlert";
 import MembershipReactivation from "./pages/MembershipReactivation";
 import PhysicalReadiness from "./pages/PhysicalReadiness";
 import AddChildren from "./pages/AddChildren";
+import Navbar from "./components/Navbar";
+import { Toaster } from "@/components/ui/toaster";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -30,25 +32,29 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/registration" element={<Registration />} />
-        <Route path="/par-form" element={<ParForm />} />
-        <Route path="/parent-details" element={<ParentDetails />} />
-        <Route path="/add-children" element={<AddChildren />} />
-        <Route path="/previous-training" element={<PreviousTraining />} />
-        <Route path="/medical-conditions" element={<MedicalCondition />} />
-        <Route path="/physical-readiness" element={<PhysicalReadiness />} />
-        <Route path="/upload-id" element={<UploadId />} />
-        <Route path="/indemnity" element={<Indemnity />} />
-        <Route path="/popia" element={<Popia />} />
-        <Route path="/summary" element={<Summary />} />
-        <Route path="/completion" element={<Completion />} />
-        <Route path="/age-alert" element={<AgeAlert />} />
-        <Route path="/parq-alert" element={<ParQAlert />} />
-        <Route path="/membership-reactivation" element={<MembershipReactivation />} />
-        <Route path="/medical-condition" element={<MedicalCondition />} />
-      </Routes>
+      <Navbar />
+      <main>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route path="/par-form" element={<ParForm />} />
+          <Route path="/parent-details" element={<ParentDetails />} />
+          <Route path="/add-children" element={<AddChildren />} />
+          <Route path="/previous-training" element={<PreviousTraining />} />
+          <Route path="/medical-conditions" element={<MedicalCondition />} />
+          <Route path="/physical-readiness" element={<PhysicalReadiness />} />
+          <Route path="/upload-id" element={<UploadId />} />
+          <Route path="/indemnity" element={<Indemnity />} />
+          <Route path="/popia" element={<Popia />} />
+          <Route path="/summary" element={<Summary />} />
+          <Route path="/completion" element={<Completion />} />
+          <Route path="/age-alert" element={<AgeAlert />} />
+          <Route path="/parq-alert" element={<ParQAlert />} />
+          <Route path="/membership-reactivation" element={<MembershipReactivation />} />
+          <Route path="/medical-condition" element={<MedicalCondition />} />
+        </Routes>
+      </main>
+      <Toaster />
     </BrowserRouter>
   );
 }

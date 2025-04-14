@@ -20,9 +20,13 @@ const Index = () => {
   useEffect(() => {
     const parQFormData = sessionStorage.getItem("parQForm");
     if (parQFormData) {
-      const parsedData = JSON.parse(parQFormData);
-      setHasSavedParQ(true);
-      setHasCompletedParQ(parsedData.completed);
+      try {
+        const parsedData = JSON.parse(parQFormData);
+        setHasSavedParQ(true);
+        setHasCompletedParQ(parsedData.completed);
+      } catch (error) {
+        console.error("Error parsing parQForm data:", error);
+      }
     }
     
     const studentDetails = sessionStorage.getItem("studentDetails");
