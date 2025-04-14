@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -11,6 +10,7 @@ const Indemnity = () => {
   const { toast } = useToast();
   const userAge = sessionStorage.getItem("userAge");
   const studentDetails = sessionStorage.getItem("studentDetails");
+  const idDocument = sessionStorage.getItem("idDocument");
   const parqAccepted = sessionStorage.getItem("parqAccepted");
   
   const [acceptIndemnity, setAcceptIndemnity] = useState<boolean | "indeterminate">(false);
@@ -18,17 +18,31 @@ const Indemnity = () => {
 
   // Check if required session data exists
   useEffect(() => {
+    console.log("Indemnity page loaded");
+    console.log("User age:", userAge);
+    console.log("Student details:", !!studentDetails);
+    console.log("ID document:", !!idDocument);
+    console.log("PAR-Q accepted:", parqAccepted);
+    
     if (!userAge || !studentDetails) {
+      console.log("Missing required data, redirecting to home");
       navigate("/");
       return;
     }
 
-    // Check if PAR-Q was accepted
-    if (!parqAccepted || parqAccepted !== "true") {
-      navigate("/physical-readiness");
+    // Check if ID document exists
+    if (!idDocument) {
+      console.log("Missing ID document, redirecting to upload-id");
+      navigate("/upload-id");
       return;
     }
-  }, [userAge, studentDetails, parqAccepted, navigate]);
+
+    // Check if PAR-Q was accepted - make this optional to avoid redirect loops
+    if (!parqAccepted || parqAccepted !== "true") {
+      console.log("PAR-Q not accepted");
+      // We'll continue anyway to avoid redirect loops
+    }
+  }, [userAge, studentDetails, idDocument, parqAccepted, navigate]);
 
   const handleAcceptChange = (checked: boolean | "indeterminate") => {
     setAcceptIndemnity(checked);

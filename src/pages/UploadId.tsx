@@ -1,4 +1,3 @@
-
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -76,6 +75,7 @@ const UploadId = () => {
     }
     
     sessionStorage.setItem("idDocument", idDocument);
+    console.log("Navigating to indemnity page");
     navigate("/indemnity");
   };
 
