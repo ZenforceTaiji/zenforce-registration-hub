@@ -146,8 +146,8 @@ const Indemnity = () => {
           </div>
 
           <div className="flex justify-between pt-4">
-            <Button type="button" variant="outline" onClick={() => navigate("/physical-readiness")}>
-              Back to Physical Activity Readiness
+            <Button type="button" variant="outline" onClick={() => navigate("/upload-id")}>
+              Back
             </Button>
             <Button type="submit" className="bg-accent-red hover:bg-accent-red/90 text-white">
               Continue

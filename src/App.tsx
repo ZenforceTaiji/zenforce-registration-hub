@@ -16,6 +16,7 @@ import AgeAlert from "./components/registration/AgeAlert";
 import ParQAlert from "./components/registration/ParQAlert";
 import MembershipReactivation from "./pages/MembershipReactivation";
 import PhysicalReadiness from "./pages/PhysicalReadiness";
+import AddChildren from "./pages/AddChildren";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -34,6 +35,7 @@ function App() {
         <Route path="/registration" element={<Registration />} />
         <Route path="/par-form" element={<ParForm />} />
         <Route path="/parent-details" element={<ParentDetails />} />
+        <Route path="/add-children" element={<AddChildren />} />
         <Route path="/previous-training" element={<PreviousTraining />} />
         <Route path="/medical-conditions" element={<MedicalCondition />} />
         <Route path="/physical-readiness" element={<PhysicalReadiness />} />
