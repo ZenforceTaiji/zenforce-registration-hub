@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, AlertCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { createMembershipInvoice } from "@/services/invoiceService";
 
 interface ChildDetails {
   id: string;
@@ -14,11 +16,14 @@ interface ChildDetails {
 
 const Completion = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [studentDetails, setStudentDetails] = useState<any>(null);
   const [membershipNumber, setMembershipNumber] = useState<string>("");
   const [tempPassword, setTempPassword] = useState<string>("");
   const [additionalChildren, setAdditionalChildren] = useState<ChildDetails[]>([]);
   const [additionalMembershipNumbers, setAdditionalMembershipNumbers] = useState<Record<string, string>>({});
+  const [invoiceSent, setInvoiceSent] = useState(false);
+  const [invoiceUrl, setInvoiceUrl] = useState<string | null>(null);
 
   useEffect(() => {
     // Load student details
@@ -53,7 +58,82 @@ const Completion = () => {
     if (additionalMemberNums) {
       setAdditionalMembershipNumbers(JSON.parse(additionalMemberNums));
     }
+
+    // Check if invoice has been sent already
+    const invoiceStatus = sessionStorage.getItem("invoiceSent");
+    if (invoiceStatus === "true") {
+      setInvoiceSent(true);
+      const savedInvoiceUrl = sessionStorage.getItem("invoiceUrl");
+      if (savedInvoiceUrl) {
+        setInvoiceUrl(savedInvoiceUrl);
+      }
+    } else {
+      // Send initial invoice if not already sent
+      sendInitialInvoice();
+    }
   }, [navigate]);
+
+  const sendInitialInvoice = async () => {
+    const studentData = sessionStorage.getItem("studentDetails");
+    if (!studentData) return;
+    
+    const student = JSON.parse(studentData);
+    const packageDetailsStr = sessionStorage.getItem("packageDetails");
+    const packageDetails = packageDetailsStr ? JSON.parse(packageDetailsStr) : null;
+    
+    // Get email from student or parent details
+    const emailAddress = student.email || 
+                        (sessionStorage.getItem("parentDetails") ? 
+                        JSON.parse(sessionStorage.getItem("parentDetails") || "{}").parentEmail : 
+                        null);
+    
+    if (!emailAddress) {
+      console.error("No email address found for invoice");
+      toast({
+        title: "Invoice Error",
+        description: "Could not create invoice: No email address found",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    try {
+      const invoiceResponse = await createMembershipInvoice(
+        {
+          firstName: student.firstName,
+          lastName: student.lastName,
+          email: emailAddress,
+          mobile: student.mobile || null
+        },
+        packageDetails
+      );
+      
+      if (invoiceResponse.success && invoiceResponse.invoiceUrl) {
+        setInvoiceSent(true);
+        setInvoiceUrl(invoiceResponse.invoiceUrl);
+        sessionStorage.setItem("invoiceSent", "true");
+        sessionStorage.setItem("invoiceUrl", invoiceResponse.invoiceUrl);
+        
+        toast({
+          title: "Invoice Created",
+          description: "Your first membership invoice has been created and sent to your email",
+        });
+      } else {
+        toast({
+          title: "Invoice Creation Failed",
+          description: invoiceResponse.errorMessage || "Could not create invoice. Please contact admin.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Error creating invoice:", error);
+      toast({
+        title: "Invoice Error",
+        description: "An error occurred while creating your invoice",
+        variant: "destructive",
+      });
+    }
+  };
 
   if (!studentDetails) {
     return <div className="zen-container py-12">Loading...</div>;
@@ -122,6 +202,41 @@ const Completion = () => {
               <p className="text-sm text-slate-600">
                 <strong>Note:</strong> A notification has also been sent to your instructor confirming your registration.
               </p>
+            </div>
+            
+            {/* Invoice status information */}
+            <div className="mt-6 pt-4 border-t">
+              <div className="flex items-start gap-3">
+                {invoiceSent ? (
+                  <CheckCircle className="text-green-500 h-5 w-5 mt-1 flex-shrink-0" />
+                ) : (
+                  <AlertCircle className="text-orange-500 h-5 w-5 mt-1 flex-shrink-0" />
+                )}
+                <div className="text-left">
+                  <h3 className="font-medium">Monthly Membership Invoice</h3>
+                  <p className="text-sm text-gray-600">
+                    {invoiceSent 
+                      ? "Your first monthly membership invoice has been created and sent to your email." 
+                      : "We're preparing your monthly membership invoice."}
+                  </p>
+                  {invoiceUrl && (
+                    <div className="mt-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="text-xs"
+                        onClick={() => window.open(invoiceUrl, "_blank")}
+                      >
+                        View Invoice
+                      </Button>
+                    </div>
+                  )}
+                  <p className="text-xs text-gray-500 mt-1">
+                    Your membership will be billed monthly. The first invoice is due within 7 days, and subsequent invoices 
+                    will be sent every 30 days.
+                  </p>
+                </div>
+              </div>
             </div>
             
             {additionalChildren.length > 0 && (
