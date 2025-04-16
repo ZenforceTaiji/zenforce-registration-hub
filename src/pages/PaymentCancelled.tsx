@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Mail } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const PaymentCancelled = () => {
@@ -45,6 +45,17 @@ const PaymentCancelled = () => {
                 <li>You can return to the completion page to try the payment again</li>
                 <li>You can also contact support if you're having issues with payment</li>
               </ul>
+            </div>
+            
+            <div className="bg-blue-50 p-4 rounded-md border border-blue-100 mb-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Mail className="h-5 w-5 text-blue-500" />
+                <p className="text-sm font-medium">Monthly Invoice Option</p>
+              </div>
+              <p className="text-sm text-gray-600 text-left">
+                Your monthly membership invoice has been sent to your email. You can still pay it directly from the email using the 
+                "Pay Now" button or by scanning the QR code included in the invoice, even if your registration payment wasn't completed.
+              </p>
             </div>
           </CardContent>
         </Card>

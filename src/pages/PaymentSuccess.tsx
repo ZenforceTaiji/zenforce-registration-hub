@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, Mail } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const PaymentSuccess = () => {
@@ -47,6 +47,17 @@ const PaymentSuccess = () => {
                 <li>You can log in to the student portal using your credentials</li>
                 <li>Your first class schedule will be communicated via email</li>
               </ul>
+            </div>
+            
+            <div className="bg-blue-50 p-4 rounded-md border border-blue-100 mb-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Mail className="h-5 w-5 text-blue-500" />
+                <p className="text-sm font-medium">Monthly Invoice</p>
+              </div>
+              <p className="text-sm text-gray-600 text-left">
+                Your monthly membership invoice has been sent to your email. You can pay it directly from the email using the 
+                "Pay Now" button or by scanning the QR code included in the invoice.
+              </p>
             </div>
           </CardContent>
         </Card>

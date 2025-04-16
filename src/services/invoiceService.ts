@@ -1,4 +1,3 @@
-
 // iKhokha Invoice Service
 // This service handles API communication with the iKhokha invoicing system
 
@@ -30,6 +29,8 @@ export interface CreateInvoiceRequest {
   notes?: string;
   recurringFrequency?: "ONCE" | "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY";
   recurringCount?: number;
+  includePayNow?: boolean; // Add payment button to invoice
+  includeQrCode?: boolean; // Add QR code to invoice
 }
 
 // Interface for invoice response
@@ -103,7 +104,9 @@ export const createMembershipInvoice = async (
       reference: `MEM-${Date.now()}`,
       notes: "Thank you for registering with ZenForce TaijiQuan. This is your monthly membership fee.",
       recurringFrequency: "MONTHLY",
-      recurringCount: 12 // Set to bill for 12 months initially
+      recurringCount: 12, // Set to bill for 12 months initially
+      includePayNow: true, // Add payment button to invoice
+      includeQrCode: true  // Add QR code to invoice
     };
     
     return await createInvoice(invoiceData);
