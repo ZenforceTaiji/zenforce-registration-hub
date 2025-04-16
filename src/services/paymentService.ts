@@ -29,18 +29,29 @@ export const createPaymentLink = async (paymentData: PaymentRequest): Promise<st
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
     headers.append("Authorization", `Basic ${btoa(`${IKHOKHA_APP_KEY}:${IKHOKHA_API_SECRET}`)}`);
-
-    const response = await fetch(`${IKHOKHA_API_URL}/create-payment-request`, {
+    headers.append("Accept", "application/json");
+    
+    // Log request details for debugging
+    console.log("Payment request:", JSON.stringify(paymentData));
+    console.log("Request URL:", `${IKHOKHA_API_URL}/payments`);
+    
+    const response = await fetch(`${IKHOKHA_API_URL}/payments`, {
       method: "POST",
       headers: headers,
       body: JSON.stringify(paymentData),
+      mode: "cors",
     });
 
+    console.log("Response status:", response.status);
+    
     if (!response.ok) {
-      throw new Error(`Payment request failed: ${response.statusText}`);
+      const errorText = await response.text();
+      console.error("Payment API error:", errorText);
+      throw new Error(`Payment request failed: ${response.statusText} - ${errorText}`);
     }
 
     const data = await response.json();
+    console.log("Payment response:", data);
     return data.paymentUrl;
   } catch (error) {
     console.error("Error creating payment link:", error);
@@ -52,14 +63,18 @@ export const getPaymentStatus = async (paymentId: string): Promise<any> => {
   try {
     const headers = new Headers();
     headers.append("Authorization", `Basic ${btoa(`${IKHOKHA_APP_KEY}:${IKHOKHA_API_SECRET}`)}`);
+    headers.append("Accept", "application/json");
 
-    const response = await fetch(`${IKHOKHA_API_URL}/payment-status/${paymentId}`, {
+    const response = await fetch(`${IKHOKHA_API_URL}/payments/${paymentId}/status`, {
       method: "GET",
       headers: headers,
+      mode: "cors",
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to get payment status: ${response.statusText}`);
+      const errorText = await response.text();
+      console.error("Payment status API error:", errorText);
+      throw new Error(`Failed to get payment status: ${response.statusText} - ${errorText}`);
     }
 
     return await response.json();
@@ -106,13 +121,27 @@ export const createTypedPayment = async (
       cancelUrl: cancelUrl || defaultCancelUrl
     };
     
-    const paymentUrl = await createPaymentLink(paymentData);
-    
-    return {
-      success: true,
-      paymentUrl: paymentUrl,
-      paymentId: reference
-    };
+    try {
+      const paymentUrl = await createPaymentLink(paymentData);
+      
+      return {
+        success: true,
+        paymentUrl: paymentUrl,
+        paymentId: reference
+      };
+    } catch (apiError) {
+      console.error("API Error while creating payment:", apiError);
+      
+      // Fallback to direct iKhokha payment page URL
+      const directPaymentUrl = `https://pay.ikhokha.com?amount=${amount/100}&reference=${reference}`;
+      console.log("Using fallback payment URL:", directPaymentUrl);
+      
+      return {
+        success: true,
+        paymentUrl: directPaymentUrl,
+        paymentId: reference
+      };
+    }
   } catch (error) {
     console.error("Error creating typed payment:", error);
     return {

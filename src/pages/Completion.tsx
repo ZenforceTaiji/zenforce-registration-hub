@@ -153,6 +153,8 @@ const Completion = () => {
       // Use the membership number as part of the description
       const description = `ZenForce TaijiQuan Registration - ${membershipNumber}`;
       
+      console.log("Creating payment with amount:", amount, "and description:", description);
+      
       const paymentResponse = await createTypedPayment(
         amount,
         PaymentType.REGISTRATION,
@@ -167,7 +169,10 @@ const Completion = () => {
           title: "Payment Link Created",
           description: "You can now make your payment using the link or QR code.",
         });
+        
+        console.log("Payment URL created successfully:", paymentResponse.paymentUrl);
       } else {
+        console.error("Payment creation failed:", paymentResponse.errorMessage);
         toast({
           title: "Payment Link Creation Failed",
           description: paymentResponse.errorMessage || "Could not create payment link. Please try again.",
@@ -178,7 +183,7 @@ const Completion = () => {
       console.error("Error creating payment:", error);
       toast({
         title: "Payment Error",
-        description: "An error occurred while creating your payment link",
+        description: "An error occurred while creating your payment link. Please try again later.",
         variant: "destructive",
       });
     } finally {
