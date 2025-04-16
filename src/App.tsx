@@ -19,6 +19,8 @@ import PhysicalReadiness from "./pages/PhysicalReadiness";
 import AddChildren from "./pages/AddChildren";
 import Navbar from "./components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentCancelled from "./pages/PaymentCancelled";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -52,6 +54,8 @@ function App() {
           <Route path="/parq-alert" element={<ParQAlert />} />
           <Route path="/membership-reactivation" element={<MembershipReactivation />} />
           <Route path="/medical-condition" element={<MedicalCondition />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/payment-cancelled" element={<PaymentCancelled />} />
         </Routes>
       </main>
       <Toaster />

@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle, AlertCircle } from "lucide-react";
+import { CheckCircle, AlertCircle, QrCode } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { createMembershipInvoice } from "@/services/invoiceService";
+import { createTypedPayment, PaymentType } from "@/services/paymentService";
 
 interface ChildDetails {
   id: string;
@@ -24,6 +25,9 @@ const Completion = () => {
   const [additionalMembershipNumbers, setAdditionalMembershipNumbers] = useState<Record<string, string>>({});
   const [invoiceSent, setInvoiceSent] = useState(false);
   const [invoiceUrl, setInvoiceUrl] = useState<string | null>(null);
+  const [paymentUrl, setPaymentUrl] = useState<string | null>(null);
+  const [paymentLoading, setPaymentLoading] = useState(false);
+  const [qrCodeVisible, setQrCodeVisible] = useState(false);
 
   useEffect(() => {
     // Load student details
@@ -135,6 +139,59 @@ const Completion = () => {
     }
   };
 
+  const handleCreatePayment = async () => {
+    setPaymentLoading(true);
+
+    try {
+      // Get package details if available
+      const packageDetailsStr = sessionStorage.getItem("packageDetails");
+      const packageDetails = packageDetailsStr ? JSON.parse(packageDetailsStr) : null;
+      
+      // Default to R640 registration fee if no package details
+      const amount = packageDetails?.price || 64000; // R640 in cents
+      
+      // Use the membership number as part of the description
+      const description = `ZenForce TaijiQuan Registration - ${membershipNumber}`;
+      
+      const paymentResponse = await createTypedPayment(
+        amount,
+        PaymentType.REGISTRATION,
+        description
+      );
+      
+      if (paymentResponse.success && paymentResponse.paymentUrl) {
+        setPaymentUrl(paymentResponse.paymentUrl);
+        setQrCodeVisible(true);
+        
+        toast({
+          title: "Payment Link Created",
+          description: "You can now make your payment using the link or QR code.",
+        });
+      } else {
+        toast({
+          title: "Payment Link Creation Failed",
+          description: paymentResponse.errorMessage || "Could not create payment link. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Error creating payment:", error);
+      toast({
+        title: "Payment Error",
+        description: "An error occurred while creating your payment link",
+        variant: "destructive",
+      });
+    } finally {
+      setPaymentLoading(false);
+    }
+  };
+
+  const handleOpenPayment = () => {
+    if (paymentUrl) {
+      window.open(paymentUrl, "_blank");
+    }
+  };
+
   if (!studentDetails) {
     return <div className="zen-container py-12">Loading...</div>;
   }
@@ -236,6 +293,44 @@ const Completion = () => {
                     will be sent every 30 days.
                   </p>
                 </div>
+              </div>
+            </div>
+            
+            {/* Payment section */}
+            <div className="mt-6 pt-4 border-t">
+              <div className="text-center">
+                <h3 className="text-lg font-medium mb-3">Registration Payment</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Complete your registration by making a payment for your membership fee.
+                </p>
+                
+                {!paymentUrl ? (
+                  <Button 
+                    className="bg-accent-red hover:bg-accent-red/90 text-white"
+                    onClick={handleCreatePayment}
+                    disabled={paymentLoading}
+                  >
+                    {paymentLoading ? "Creating Payment..." : "Generate Payment Link"}
+                  </Button>
+                ) : (
+                  <div className="space-y-4">
+                    {qrCodeVisible && (
+                      <div className="flex justify-center mb-4">
+                        <div className="bg-white p-4 rounded-md border shadow-sm inline-block">
+                          <QrCode className="h-32 w-32 text-gray-800" />
+                          <p className="text-xs text-gray-500 mt-2">Scan to pay</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    <Button 
+                      className="bg-accent-red hover:bg-accent-red/90 text-white"
+                      onClick={handleOpenPayment}
+                    >
+                      Pay Now
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
             
