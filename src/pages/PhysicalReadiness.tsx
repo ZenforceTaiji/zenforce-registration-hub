@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -12,6 +11,30 @@ const PhysicalReadiness = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [acceptTerms, setAcceptTerms] = useState<boolean | "indeterminate">(false);
+  const [existingMembership, setExistingMembership] = useState<string | null>(null);
+  const [checkingMembership, setCheckingMembership] = useState(true);
+
+  useEffect(() => {
+    const checkForExistingMembership = () => {
+      setCheckingMembership(true);
+      
+      setTimeout(() => {
+        const membershipFound = localStorage.getItem("existingMembershipFound");
+        
+        if (membershipFound === "true") {
+          const membershipNumber = sessionStorage.getItem("existingMembership") || `ZF${Math.floor(10000 + Math.random() * 90000)}`;
+          setExistingMembership(membershipNumber);
+          sessionStorage.setItem("existingMembership", membershipNumber);
+        } else {
+          setExistingMembership(null);
+        }
+        
+        setCheckingMembership(false);
+      }, 500);
+    };
+    
+    checkForExistingMembership();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,11 +48,13 @@ const PhysicalReadiness = () => {
       return;
     }
 
-    // Save choice to session storage
     sessionStorage.setItem("parqAccepted", "true");
     
-    // Navigate to upload ID page
-    navigate("/upload-id");
+    if (existingMembership) {
+      navigate("/membership-reactivation");
+    } else {
+      navigate("/upload-id");
+    }
   };
 
   return (
@@ -86,8 +111,12 @@ const PhysicalReadiness = () => {
             <Button type="button" variant="outline" onClick={() => navigate("/")}>
               Back
             </Button>
-            <Button type="submit" className="bg-accent-red hover:bg-accent-red/90 text-white">
-              Continue
+            <Button 
+              type="submit" 
+              className="bg-accent-red hover:bg-accent-red/90 text-white"
+              disabled={checkingMembership}
+            >
+              {checkingMembership ? "Checking..." : "Continue"}
             </Button>
           </div>
         </form>

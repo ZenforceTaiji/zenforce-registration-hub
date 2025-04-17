@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Index from './pages/Index';
@@ -63,7 +64,8 @@ function App() {
       '/parent-details',
       '/add-children',
       '/previous-training',
-      '/medical-condition'
+      '/medical-condition',
+      '/membership-reactivation'
     ];
     return registrationRoutes.includes(route);
   };
