@@ -40,6 +40,16 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          50: "#fdf2f3",
+          100: "#fce7e9",
+          200: "#fbd0d3",
+          300: "#f6a3aa",
+          400: "#f0757f",
+          500: "#e64256",
+          600: "#d42d44",
+          700: "#b21f35",
+          800: "#931c31",
+          900: "#7b1c2e",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -67,6 +77,11 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+      },
+      boxShadow: {
+        soft: "0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)",
+        card: "0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.1)",
+        "card-hover": "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
@@ -104,6 +119,11 @@ export default {
         "fade-in": "fade-in 0.5s ease-out",
         "fade-up": "fade-up 0.5s ease-out",
         "slide-in": "slide-in 0.3s ease-out",
+      },
+      backgroundImage: {
+        'hero-pattern': "url('/placeholder.svg')",
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
     },
   },

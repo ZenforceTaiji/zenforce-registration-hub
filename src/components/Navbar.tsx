@@ -112,29 +112,29 @@ const Navbar = () => {
                     <ChevronDown className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="z-50 bg-white shadow-lg rounded-md">
+                <DropdownMenuContent align="end" className="z-50 bg-white shadow-lg rounded-md w-56">
                   <DropdownMenuItem 
-                    className="cursor-pointer flex items-center hover:bg-slate-100"
+                    className="cursor-pointer flex items-center hover:bg-slate-100 py-2"
                     onClick={() => handleLoginClick("student")}
                   >
-                    <BookOpen className="mr-2 h-4 w-4" />
-                    Student Login
+                    <BookOpen className="mr-2 h-4 w-4 text-primary" />
+                    <span>Student Login</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 
-                    className="cursor-pointer flex items-center hover:bg-slate-100"
+                    className="cursor-pointer flex items-center hover:bg-slate-100 py-2"
                     onClick={() => handleLoginClick("instructor")}
                   >
-                    <LogIn className="mr-2 h-4 w-4" />
-                    Instructor Login
+                    <LogIn className="mr-2 h-4 w-4 text-primary" />
+                    <span>Instructor Login</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 
-                    className="cursor-pointer flex items-center hover:bg-slate-100"
+                    className="cursor-pointer flex items-center hover:bg-slate-100 py-2"
                     onClick={() => handleLoginClick("admin")}
                   >
-                    <Settings className="mr-2 h-4 w-4" />
-                    Admin Login
+                    <Settings className="mr-2 h-4 w-4 text-primary" />
+                    <span>Admin Login</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

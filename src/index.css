@@ -35,12 +35,30 @@
     @apply bg-background text-foreground antialiased m-0 p-0 min-h-screen w-full font-sans;
   }
 
+  /* Enhanced Typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+
+  h1 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+  }
+
+  h2 {
+    @apply text-2xl md:text-3xl lg:text-4xl;
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl;
+  }
+
+  /* Custom Classes */
   .animate-in {
     animation: fadeIn 0.5s ease-out;
   }
 
   .glass-morphism {
-    @apply bg-white bg-opacity-20 backdrop-blur-lg;
+    @apply bg-white bg-opacity-20 backdrop-blur-lg border border-white/20 shadow-lg;
   }
 
   .zen-container {
@@ -72,12 +90,42 @@
   }
   
   .hero-gradient {
-    @apply bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700;
+    @apply bg-gradient-to-br from-primary/90 via-primary/80 to-primary/70 text-white;
+  }
+  
+  .feature-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+  }
+  
+  .feature-card {
+    @apply p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all bg-white;
+  }
+  
+  .section {
+    @apply py-12 md:py-16 lg:py-20;
+  }
+  
+  .section-light {
+    @apply bg-white;
+  }
+  
+  .section-dark {
+    @apply bg-gray-50;
   }
 }
 
 /* Keyframe animations */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }

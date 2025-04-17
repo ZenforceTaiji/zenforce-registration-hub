@@ -12,6 +12,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: #f8f9fa;
 }
 
 .main-content {
@@ -26,10 +27,45 @@
 
 .section-light {
   background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .section-dark {
   background-color: #f8f9fa;
+}
+
+/* Card styles */
+.card-highlight {
+  border-left: 4px solid hsl(var(--primary));
+  background: linear-gradient(to right, rgba(255,255,255,0.95), rgba(255,255,255,1));
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-highlight:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+/* Button animations */
+.btn-hover-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-hover-effect:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: 0.5s;
+}
+
+.btn-hover-effect:hover:after {
+  left: 100%;
 }
 
 /* Keep animation keyframes */
