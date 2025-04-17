@@ -26,6 +26,7 @@ import PreviousTraining from './pages/PreviousTraining';
 import MedicalCondition from './pages/MedicalCondition';
 import MembershipReactivation from './pages/MembershipReactivation';
 import FloatingWhatsAppButton from './components/FloatingWhatsAppButton';
+import Navbar from './components/Navbar';
 import { Toaster } from "@/components/ui/toaster"
 import { useToast } from "@/hooks/use-toast"
 
@@ -72,6 +73,9 @@ function App() {
 
   return (
     <>
+      {/* Navbar - Added to all pages */}
+      <Navbar />
+      
       {/* Main Content */}
       <main className="app-container">
         {/* Routes */}
