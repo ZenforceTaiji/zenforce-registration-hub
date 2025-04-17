@@ -40,21 +40,21 @@ const Navbar = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className="bg-white shadow-md border-b z-50 sticky top-0">
+    <nav className="bg-white shadow-sm border-b z-50 sticky top-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <span className="text-xl font-bold text-primary">ZenForce</span>
-              <span className="text-xl font-medium ml-1">TaijiQuan</span>
+              <span className="text-xl font-bold text-primary-600">ZenForce</span>
+              <span className="text-xl font-medium ml-1 text-gray-700">TaijiQuan</span>
             </Link>
             
             {/* Desktop menu */}
-            <div className="hidden md:ml-10 md:flex md:space-x-4">
+            <div className="hidden md:ml-10 md:flex md:space-x-1">
               <Link to="/">
                 <Button 
-                  variant={isActive("/") ? "default" : "ghost"} 
-                  className={`px-3 ${isActive("/") ? "bg-primary/10 text-primary" : ""}`}
+                  variant="ghost" 
+                  className={`px-3 ${isActive("/") ? "bg-primary-50 text-primary-600" : "text-gray-700"}`}
                 >
                   Home
                 </Button>
@@ -62,8 +62,8 @@ const Navbar = () => {
               
               <Link to="/history-of-taijiquan">
                 <Button 
-                  variant={isActive("/history-of-taijiquan") ? "default" : "ghost"} 
-                  className={`flex items-center gap-1 px-3 ${isActive("/history-of-taijiquan") ? "bg-primary/10 text-primary" : ""}`}
+                  variant="ghost" 
+                  className={`flex items-center gap-1 px-3 ${isActive("/history-of-taijiquan") ? "bg-primary-50 text-primary-600" : "text-gray-700"}`}
                 >
                   <History className="h-4 w-4" />
                   History
@@ -72,8 +72,8 @@ const Navbar = () => {
               
               <Link to="/gallery">
                 <Button 
-                  variant={isActive("/gallery") ? "default" : "ghost"} 
-                  className={`flex items-center gap-1 px-3 ${isActive("/gallery") ? "bg-primary/10 text-primary" : ""}`}
+                  variant="ghost" 
+                  className={`flex items-center gap-1 px-3 ${isActive("/gallery") ? "bg-primary-50 text-primary-600" : "text-gray-700"}`}
                 >
                   <GalleryHorizontal className="h-4 w-4" />
                   Gallery
@@ -82,8 +82,8 @@ const Navbar = () => {
               
               <Link to="/booking">
                 <Button 
-                  variant={isActive("/booking") ? "default" : "ghost"} 
-                  className={`flex items-center gap-1 px-3 ${isActive("/booking") ? "bg-primary/10 text-primary" : ""}`}
+                  variant="ghost" 
+                  className={`flex items-center gap-1 px-3 ${isActive("/booking") ? "bg-primary-50 text-primary-600" : "text-gray-700"}`}
                 >
                   <BookMarked className="h-4 w-4" />
                   Book a Session
@@ -92,8 +92,8 @@ const Navbar = () => {
               
               <Link to="/events">
                 <Button 
-                  variant={isActive("/events") ? "default" : "ghost"} 
-                  className={`flex items-center gap-1 px-3 ${isActive("/events") ? "bg-primary/10 text-primary" : ""}`}
+                  variant="ghost" 
+                  className={`flex items-center gap-1 px-3 ${isActive("/events") ? "bg-primary-50 text-primary-600" : "text-gray-700"}`}
                 >
                   <Calendar className="h-4 w-4" />
                   Events
@@ -106,7 +106,7 @@ const Navbar = () => {
             <div className="hidden md:flex space-x-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="flex items-center gap-1 px-3">
+                  <Button variant="ghost" className="flex items-center gap-1 px-3 text-gray-700">
                     <User className="h-4 w-4" />
                     Login
                     <ChevronDown className="h-4 w-4" />
@@ -117,7 +117,7 @@ const Navbar = () => {
                     className="cursor-pointer flex items-center hover:bg-slate-100 py-2"
                     onClick={() => handleLoginClick("student")}
                   >
-                    <BookOpen className="mr-2 h-4 w-4 text-primary" />
+                    <BookOpen className="mr-2 h-4 w-4 text-primary-600" />
                     <span>Student Login</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
@@ -125,7 +125,7 @@ const Navbar = () => {
                     className="cursor-pointer flex items-center hover:bg-slate-100 py-2"
                     onClick={() => handleLoginClick("instructor")}
                   >
-                    <LogIn className="mr-2 h-4 w-4 text-primary" />
+                    <LogIn className="mr-2 h-4 w-4 text-primary-600" />
                     <span>Instructor Login</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
@@ -133,14 +133,14 @@ const Navbar = () => {
                     className="cursor-pointer flex items-center hover:bg-slate-100 py-2"
                     onClick={() => handleLoginClick("admin")}
                   >
-                    <Settings className="mr-2 h-4 w-4 text-primary" />
+                    <Settings className="mr-2 h-4 w-4 text-primary-600" />
                     <span>Admin Login</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
 
               <Link to="/par-form">
-                <Button variant="default" className="flex items-center gap-1 px-4 bg-primary text-white hover:bg-primary/90">
+                <Button variant="default" className="flex items-center gap-1 px-4 bg-primary-600 text-white hover:bg-primary-700">
                   <UserPlus className="h-4 w-4" />
                   Register
                 </Button>
@@ -151,7 +151,7 @@ const Navbar = () => {
             <div className="md:hidden flex items-center">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="inline-flex items-center justify-center p-2 rounded-md text-slate-700 hover:text-primary hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary transition-colors"
+                className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-600 transition-colors"
                 aria-expanded={isOpen}
               >
                 <span className="sr-only">{isOpen ? "Close menu" : "Open menu"}</span>
@@ -173,7 +173,7 @@ const Navbar = () => {
             <Link
               to="/"
               className={`block px-3 py-2 rounded-md text-base font-medium ${
-                isActive("/") ? "bg-primary/10 text-primary" : "text-gray-700 hover:bg-gray-50"
+                isActive("/") ? "bg-primary-50 text-primary-600" : "text-gray-700 hover:bg-gray-50"
               }`}
               onClick={() => setIsOpen(false)}
             >
@@ -182,7 +182,7 @@ const Navbar = () => {
             <Link
               to="/history-of-taijiquan"
               className={`block px-3 py-2 rounded-md text-base font-medium ${
-                isActive("/history-of-taijiquan") ? "bg-primary/10 text-primary" : "text-gray-700 hover:bg-gray-50"
+                isActive("/history-of-taijiquan") ? "bg-primary-50 text-primary-600" : "text-gray-700 hover:bg-gray-50"
               } flex items-center`}
               onClick={() => setIsOpen(false)}
             >
@@ -192,7 +192,7 @@ const Navbar = () => {
             <Link
               to="/gallery"
               className={`block px-3 py-2 rounded-md text-base font-medium ${
-                isActive("/gallery") ? "bg-primary/10 text-primary" : "text-gray-700 hover:bg-gray-50"
+                isActive("/gallery") ? "bg-primary-50 text-primary-600" : "text-gray-700 hover:bg-gray-50"
               } flex items-center`}
               onClick={() => setIsOpen(false)}
             >
@@ -202,7 +202,7 @@ const Navbar = () => {
             <Link
               to="/booking"
               className={`block px-3 py-2 rounded-md text-base font-medium ${
-                isActive("/booking") ? "bg-primary/10 text-primary" : "text-gray-700 hover:bg-gray-50"
+                isActive("/booking") ? "bg-primary-50 text-primary-600" : "text-gray-700 hover:bg-gray-50"
               } flex items-center`}
               onClick={() => setIsOpen(false)}
             >
@@ -212,7 +212,7 @@ const Navbar = () => {
             <Link
               to="/events"
               className={`block px-3 py-2 rounded-md text-base font-medium ${
-                isActive("/events") ? "bg-primary/10 text-primary" : "text-gray-700 hover:bg-gray-50"
+                isActive("/events") ? "bg-primary-50 text-primary-600" : "text-gray-700 hover:bg-gray-50"
               } flex items-center`}
               onClick={() => setIsOpen(false)}
             >
@@ -226,7 +226,7 @@ const Navbar = () => {
               </div>
               <div className="mt-3 space-y-1">
                 <button
-                  className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
+                  className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 flex items-center"
                   onClick={() => {
                     handleLoginClick("student");
                     setIsOpen(false);
@@ -236,7 +236,7 @@ const Navbar = () => {
                   Student Login
                 </button>
                 <button
-                  className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
+                  className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 flex items-center"
                   onClick={() => {
                     handleLoginClick("instructor");
                     setIsOpen(false);
@@ -246,7 +246,7 @@ const Navbar = () => {
                   Instructor Login
                 </button>
                 <button
-                  className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
+                  className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 flex items-center"
                   onClick={() => {
                     handleLoginClick("admin");
                     setIsOpen(false);
@@ -261,7 +261,7 @@ const Navbar = () => {
             <div className="pt-2">
               <Link
                 to="/par-form"
-                className="block w-full text-center px-3 py-2 rounded-md text-base font-medium bg-primary text-white hover:bg-primary/90"
+                className="block w-full text-center px-3 py-2 rounded-md text-base font-medium bg-primary-600 text-white hover:bg-primary-700"
                 onClick={() => setIsOpen(false)}
               >
                 Register

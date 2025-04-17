@@ -57,7 +57,6 @@ const Index = () => {
   };
 
   const handleActivateMembership = () => {
-    // Navigate to the membership reactivation page
     navigate("/physical-readiness");
     toast({
       title: "Membership Reactivation",
@@ -83,13 +82,13 @@ const Index = () => {
       />
     
       {/* Hero Section */}
-      <section className="relative bg-primary py-20 overflow-hidden">
+      <section className="relative bg-primary-600 py-20 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/placeholder.svg')] bg-cover bg-center opacity-10"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/95 to-primary/80"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-primary-600/95 to-primary-700/90"></div>
 
-        <div className="relative zen-container px-4 py-8 md:py-12 lg:py-16">
+        <div className="relative container mx-auto px-4 py-8 md:py-12 lg:py-16">
           <div className="max-w-3xl animate-fade-in">
-            <Badge variant="secondary" className="mb-4 text-sm px-3 py-1 bg-white text-primary">
+            <Badge variant="secondary" className="mb-4 text-sm px-3 py-1 bg-white text-primary-600">
               Experience Traditional Martial Arts
             </Badge>
             <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl mb-4">
@@ -112,7 +111,7 @@ const Index = () => {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="bg-white/10 rounded-lg p-5 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-colors">
                       <div className="flex items-center gap-3 mb-3">
-                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white text-primary flex items-center justify-center font-bold">1</div>
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white text-primary-600 flex items-center justify-center font-bold">1</div>
                         <h3 className="text-white font-medium">Complete PAR-Q Form</h3>
                       </div>
                       <p className="text-white/90 text-sm">Physical Activity Readiness Questionnaire ensures your safety</p>
@@ -157,7 +156,7 @@ const Index = () => {
                     </p>
                     <Button 
                       onClick={handleContinueRegistration}
-                      className="bg-white hover:bg-white/90 text-primary btn-hover-effect"
+                      className="bg-white hover:bg-white/90 text-primary-600 btn-hover-effect"
                     >
                       {hasCompletedParQ 
                         ? "Continue to Registration" 
@@ -186,7 +185,7 @@ const Index = () => {
                 <Button
                   variant="default"
                   size="lg"
-                  className="bg-white text-primary hover:bg-white/90 backdrop-blur-sm border-0 shadow-md btn-hover-effect"
+                  className="bg-white text-primary-600 hover:bg-white/90 backdrop-blur-sm border-0 shadow-md btn-hover-effect"
                   onClick={handleStartRegistration}
                 >
                   <FilePenLine className="h-5 w-5 mr-2" />
@@ -227,18 +226,18 @@ const Index = () => {
 
       {/* Features Section */}
       <section className="py-16 bg-white">
-        <div className="zen-container">
+        <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <Badge variant="outline" className="mb-4 text-sm px-3 py-1 border-primary/50 text-primary">Ancient Practice, Modern Benefits</Badge>
+            <Badge variant="outline" className="mb-4 text-sm px-3 py-1 border-primary-500/50 text-primary-600">Ancient Practice, Modern Benefits</Badge>
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose TaijiQuan?</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">Discover how this ancient martial art can transform your physical and mental wellbeing</p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="shadow-soft hover:shadow-card-hover transition-all duration-300 border-t-4 border-t-primary">
+            <Card className="shadow-soft hover:shadow-card-hover transition-all duration-300 border-t-4 border-t-primary-600">
               <CardContent className="p-6">
-                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <BookOpen className="h-6 w-6 text-primary" />
+                <div className="h-12 w-12 rounded-full bg-primary-50 flex items-center justify-center mb-4">
+                  <BookOpen className="h-6 w-6 text-primary-600" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">Traditional Practice</h3>
                 <p className="text-gray-600">
@@ -247,10 +246,10 @@ const Index = () => {
               </CardContent>
             </Card>
 
-            <Card className="shadow-soft hover:shadow-card-hover transition-all duration-300 border-t-4 border-t-primary">
+            <Card className="shadow-soft hover:shadow-card-hover transition-all duration-300 border-t-4 border-t-primary-600">
               <CardContent className="p-6">
-                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <Users className="h-6 w-6 text-primary" />
+                <div className="h-12 w-12 rounded-full bg-primary-50 flex items-center justify-center mb-4">
+                  <Users className="h-6 w-6 text-primary-600" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">Supportive Community</h3>
                 <p className="text-gray-600">
@@ -259,10 +258,10 @@ const Index = () => {
               </CardContent>
             </Card>
 
-            <Card className="shadow-soft hover:shadow-card-hover transition-all duration-300 border-t-4 border-t-primary">
+            <Card className="shadow-soft hover:shadow-card-hover transition-all duration-300 border-t-4 border-t-primary-600">
               <CardContent className="p-6">
-                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <Award className="h-6 w-6 text-primary" />
+                <div className="h-12 w-12 rounded-full bg-primary-50 flex items-center justify-center mb-4">
+                  <Award className="h-6 w-6 text-primary-600" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">Expert Instruction</h3>
                 <p className="text-gray-600">
@@ -276,9 +275,9 @@ const Index = () => {
 
       {/* Benefits Section */}
       <section className="py-16 bg-gray-50">
-        <div className="zen-container">
+        <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-12">
-            <Badge variant="outline" className="mb-4 border-primary/50 text-primary">Holistic Practice</Badge>
+            <Badge variant="outline" className="mb-4 border-primary-500/50 text-primary-600">Holistic Practice</Badge>
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Benefits of Regular Practice</h2>
             <p className="text-lg text-gray-600">
               Discover how regular Taijiquan practice can transform your physical and mental wellbeing
@@ -288,8 +287,8 @@ const Index = () => {
           <div className="grid md:grid-cols-3 gap-8">
             <Card className="shadow-soft hover:shadow-card-hover transition-all duration-300">
               <CardContent className="p-6">
-                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                <div className="h-12 w-12 rounded-full bg-primary-50 flex items-center justify-center mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary-600">
                     <path d="M18 8c0 4.5-6 9-6 9s-6-4.5-6-9a6 6 0 0 1 12 0Z" />
                     <circle cx="12" cy="8" r="2" />
                   </svg>
@@ -303,8 +302,8 @@ const Index = () => {
 
             <Card className="shadow-soft hover:shadow-card-hover transition-all duration-300">
               <CardContent className="p-6">
-                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                <div className="h-12 w-12 rounded-full bg-primary-50 flex items-center justify-center mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary-600">
                     <path d="M4.9 4.9C2.4 7.4 1 10.6 1 14c0 5 4 9 9 9 3.4 0 6.6-1.4 9.1-3.9" />
                     <path d="M21 12c0-4.4-3.6-8-8-8" />
                     <path d="M15 9c0-1.7-1.3-3-3-3" />
@@ -321,8 +320,8 @@ const Index = () => {
 
             <Card className="shadow-soft hover:shadow-card-hover transition-all duration-300">
               <CardContent className="p-6">
-                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                <div className="h-12 w-12 rounded-full bg-primary-50 flex items-center justify-center mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary-600">
                     <path d="M19 9V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v3" />
                     <path d="M3 16c0 2 4 4 8 4s8-2 8-4" />
                     <path d="M19 9c0 2-4 4-8 4s-8-2-8-4" />

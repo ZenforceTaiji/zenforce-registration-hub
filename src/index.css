@@ -11,7 +11,7 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 0 78% 33%;
+    --primary: 0 72% 42%;
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -35,17 +35,17 @@
     @apply bg-background text-foreground antialiased m-0 p-0 min-h-screen w-full font-sans;
   }
 
-  /* Enhanced Typography */
+  /* Typography */
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight;
+    @apply font-semibold tracking-tight mb-4;
   }
 
   h1 {
-    @apply text-3xl md:text-4xl lg:text-5xl;
+    @apply text-3xl md:text-4xl;
   }
 
   h2 {
-    @apply text-2xl md:text-3xl lg:text-4xl;
+    @apply text-2xl md:text-3xl;
   }
 
   h3 {
@@ -57,60 +57,52 @@
     animation: fadeIn 0.5s ease-out;
   }
 
-  .glass-morphism {
-    @apply bg-white bg-opacity-20 backdrop-blur-lg border border-white/20 shadow-lg;
+  .container-custom {
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
-  .zen-container {
-    @apply w-full mx-auto px-4 max-w-7xl;
-  }
-
-  .page-title {
-    @apply text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl;
-  }
-
-  .section-title {
-    @apply text-xl font-semibold tracking-tight text-gray-900 sm:text-2xl;
-  }
-
-  .zen-button {
-    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
-  }
-
-  .zen-button-primary {
-    @apply zen-button bg-primary text-white hover:bg-primary/90 px-5 py-2.5;
-  }
-
-  .zen-input {
-    @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50;
-  }
-
-  .zen-card {
-    @apply rounded-lg border bg-card p-6 shadow-sm transition-all hover:shadow-md;
-  }
-  
-  .hero-gradient {
-    @apply bg-gradient-to-br from-primary/90 via-primary/80 to-primary/70 text-white;
-  }
-  
-  .feature-grid {
-    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
-  }
-  
-  .feature-card {
-    @apply p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all bg-white;
-  }
-  
-  .section {
+  .section-padding {
     @apply py-12 md:py-16 lg:py-20;
   }
-  
-  .section-light {
-    @apply bg-white;
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-md bg-primary text-white px-4 py-2 text-sm font-medium shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
   }
-  
-  .section-dark {
-    @apply bg-gray-50;
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .card-hover {
+    @apply transition-all duration-200 hover:shadow-md;
+  }
+
+  .nav-link {
+    @apply px-3 py-2 text-sm font-medium rounded-md transition-colors hover:bg-accent;
+  }
+
+  .nav-link-active {
+    @apply bg-primary/10 text-primary;
+  }
+
+  .hero-section {
+    @apply bg-primary text-white py-16 md:py-24 relative overflow-hidden;
+  }
+
+  .hero-overlay {
+    @apply absolute inset-0 bg-black opacity-30 z-0;
+  }
+
+  .hero-content {
+    @apply relative z-10 container-custom;
+  }
+
+  .feature-grid {
+    @apply grid grid-cols-1 md:grid-cols-3 gap-6;
+  }
+
+  .feature-card {
+    @apply bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-all;
   }
 }
 

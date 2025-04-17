@@ -36,7 +36,7 @@
 
 /* Card styles */
 .card-highlight {
-  border-left: 4px solid hsl(var(--primary));
+  border-left: 4px solid var(--primary-600);
   background: linear-gradient(to right, rgba(255,255,255,0.95), rgba(255,255,255,1));
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -66,6 +66,43 @@
 
 .btn-hover-effect:hover:after {
   left: 100%;
+}
+
+/* Hero section */
+.hero-section {
+  background-color: var(--primary-600);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('/placeholder.svg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Feature cards */
+.feature-card {
+  border-top: 4px solid var(--primary-600);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
 }
 
 /* Keep animation keyframes */
