@@ -81,7 +81,7 @@ function App() {
         {/* Routes */}
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/history" element={<HistoryOfTaijiquan />} />
+          <Route path="/history-of-taijiquan" element={<HistoryOfTaijiquan />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/admin" element={<AdminPortal />} />
           <Route path="/instructor" element={<InstructorPortal />} />

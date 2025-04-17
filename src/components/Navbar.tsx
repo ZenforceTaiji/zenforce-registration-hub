@@ -37,7 +37,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-sm border-b">
+    <nav className="bg-white shadow-sm border-b z-50 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
@@ -49,8 +49,8 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Desktop Menu */}
-          <div className="hidden sm:ml-6 sm:flex sm:items-center">
+          {/* Desktop Menu - Changed from hidden to flex */}
+          <div className="flex ml-6 items-center">
             <div className="flex space-x-2">
               <Link to="/">
                 <Button variant="ghost">Home</Button>
