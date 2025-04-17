@@ -6,51 +6,30 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 const PhysicalReadiness = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [acceptTerms, setAcceptTerms] = useState<boolean | "indeterminate">(false);
-  const [rejectTerms, setRejectTerms] = useState<boolean | "indeterminate">(false);
-
-  const handleAcceptChange = (checked: boolean | "indeterminate") => {
-    setAcceptTerms(checked);
-    if (checked === true) {
-      setRejectTerms(false);
-    }
-  };
-
-  const handleRejectChange = (checked: boolean | "indeterminate") => {
-    setRejectTerms(checked);
-    if (checked === true) {
-      setAcceptTerms(false);
-    }
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!acceptTerms && !rejectTerms) {
+    if (!acceptTerms) {
       toast({
-        title: "Selection Required",
-        description: "Please either accept or reject the Physical Activity Readiness terms",
+        title: "Acknowledgment Required",
+        description: "Please acknowledge that you have read and understand the Physical Activity Readiness terms",
         variant: "destructive",
       });
       return;
     }
 
     // Save choice to session storage
-    sessionStorage.setItem("parqAccepted", String(acceptTerms));
+    sessionStorage.setItem("parqAccepted", "true");
     
-    if (rejectTerms) {
-      // Navigate to rejection page
-      navigate("/par-rejection");
-    } else {
-      // Navigate to upload ID page
-      navigate("/upload-id");
-    }
+    // Navigate to upload ID page
+    navigate("/upload-id");
   };
 
   return (
@@ -68,7 +47,7 @@ const PhysicalReadiness = () => {
                   <h3 className="text-lg font-medium">Physical Activity Readiness</h3>
                   
                   <p>
-                    By accepting these terms, you acknowledge that:
+                    By acknowledging these terms, you confirm that:
                   </p>
                   
                   <ol className="list-decimal pl-6 space-y-2">
@@ -90,27 +69,13 @@ const PhysicalReadiness = () => {
                   <Checkbox 
                     id="accept-terms" 
                     checked={acceptTerms === true}
-                    onCheckedChange={handleAcceptChange} 
+                    onCheckedChange={setAcceptTerms} 
                   />
                   <Label 
                     htmlFor="accept-terms"
                     className="text-base font-semibold text-green-700"
                   >
-                    I Accept the Physical Activity Readiness Terms
-                  </Label>
-                </div>
-                
-                <div className="flex items-center space-x-2">
-                  <Checkbox 
-                    id="reject-terms" 
-                    checked={rejectTerms === true}
-                    onCheckedChange={handleRejectChange}
-                  />
-                  <Label 
-                    htmlFor="reject-terms"
-                    className="text-base font-semibold text-red-700"
-                  >
-                    I Reject the Physical Activity Readiness Terms
+                    I have read and understand the Physical Activity Readiness Terms
                   </Label>
                 </div>
               </div>
