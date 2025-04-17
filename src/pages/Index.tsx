@@ -5,19 +5,23 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { RegistrationDialog } from "@/components/RegistrationDialog";
 import AgeSelectionDialog from "@/components/registration/AgeSelectionDialog";
-import { FilePenLine, ArrowRight } from "lucide-react";
+import { FilePenLine, ArrowRight, UserCheck, LockOpen } from "lucide-react";
 import EventBanner from "@/components/EventBanner";
 import FloatingWhatsAppButton from "@/components/FloatingWhatsAppButton";
+import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [showAgeDialog, setShowAgeDialog] = useState(false);
   const [hasSavedParQ, setHasSavedParQ] = useState(false);
   const [hasCompletedParQ, setHasCompletedParQ] = useState(false);
   const [isExistingUser, setIsExistingUser] = useState(false);
+  const [isMembershipActive, setIsMembershipActive] = useState(false);
 
   useEffect(() => {
+    // Check for saved PAR-Q form
     const parQFormData = sessionStorage.getItem("parQForm");
     if (parQFormData) {
       try {
@@ -29,8 +33,17 @@ const Index = () => {
       }
     }
     
+    // Check for existing user and membership status
     const studentDetails = sessionStorage.getItem("studentDetails");
-    setIsExistingUser(!!studentDetails);
+    const existingMembershipFound = localStorage.getItem("existingMembershipFound") === "true";
+    
+    if (studentDetails || existingMembershipFound) {
+      setIsExistingUser(true);
+      
+      // Check if the membership is active
+      const membershipStatus = localStorage.getItem("membershipStatus");
+      setIsMembershipActive(membershipStatus === "active");
+    }
   }, []);
 
   const handleStartRegistration = () => {
@@ -40,6 +53,15 @@ const Index = () => {
     } else {
       navigate("/par-form");
     }
+  };
+
+  const handleActivateMembership = () => {
+    // Navigate to the membership reactivation page
+    navigate("/physical-readiness");
+    toast({
+      title: "Membership Reactivation",
+      description: "Please complete the Physical Activity Readiness Questionnaire to continue.",
+    });
   };
 
   const handleContinueRegistration = () => {
@@ -84,32 +106,34 @@ const Index = () => {
               <EventBanner />
             </div>
             
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 max-w-2xl">
-              <h2 className="text-2xl font-bold text-white mb-4">Registration Process</h2>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-accent-red text-white flex items-center justify-center font-bold">1</div>
-                  <div>
-                    <h3 className="text-white font-medium">Complete PAR-Q Form</h3>
-                    <p className="text-gray-300 text-sm">Physical Activity Readiness Questionnaire is required before registration</p>
+            {!isMembershipActive && (
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 max-w-2xl">
+                <h2 className="text-2xl font-bold text-white mb-4">Registration Process</h2>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-accent-red text-white flex items-center justify-center font-bold">1</div>
+                    <div>
+                      <h3 className="text-white font-medium">Complete PAR-Q Form</h3>
+                      <p className="text-gray-300 text-sm">Physical Activity Readiness Questionnaire is required before registration</p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center font-bold">2</div>
-                  <div>
-                    <h3 className="text-white font-medium">Personal Information</h3>
-                    <p className="text-gray-300 text-sm">Enter your contact and personal details</p>
+                  <div className="flex items-center gap-3">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center font-bold">2</div>
+                    <div>
+                      <h3 className="text-white font-medium">Personal Information</h3>
+                      <p className="text-gray-300 text-sm">Enter your contact and personal details</p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center font-bold">3</div>
-                  <div>
-                    <h3 className="text-white font-medium">Terms & Conditions</h3>
-                    <p className="text-gray-300 text-sm">Review and accept terms before completing registration</p>
+                  <div className="flex items-center gap-3">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center font-bold">3</div>
+                    <div>
+                      <h3 className="text-white font-medium">Terms & Conditions</h3>
+                      <p className="text-gray-300 text-sm">Review and accept terms before completing registration</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
             
             {hasSavedParQ && (
               <div className="bg-white/10 p-4 rounded-md backdrop-blur-sm max-w-md">
@@ -131,15 +155,37 @@ const Index = () => {
             )}
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button
-                variant="outline"
-                size="lg"
-                className="bg-accent-red text-white hover:bg-accent-red/90 backdrop-blur-sm flex items-center gap-2"
-                onClick={handleStartRegistration}
-              >
-                <FilePenLine className="h-5 w-5" />
-                Start Registration Process
-              </Button>
+              {isExistingUser && !isMembershipActive ? (
+                // For existing users with inactive membership, show "Activate Registration" button
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="bg-green-500 text-white hover:bg-green-600 backdrop-blur-sm flex items-center gap-2"
+                  onClick={handleActivateMembership}
+                >
+                  <LockOpen className="h-5 w-5" />
+                  Activate Membership
+                </Button>
+              ) : !isExistingUser ? (
+                // For new users, show "Start Registration Process" button
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="bg-accent-red text-white hover:bg-accent-red/90 backdrop-blur-sm flex items-center gap-2"
+                  onClick={handleStartRegistration}
+                >
+                  <FilePenLine className="h-5 w-5" />
+                  Start Registration Process
+                </Button>
+              ) : null}
+              
+              {isExistingUser && isMembershipActive && (
+                // For active members, show a membership active indicator
+                <div className="bg-green-500/20 text-white p-4 rounded-md backdrop-blur-sm flex items-center gap-2">
+                  <UserCheck className="h-5 w-5 text-green-500" />
+                  <span>Your membership is active</span>
+                </div>
+              )}
               
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
