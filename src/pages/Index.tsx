@@ -6,7 +6,7 @@ import BenefitsSection from "@/components/home/BenefitsSection";
 
 const Index = () => {
   return (
-    <div className="min-h-screen w-full">
+    <div className="min-h-screen w-full bg-gray-100">
       <HeroSection />
       <FeaturesSection />
       <BenefitsSection />
