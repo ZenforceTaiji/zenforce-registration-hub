@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { MessageCircle, Video, Phone, Whale } from "lucide-react";
+import { MessageCircle, Video, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
