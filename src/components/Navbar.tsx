@@ -1,28 +1,8 @@
 
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import {
-  Menu,
-  X,
-  User,
-  ChevronDown,
-  LogIn,
-  BookOpen,
-  UserPlus,
-  Settings,
-  Calendar,
-  BookMarked,
-  History,
-  GalleryHorizontal,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Menu, X } from "lucide-react";
+import { DesktopMenu, MobileMenu, LoginOptions } from "./navbar";
 import { LoginDialog } from "./LoginDialog";
 
 const Navbar = () => {
@@ -37,8 +17,6 @@ const Navbar = () => {
     setShowLoginDialog(true);
   };
 
-  const isActive = (path: string) => location.pathname === path;
-
   return (
     <nav className="bg-white shadow-sm border-b z-50 sticky top-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -50,102 +28,12 @@ const Navbar = () => {
             </Link>
             
             {/* Desktop menu */}
-            <div className="hidden md:ml-10 md:flex md:space-x-1">
-              <Link to="/">
-                <Button 
-                  variant="ghost" 
-                  className={`px-3 ${isActive("/") ? "bg-primary-50 text-primary-600" : "text-gray-700"}`}
-                >
-                  Home
-                </Button>
-              </Link>
-              
-              <Link to="/history-of-taijiquan">
-                <Button 
-                  variant="ghost" 
-                  className={`flex items-center gap-1 px-3 ${isActive("/history-of-taijiquan") ? "bg-primary-50 text-primary-600" : "text-gray-700"}`}
-                >
-                  <History className="h-4 w-4" />
-                  History
-                </Button>
-              </Link>
-              
-              <Link to="/gallery">
-                <Button 
-                  variant="ghost" 
-                  className={`flex items-center gap-1 px-3 ${isActive("/gallery") ? "bg-primary-50 text-primary-600" : "text-gray-700"}`}
-                >
-                  <GalleryHorizontal className="h-4 w-4" />
-                  Gallery
-                </Button>
-              </Link>
-              
-              <Link to="/booking">
-                <Button 
-                  variant="ghost" 
-                  className={`flex items-center gap-1 px-3 ${isActive("/booking") ? "bg-primary-50 text-primary-600" : "text-gray-700"}`}
-                >
-                  <BookMarked className="h-4 w-4" />
-                  Book a Session
-                </Button>
-              </Link>
-              
-              <Link to="/events">
-                <Button 
-                  variant="ghost" 
-                  className={`flex items-center gap-1 px-3 ${isActive("/events") ? "bg-primary-50 text-primary-600" : "text-gray-700"}`}
-                >
-                  <Calendar className="h-4 w-4" />
-                  Events
-                </Button>
-              </Link>
-            </div>
+            <DesktopMenu />
           </div>
 
           <div className="flex items-center">
-            <div className="hidden md:flex space-x-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="flex items-center gap-1 px-3 text-gray-700">
-                    <User className="h-4 w-4" />
-                    Login
-                    <ChevronDown className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="z-50 bg-white shadow-lg rounded-md w-56">
-                  <DropdownMenuItem 
-                    className="cursor-pointer flex items-center hover:bg-slate-100 py-2"
-                    onClick={() => handleLoginClick("student")}
-                  >
-                    <BookOpen className="mr-2 h-4 w-4 text-primary-600" />
-                    <span>Student Login</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem 
-                    className="cursor-pointer flex items-center hover:bg-slate-100 py-2"
-                    onClick={() => handleLoginClick("instructor")}
-                  >
-                    <LogIn className="mr-2 h-4 w-4 text-primary-600" />
-                    <span>Instructor Login</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem 
-                    className="cursor-pointer flex items-center hover:bg-slate-100 py-2"
-                    onClick={() => handleLoginClick("admin")}
-                  >
-                    <Settings className="mr-2 h-4 w-4 text-primary-600" />
-                    <span>Admin Login</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              <Link to="/par-form">
-                <Button variant="default" className="flex items-center gap-1 px-4 bg-primary-600 text-white hover:bg-primary-700">
-                  <UserPlus className="h-4 w-4" />
-                  Register
-                </Button>
-              </Link>
-            </div>
+            {/* Desktop login options */}
+            <LoginOptions onLoginClick={handleLoginClick} />
 
             {/* Mobile menu button */}
             <div className="md:hidden flex items-center">
@@ -166,110 +54,12 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile menu, show/hide based on menu state */}
-      {isOpen && (
-        <div className="md:hidden bg-white shadow-lg border-t">
-          <div className="px-2 pt-2 pb-3 space-y-1">
-            <Link
-              to="/"
-              className={`block px-3 py-2 rounded-md text-base font-medium ${
-                isActive("/") ? "bg-primary-50 text-primary-600" : "text-gray-700 hover:bg-gray-50"
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              Home
-            </Link>
-            <Link
-              to="/history-of-taijiquan"
-              className={`block px-3 py-2 rounded-md text-base font-medium ${
-                isActive("/history-of-taijiquan") ? "bg-primary-50 text-primary-600" : "text-gray-700 hover:bg-gray-50"
-              } flex items-center`}
-              onClick={() => setIsOpen(false)}
-            >
-              <History className="mr-2 h-4 w-4" />
-              History of TaijiQuan
-            </Link>
-            <Link
-              to="/gallery"
-              className={`block px-3 py-2 rounded-md text-base font-medium ${
-                isActive("/gallery") ? "bg-primary-50 text-primary-600" : "text-gray-700 hover:bg-gray-50"
-              } flex items-center`}
-              onClick={() => setIsOpen(false)}
-            >
-              <GalleryHorizontal className="mr-2 h-4 w-4" />
-              Gallery
-            </Link>
-            <Link
-              to="/booking"
-              className={`block px-3 py-2 rounded-md text-base font-medium ${
-                isActive("/booking") ? "bg-primary-50 text-primary-600" : "text-gray-700 hover:bg-gray-50"
-              } flex items-center`}
-              onClick={() => setIsOpen(false)}
-            >
-              <BookMarked className="mr-2 h-4 w-4" />
-              Book a Session
-            </Link>
-            <Link
-              to="/events"
-              className={`block px-3 py-2 rounded-md text-base font-medium ${
-                isActive("/events") ? "bg-primary-50 text-primary-600" : "text-gray-700 hover:bg-gray-50"
-              } flex items-center`}
-              onClick={() => setIsOpen(false)}
-            >
-              <Calendar className="mr-2 h-4 w-4" />
-              Events
-            </Link>
-            
-            <div className="pt-4 pb-3 border-t border-gray-200">
-              <div className="flex items-center px-3">
-                <div className="text-base font-medium">Login Options</div>
-              </div>
-              <div className="mt-3 space-y-1">
-                <button
-                  className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 flex items-center"
-                  onClick={() => {
-                    handleLoginClick("student");
-                    setIsOpen(false);
-                  }}
-                >
-                  <BookOpen className="mr-2 h-4 w-4" />
-                  Student Login
-                </button>
-                <button
-                  className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 flex items-center"
-                  onClick={() => {
-                    handleLoginClick("instructor");
-                    setIsOpen(false);
-                  }}
-                >
-                  <LogIn className="mr-2 h-4 w-4" />
-                  Instructor Login
-                </button>
-                <button
-                  className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 flex items-center"
-                  onClick={() => {
-                    handleLoginClick("admin");
-                    setIsOpen(false);
-                  }}
-                >
-                  <Settings className="mr-2 h-4 w-4" />
-                  Admin Login
-                </button>
-              </div>
-            </div>
-            
-            <div className="pt-2">
-              <Link
-                to="/par-form"
-                className="block w-full text-center px-3 py-2 rounded-md text-base font-medium bg-primary-600 text-white hover:bg-primary-700"
-                onClick={() => setIsOpen(false)}
-              >
-                Register
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Mobile menu */}
+      <MobileMenu 
+        isOpen={isOpen} 
+        onClose={() => setIsOpen(false)} 
+        onLoginClick={handleLoginClick}
+      />
 
       {/* Login dialog */}
       <LoginDialog 
