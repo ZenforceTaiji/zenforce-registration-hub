@@ -9,7 +9,33 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      password_tracking: {
+        Row: {
+          expiry_date: string
+          id: string
+          is_suspended: boolean
+          last_changed: string
+          reminder_sent: boolean
+          user_id: string
+        }
+        Insert: {
+          expiry_date: string
+          id?: string
+          is_suspended?: boolean
+          last_changed?: string
+          reminder_sent?: boolean
+          user_id: string
+        }
+        Update: {
+          expiry_date?: string
+          id?: string
+          is_suspended?: boolean
+          last_changed?: string
+          reminder_sent?: boolean
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
