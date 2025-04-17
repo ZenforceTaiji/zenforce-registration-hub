@@ -20,7 +20,7 @@ const LoginOptions = ({ onLoginClick }: LoginOptionsProps) => {
     <div className="hidden md:flex items-center space-x-2">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="flex items-center gap-1 px-4 py-2 text-gray-700 rounded-none">
+          <Button variant="ghost" className="flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors">
             <User className="h-4 w-4" />
             Login
             <ChevronDown className="h-4 w-4" />

@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { History, GalleryHorizontal, BookMarked, Calendar } from "lucide-react";
+import { History, GalleryHorizontal, BookMarked, Calendar, UserPlus, LogIn } from "lucide-react";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -81,7 +81,7 @@ const MobileMenu = ({ isOpen, onClose, onLoginClick }: MobileMenuProps) => {
                 onClose();
               }}
             >
-              <BookMarked className="mr-2 h-4 w-4" />
+              <LogIn className="mr-2 h-4 w-4" />
               Student Login
             </button>
             <button
@@ -91,7 +91,7 @@ const MobileMenu = ({ isOpen, onClose, onLoginClick }: MobileMenuProps) => {
                 onClose();
               }}
             >
-              <BookMarked className="mr-2 h-4 w-4" />
+              <LogIn className="mr-2 h-4 w-4" />
               Instructor Login
             </button>
             <button
@@ -101,7 +101,7 @@ const MobileMenu = ({ isOpen, onClose, onLoginClick }: MobileMenuProps) => {
                 onClose();
               }}
             >
-              <Calendar className="mr-2 h-4 w-4" />
+              <LogIn className="mr-2 h-4 w-4" />
               Admin Login
             </button>
           </div>
@@ -113,7 +113,10 @@ const MobileMenu = ({ isOpen, onClose, onLoginClick }: MobileMenuProps) => {
             className="block w-full text-center px-3 py-2 rounded-md text-base font-medium bg-primary-600 text-white hover:bg-primary-700"
             onClick={onClose}
           >
-            Register
+            <div className="flex items-center justify-center">
+              <UserPlus className="mr-2 h-4 w-4" />
+              Register
+            </div>
           </Link>
         </div>
       </div>

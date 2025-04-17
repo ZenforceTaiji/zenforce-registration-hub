@@ -31,9 +31,9 @@ const HeroSection = () => {
       />
     
       {/* Hero Section */}
-      <section className="relative bg-gray-700 py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/placeholder.svg')] bg-cover bg-center opacity-30"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-800/70 to-gray-900/70"></div>
+      <section className="relative bg-primary-700 py-20 overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/placeholder.svg')] bg-cover bg-center opacity-20"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-primary-800/80 to-primary-900/80"></div>
 
         <div className="relative container mx-auto px-4 py-16 lg:py-24">
           <div className="max-w-3xl">

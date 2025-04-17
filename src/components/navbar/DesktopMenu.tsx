@@ -14,7 +14,9 @@ const DesktopMenu = () => {
       <Link to="/">
         <Button 
           variant="ghost"
-          className="px-4 py-2 text-gray-700 hover:text-gray-900 rounded-none border-transparent"
+          className={`px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
+            isActive("/") ? "bg-primary-50 text-primary-600" : ""
+          }`}
         >
           Home
         </Button>
@@ -23,7 +25,9 @@ const DesktopMenu = () => {
       <Link to="/history-of-taijiquan">
         <Button 
           variant="ghost"
-          className="flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-gray-900 rounded-none border-transparent"
+          className={`flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
+            isActive("/history-of-taijiquan") ? "bg-primary-50 text-primary-600" : ""
+          }`}
         >
           <History className="h-4 w-4" />
           History of TaijiQuan
@@ -33,7 +37,9 @@ const DesktopMenu = () => {
       <Link to="/gallery">
         <Button 
           variant="ghost"
-          className="flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-gray-900 rounded-none border-transparent"
+          className={`flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
+            isActive("/gallery") ? "bg-primary-50 text-primary-600" : ""
+          }`}
         >
           <GalleryHorizontal className="h-4 w-4" />
           Gallery
@@ -43,7 +49,9 @@ const DesktopMenu = () => {
       <Link to="/booking">
         <Button 
           variant="ghost"
-          className="flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-gray-900 rounded-none border-transparent"
+          className={`flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
+            isActive("/booking") ? "bg-primary-50 text-primary-600" : ""
+          }`}
         >
           <BookMarked className="h-4 w-4" />
           Book a Session
@@ -53,7 +61,9 @@ const DesktopMenu = () => {
       <Link to="/events">
         <Button 
           variant="ghost"
-          className="flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-gray-900 rounded-none border-transparent"
+          className={`flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
+            isActive("/events") ? "bg-primary-50 text-primary-600" : ""
+          }`}
         >
           <Calendar className="h-4 w-4" />
           Events

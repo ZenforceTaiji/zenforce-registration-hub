@@ -7,7 +7,7 @@ import FloatingWhatsAppButton from "@/components/FloatingWhatsAppButton";
 
 const Index = () => {
   return (
-    <div className="min-h-screen w-full bg-gray-100">
+    <div className="min-h-screen w-full bg-gray-50">
       <HeroSection />
       <FeaturesSection />
       <BenefitsSection />
