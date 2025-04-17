@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Lock, Eye, EyeOff, AlertTriangle } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -10,12 +10,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { supabase } from "@/integrations/supabase/client";
 import { updatePassword } from "@/services/passwordService";
+import { PasswordResetForm } from "./auth/PasswordResetForm";
 
 interface PasswordResetDialogProps {
   open: boolean;
@@ -36,8 +35,6 @@ export function PasswordResetDialog({
   const [userMembershipNumber, setUserMembershipNumber] = useState(membershipNumber);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleResetPassword = async () => {
@@ -157,78 +154,15 @@ export function PasswordResetDialog({
           </Alert>
         )}
 
-        <div className="grid gap-4 py-4">
-          {!isFirstLogin && !forceReset && (
-            <div className="space-y-2">
-              <Label htmlFor="membershipNumber">Membership Number</Label>
-              <Input
-                id="membershipNumber"
-                value={userMembershipNumber}
-                onChange={(e) => setUserMembershipNumber(e.target.value)}
-                placeholder="Enter your membership number"
-              />
-            </div>
-          )}
-
-          <div className="space-y-2">
-            <Label htmlFor="newPassword">New Password</Label>
-            <div className="relative">
-              <div className="absolute left-3 top-3 text-gray-400">
-                <Lock className="h-4 w-4" />
-              </div>
-              <Input
-                id="newPassword"
-                type={showPassword ? "text" : "password"}
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="Enter new password"
-                className="pl-10 pr-10"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-3 text-gray-400"
-              >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4" />
-                ) : (
-                  <Eye className="h-4 w-4" />
-                )}
-              </button>
-            </div>
-            <p className="text-xs text-gray-500">
-              Password must be at least 8 characters long.
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
-            <div className="relative">
-              <div className="absolute left-3 top-3 text-gray-400">
-                <Lock className="h-4 w-4" />
-              </div>
-              <Input
-                id="confirmPassword"
-                type={showConfirmPassword ? "text" : "password"}
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm new password"
-                className="pl-10 pr-10"
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-3 text-gray-400"
-              >
-                {showConfirmPassword ? (
-                  <EyeOff className="h-4 w-4" />
-                ) : (
-                  <Eye className="h-4 w-4" />
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
+        <PasswordResetForm
+          membershipNumber={userMembershipNumber}
+          setMembershipNumber={setUserMembershipNumber}
+          showMembershipField={!isFirstLogin && !forceReset}
+          newPassword={newPassword}
+          setNewPassword={setNewPassword}
+          confirmPassword={confirmPassword}
+          setConfirmPassword={setConfirmPassword}
+        />
 
         <DialogFooter>
           <Button

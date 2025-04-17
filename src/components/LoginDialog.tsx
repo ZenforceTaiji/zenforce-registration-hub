@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { User, Lock, Eye, EyeOff, AlertTriangle } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -11,13 +11,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { PasswordResetDialog } from "./PasswordResetDialog";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { supabase } from "@/integrations/supabase/client";
 import { checkPasswordStatus } from "@/services/passwordService";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { PasswordResetDialog } from "./PasswordResetDialog";
+import { LoginForm } from "./auth/LoginForm";
 
 interface LoginDialogProps {
   open: boolean;
@@ -30,7 +29,6 @@ export function LoginDialog({ open, onOpenChange, type }: LoginDialogProps) {
   const { toast } = useToast();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [loading, setLoading] = useState(false);
   const [passwordExpiring, setPasswordExpiring] = useState(false);
@@ -145,6 +143,10 @@ export function LoginDialog({ open, onOpenChange, type }: LoginDialogProps) {
     }
   };
 
+  const handleForgotPassword = () => {
+    setShowResetDialog(true);
+  };
+
   return (
     <>
       <Dialog open={open} onOpenChange={(isOpen) => {
@@ -183,73 +185,16 @@ export function LoginDialog({ open, onOpenChange, type }: LoginDialogProps) {
             </Alert>
           )}
 
-          <div className="grid gap-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
-              <div className="relative">
-                <div className="absolute left-3 top-3 text-gray-400">
-                  <User className="h-4 w-4" />
-                </div>
-                <Input
-                  id="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder={
-                    type === "student" 
-                      ? "Enter membership number" 
-                      : type === "instructor"
-                        ? "Enter username"
-                        : "Enter admin username"
-                  }
-                  className="pl-10"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <Label htmlFor="password">Password</Label>
-                {type === "student" && (
-                  <button
-                    type="button"
-                    onClick={() => setShowResetDialog(true)}
-                    className="text-xs text-accent-red hover:underline"
-                  >
-                    Forgot password?
-                  </button>
-                )}
-              </div>
-              <div className="relative">
-                <div className="absolute left-3 top-3 text-gray-400">
-                  <Lock className="h-4 w-4" />
-                </div>
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter password"
-                  className="pl-10 pr-10"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3 text-gray-400"
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
-                </button>
-              </div>
-              {type === "student" && (
-                <p className="text-xs text-gray-500">
-                  Note: Student passwords expire every 30 days for security reasons.
-                </p>
-              )}
-            </div>
-          </div>
+          <LoginForm 
+            type={type}
+            username={username}
+            setUsername={setUsername}
+            password={password}
+            setPassword={setPassword}
+            loading={loading}
+            onForgotPassword={handleForgotPassword}
+            onSubmit={handleLogin}
+          />
 
           <DialogFooter>
             <Button
@@ -260,19 +205,6 @@ export function LoginDialog({ open, onOpenChange, type }: LoginDialogProps) {
               disabled={loading || forcePasswordReset}
             >
               Cancel
-            </Button>
-            <Button 
-              onClick={handleLogin}
-              className={
-                type === "student" 
-                  ? "bg-accent-red hover:bg-accent-red/90 text-white" 
-                  : type === "admin"
-                    ? "bg-indigo-600 hover:bg-indigo-700 text-white"
-                    : ""
-              }
-              disabled={loading}
-            >
-              {loading ? "Logging in..." : "Login"}
             </Button>
           </DialogFooter>
         </DialogContent>
