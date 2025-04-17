@@ -3,6 +3,7 @@ import React from "react";
 import HeroSection from "@/components/home/HeroSection";
 import FeaturesSection from "@/components/home/FeaturesSection";
 import BenefitsSection from "@/components/home/BenefitsSection";
+import FloatingWhatsAppButton from "@/components/FloatingWhatsAppButton";
 
 const Index = () => {
   return (
@@ -10,6 +11,7 @@ const Index = () => {
       <HeroSection />
       <FeaturesSection />
       <BenefitsSection />
+      <FloatingWhatsAppButton phoneNumber="27731742969" />
     </div>
   );
 };

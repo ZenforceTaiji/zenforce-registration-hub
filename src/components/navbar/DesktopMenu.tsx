@@ -10,11 +10,11 @@ const DesktopMenu = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="hidden md:flex md:ml-10 md:items-center">
+    <div className="hidden md:flex ml-10 space-x-1">
       <Link to="/">
         <Button 
-          variant={isActive("/") ? "default" : "ghost"}
-          className={`px-3 py-2 ${isActive("/") ? "bg-primary-50 text-primary-600" : "text-gray-700"} rounded-none border-b-2 ${isActive("/") ? "border-primary-600" : "border-transparent"}`}
+          variant="ghost"
+          className="px-4 py-2 text-gray-700 hover:text-gray-900 rounded-none border-transparent"
         >
           Home
         </Button>
@@ -22,8 +22,8 @@ const DesktopMenu = () => {
       
       <Link to="/history-of-taijiquan">
         <Button 
-          variant={isActive("/history-of-taijiquan") ? "default" : "ghost"}
-          className={`flex items-center gap-1 px-3 py-2 ${isActive("/history-of-taijiquan") ? "bg-primary-50 text-primary-600" : "text-gray-700"} rounded-none border-b-2 ${isActive("/history-of-taijiquan") ? "border-primary-600" : "border-transparent"}`}
+          variant="ghost"
+          className="flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-gray-900 rounded-none border-transparent"
         >
           <History className="h-4 w-4" />
           History of TaijiQuan
@@ -32,8 +32,8 @@ const DesktopMenu = () => {
       
       <Link to="/gallery">
         <Button 
-          variant={isActive("/gallery") ? "default" : "ghost"}
-          className={`flex items-center gap-1 px-3 py-2 ${isActive("/gallery") ? "bg-primary-50 text-primary-600" : "text-gray-700"} rounded-none border-b-2 ${isActive("/gallery") ? "border-primary-600" : "border-transparent"}`}
+          variant="ghost"
+          className="flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-gray-900 rounded-none border-transparent"
         >
           <GalleryHorizontal className="h-4 w-4" />
           Gallery
@@ -42,8 +42,8 @@ const DesktopMenu = () => {
       
       <Link to="/booking">
         <Button 
-          variant={isActive("/booking") ? "default" : "ghost"}
-          className={`flex items-center gap-1 px-3 py-2 ${isActive("/booking") ? "bg-primary-50 text-primary-600" : "text-gray-700"} rounded-none border-b-2 ${isActive("/booking") ? "border-primary-600" : "border-transparent"}`}
+          variant="ghost"
+          className="flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-gray-900 rounded-none border-transparent"
         >
           <BookMarked className="h-4 w-4" />
           Book a Session
@@ -52,8 +52,8 @@ const DesktopMenu = () => {
       
       <Link to="/events">
         <Button 
-          variant={isActive("/events") ? "default" : "ghost"}
-          className={`flex items-center gap-1 px-3 py-2 ${isActive("/events") ? "bg-primary-50 text-primary-600" : "text-gray-700"} rounded-none border-b-2 ${isActive("/events") ? "border-primary-600" : "border-transparent"}`}
+          variant="ghost"
+          className="flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-gray-900 rounded-none border-transparent"
         >
           <Calendar className="h-4 w-4" />
           Events
