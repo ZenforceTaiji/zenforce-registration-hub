@@ -4,7 +4,6 @@ import { User, Lock, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
 
 interface LoginFormProps {
   type: "student" | "instructor" | "admin";
@@ -60,7 +59,7 @@ export function LoginForm({
             <button
               type="button"
               onClick={onForgotPassword}
-              className="text-xs text-accent-red hover:underline"
+              className="text-xs text-primary hover:underline"
             >
               Forgot password?
             </button>
@@ -101,7 +100,7 @@ export function LoginForm({
         onClick={onSubmit}
         className={
           type === "student" 
-            ? "bg-accent-red hover:bg-accent-red/90 text-white" 
+            ? "bg-primary hover:bg-primary/90 text-white" 
             : type === "admin"
               ? "bg-indigo-600 hover:bg-indigo-700 text-white"
               : ""

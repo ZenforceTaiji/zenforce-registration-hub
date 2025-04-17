@@ -27,14 +27,14 @@ import MedicalCondition from './pages/MedicalCondition';
 import MembershipReactivation from './pages/MembershipReactivation';
 import FloatingWhatsAppButton from './components/FloatingWhatsAppButton';
 import Navbar from './components/Navbar';
-import { Toaster } from "@/components/ui/toaster"
-import { useToast } from "@/hooks/use-toast"
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/hooks/use-toast";
 import './App.css';
 
 function App() {
   const location = useLocation();
   const [isExistingUser, setIsExistingUser] = useState(false);
-  const { toast } = useToast()
+  const { toast } = useToast();
 
   useEffect(() => {
     const checkExistingMembership = () => {
@@ -45,7 +45,7 @@ function App() {
         toast({
           title: "Welcome Back!",
           description: "It looks like you're already a member. Please proceed to membership reactivation.",
-        })
+        });
       }
     };
 

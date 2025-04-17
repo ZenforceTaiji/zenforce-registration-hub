@@ -90,7 +90,7 @@ export function PasswordResetDialog({
           </Button>
           <Button 
             onClick={handleSubmit}
-            className="bg-accent-red hover:bg-accent-red/90 text-white"
+            className="bg-primary hover:bg-primary/90 text-white"
             disabled={loading}
           >
             {loading 
