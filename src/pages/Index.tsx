@@ -73,7 +73,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen w-full">
       {/* Age Selection Dialog */}
       <AgeSelectionDialog 
         open={showAgeDialog} 
@@ -100,8 +100,6 @@ const Index = () => {
           </p>
           
           <div className="mt-10 space-y-6">
-            <FloatingWhatsAppButton phoneNumber="27731742969" isExistingUser={isExistingUser} />
-            
             <div className="fixed bottom-6 right-6 z-50 max-w-md">
               <EventBanner />
             </div>
@@ -204,31 +202,33 @@ const Index = () => {
         </div>
       </div>
 
-      <section className="zen-container py-24">
-        <div className="grid gap-16 lg:grid-cols-2">
-          <div className="space-y-6">
-            <h2 className="section-title">
-              Taijiquan (Tai Chi Chuan): An Overview
-            </h2>
-            <div className="prose prose-lg">
-              <h3 className="text-xl font-semibold text-gray-900">
-                History of Taijiquan
-              </h3>
-              <p className="mt-4 text-gray-600">
-                Taijiquan, also known as Tai Chi Chuan, is a traditional Chinese
-                martial art that combines self-defense, health benefits, and
-                philosophical principles. The history of Taijiquan dates back
-                several centuries and involves various families and styles, each
-                contributing to its development.
-              </p>
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-16 lg:grid-cols-2">
+            <div className="space-y-6">
+              <h2 className="text-3xl font-semibold text-gray-900">
+                Taijiquan (Tai Chi Chuan): An Overview
+              </h2>
+              <div className="prose prose-lg">
+                <h3 className="text-xl font-semibold text-gray-900">
+                  History of Taijiquan
+                </h3>
+                <p className="mt-4 text-gray-600">
+                  Taijiquan, also known as Tai Chi Chuan, is a traditional Chinese
+                  martial art that combines self-defense, health benefits, and
+                  philosophical principles. The history of Taijiquan dates back
+                  several centuries and involves various families and styles, each
+                  contributing to its development.
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="relative h-96 overflow-hidden rounded-xl">
-            <img
-              src="/placeholder.svg"
-              alt="Taijiquan Practice"
-              className="h-full w-full object-cover"
-            />
+            <div className="relative h-96 overflow-hidden rounded-xl">
+              <img
+                src="/placeholder.svg"
+                alt="Taijiquan Practice"
+                className="h-full w-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>

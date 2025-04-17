@@ -72,12 +72,12 @@ function App() {
   };
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen w-full">
       {/* Navbar - Added to all pages */}
       <Navbar />
       
       {/* Main Content */}
-      <main className="app-container">
+      <main className="flex-grow w-full">
         {/* Routes */}
         <Routes>
           <Route path="/" element={<Index />} />
@@ -117,7 +117,7 @@ function App() {
       </main>
 
       <Toaster />
-    </>
+    </div>
   );
 }
 
