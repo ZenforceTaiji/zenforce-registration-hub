@@ -91,7 +91,7 @@ const Index = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30" />
         </div>
 
-        <div className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+        <div className="relative mx-auto px-4 py-24 sm:px-6 lg:px-8 max-w-full">
           <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
             ZenForce TaijiQuan SA
           </h1>
@@ -203,7 +203,7 @@ const Index = () => {
       </div>
 
       <section className="py-24 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid gap-16 lg:grid-cols-2">
             <div className="space-y-6">
               <h2 className="text-3xl font-semibold text-gray-900">

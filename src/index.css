@@ -44,7 +44,7 @@
   }
 
   .zen-container {
-    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+    @apply w-full mx-auto px-4;
   }
 
   .page-title {

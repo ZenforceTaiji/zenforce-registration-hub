@@ -29,6 +29,7 @@ import FloatingWhatsAppButton from './components/FloatingWhatsAppButton';
 import Navbar from './components/Navbar';
 import { Toaster } from "@/components/ui/toaster"
 import { useToast } from "@/hooks/use-toast"
+import './App.css';
 
 function App() {
   const location = useLocation();

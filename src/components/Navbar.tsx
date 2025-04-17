@@ -38,7 +38,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white shadow-sm border-b z-50 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-full mx-auto px-4">
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
@@ -49,36 +49,38 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Desktop Menu - Changed from hidden to flex */}
+          {/* Desktop Menu - Full width as in the image */}
           <div className="flex ml-6 items-center">
-            <div className="flex space-x-2">
+            <div className="flex space-x-1">
               <Link to="/">
-                <Button variant="ghost">Home</Button>
+                <Button variant="ghost" className="flex items-center gap-1 px-3">
+                  Home
+                </Button>
               </Link>
 
               <Link to="/history-of-taijiquan">
-                <Button variant="ghost" className="flex items-center gap-1">
+                <Button variant="ghost" className="flex items-center gap-1 px-3">
                   <History className="h-4 w-4" />
                   History of TaijiQuan
                 </Button>
               </Link>
 
               <Link to="/gallery">
-                <Button variant="ghost" className="flex items-center gap-1">
+                <Button variant="ghost" className="flex items-center gap-1 px-3">
                   <GalleryHorizontal className="h-4 w-4" />
                   Gallery
                 </Button>
               </Link>
 
               <Link to="/booking">
-                <Button variant="ghost" className="flex items-center gap-1">
+                <Button variant="ghost" className="flex items-center gap-1 px-3">
                   <BookMarked className="h-4 w-4" />
                   Book a Session
                 </Button>
               </Link>
 
               <Link to="/events">
-                <Button variant="ghost" className="flex items-center gap-1">
+                <Button variant="ghost" className="flex items-center gap-1 px-3">
                   <Calendar className="h-4 w-4" />
                   Events
                 </Button>
@@ -86,13 +88,13 @@ const Navbar = () => {
               
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="flex items-center gap-1">
+                  <Button variant="ghost" className="flex items-center gap-1 px-3">
                     <User className="h-4 w-4" />
                     Login
                     <ChevronDown className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
+                <DropdownMenuContent align="end" className="z-50 bg-white">
                   <DropdownMenuItem 
                     className="cursor-pointer flex items-center"
                     onClick={() => handleLoginClick("student")}
@@ -120,7 +122,7 @@ const Navbar = () => {
               </DropdownMenu>
 
               <Link to="/par-form">
-                <Button variant="outline" className="flex items-center gap-1">
+                <Button variant="outline" className="flex items-center gap-1 px-3">
                   <UserPlus className="h-4 w-4" />
                   Register
                 </Button>
