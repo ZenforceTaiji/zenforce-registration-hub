@@ -7,6 +7,31 @@
   text-align: left;
 }
 
+/* Base layout */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+}
+
+/* Section styles */
+.section {
+  padding: 4rem 0;
+}
+
+.section-light {
+  background-color: #ffffff;
+}
+
+.section-dark {
+  background-color: #f8f9fa;
+}
+
 /* Keep animation keyframes */
 @keyframes logo-spin {
   from {

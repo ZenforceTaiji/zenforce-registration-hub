@@ -1,14 +1,15 @@
 
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { RegistrationDialog } from "@/components/RegistrationDialog";
 import AgeSelectionDialog from "@/components/registration/AgeSelectionDialog";
-import { FilePenLine, ArrowRight, UserCheck, LockOpen } from "lucide-react";
+import { FilePenLine, ArrowRight, UserCheck, LockOpen, Info, ChevronRight } from "lucide-react";
 import EventBanner from "@/components/EventBanner";
-import FloatingWhatsAppButton from "@/components/FloatingWhatsAppButton";
 import { useToast } from "@/hooks/use-toast";
+import { Separator } from "@/components/ui/separator";
+import { Card, CardContent } from "@/components/ui/card";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -81,68 +82,76 @@ const Index = () => {
         onContinue={() => navigate("/par-form")}
       />
     
-      <div className="relative">
-        <div className="absolute inset-0">
+      {/* Hero Section */}
+      <section className="relative">
+        <div className="absolute inset-0 hero-gradient">
           <img
             src="/placeholder.svg"
-            alt="Water background"
-            className="h-full w-full object-cover"
+            alt="Traditional Taijiquan practice"
+            className="h-full w-full object-cover opacity-30 mix-blend-overlay"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30" />
         </div>
 
-        <div className="relative mx-auto px-4 py-24 sm:px-6 lg:px-8 max-w-full">
-          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
-            ZenForce TaijiQuan SA
-          </h1>
-          <p className="mt-6 max-w-3xl text-xl text-gray-300">
-            Discover the ancient art of balance, strength, and inner peace
-          </p>
+        <div className="relative mx-auto px-4 py-16 sm:px-6 lg:px-8 lg:py-24 max-w-7xl">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl mb-4">
+              ZenForce TaijiQuan SA
+            </h1>
+            <p className="mt-6 text-xl text-gray-300 max-w-2xl">
+              Discover the ancient art of balance, strength, and inner peace through 
+              the precise movements of traditional TaijiQuan
+            </p>
+          </div>
           
-          <div className="mt-10 space-y-6">
-            <div className="fixed bottom-6 right-6 z-50 max-w-md">
-              <EventBanner />
-            </div>
-            
+          <div className="mt-10 space-y-6 max-w-4xl">
             {!isMembershipActive && (
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 max-w-2xl">
-                <h2 className="text-2xl font-bold text-white mb-4">Registration Process</h2>
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-accent-red text-white flex items-center justify-center font-bold">1</div>
-                    <div>
-                      <h3 className="text-white font-medium">Complete PAR-Q Form</h3>
-                      <p className="text-gray-300 text-sm">Physical Activity Readiness Questionnaire is required before registration</p>
+              <Card className="bg-white/10 backdrop-blur-sm border-0 shadow-xl">
+                <CardContent className="p-6">
+                  <h2 className="text-2xl font-bold text-white mb-6">Registration Process</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="bg-white/10 rounded-lg p-5 backdrop-blur-sm">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">1</div>
+                        <h3 className="text-white font-medium">Complete PAR-Q Form</h3>
+                      </div>
+                      <p className="text-gray-300 text-sm">Physical Activity Readiness Questionnaire ensures your safety</p>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center font-bold">2</div>
-                    <div>
-                      <h3 className="text-white font-medium">Personal Information</h3>
-                      <p className="text-gray-300 text-sm">Enter your contact and personal details</p>
+                    
+                    <div className="bg-white/10 rounded-lg p-5 backdrop-blur-sm">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center font-bold">2</div>
+                        <h3 className="text-white font-medium">Personal Information</h3>
+                      </div>
+                      <p className="text-gray-300 text-sm">Enter your contact and personal details for membership</p>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center font-bold">3</div>
-                    <div>
-                      <h3 className="text-white font-medium">Terms & Conditions</h3>
+                    
+                    <div className="bg-white/10 rounded-lg p-5 backdrop-blur-sm">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center font-bold">3</div>
+                        <h3 className="text-white font-medium">Terms & Conditions</h3>
+                      </div>
                       <p className="text-gray-300 text-sm">Review and accept terms before completing registration</p>
                     </div>
                   </div>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             )}
             
             {hasSavedParQ && (
-              <div className="bg-white/10 p-4 rounded-md backdrop-blur-sm max-w-md">
-                <h3 className="text-white font-medium mb-2">
+              <div className="bg-white/10 p-6 rounded-lg backdrop-blur-sm border border-white/20 shadow-lg">
+                <h3 className="text-white font-medium text-lg mb-2">
                   {hasCompletedParQ 
                     ? "You've completed the PAR-Q form" 
                     : "You have a saved PAR-Q form in progress"}
                 </h3>
+                <p className="text-gray-300 mb-4">
+                  {hasCompletedParQ 
+                    ? "Continue to complete your registration" 
+                    : "Continue from where you left off"}
+                </p>
                 <Button 
                   onClick={handleContinueRegistration}
-                  className="zen-button-primary w-full flex items-center justify-center gap-2"
+                  className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/90"
                 >
                   {hasCompletedParQ 
                     ? "Continue to Registration" 
@@ -152,35 +161,35 @@ const Index = () => {
               </div>
             )}
             
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 mt-10">
               {isExistingUser && !isMembershipActive ? (
-                // For existing users with inactive membership, show "Activate Registration" button
+                // For existing users with inactive membership
                 <Button
                   variant="outline"
                   size="lg"
-                  className="bg-green-500 text-white hover:bg-green-600 backdrop-blur-sm flex items-center gap-2"
+                  className="bg-green-500 text-white hover:bg-green-600 backdrop-blur-sm border-0 shadow-md"
                   onClick={handleActivateMembership}
                 >
-                  <LockOpen className="h-5 w-5" />
+                  <LockOpen className="h-5 w-5 mr-2" />
                   Activate Membership
                 </Button>
               ) : !isExistingUser ? (
-                // For new users, show "Start Registration Process" button
+                // For new users
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="lg"
-                  className="bg-accent-red text-white hover:bg-accent-red/90 backdrop-blur-sm flex items-center gap-2"
+                  className="bg-primary text-white hover:bg-primary/90 backdrop-blur-sm border-0 shadow-md"
                   onClick={handleStartRegistration}
                 >
-                  <FilePenLine className="h-5 w-5" />
+                  <FilePenLine className="h-5 w-5 mr-2" />
                   Start Registration Process
                 </Button>
               ) : null}
               
               {isExistingUser && isMembershipActive && (
-                // For active members, show a membership active indicator
-                <div className="bg-green-500/20 text-white p-4 rounded-md backdrop-blur-sm flex items-center gap-2">
-                  <UserCheck className="h-5 w-5 text-green-500" />
+                // For active members
+                <div className="bg-green-500/20 text-white p-4 rounded-md backdrop-blur-sm flex items-center gap-2 border border-green-500/30">
+                  <UserCheck className="h-5 w-5 text-green-400" />
                   <span>Your membership is active</span>
                 </div>
               )}
@@ -188,10 +197,11 @@ const Index = () => {
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
                   <Button
-                    variant="default"
+                    variant="outline"
                     size="lg"
-                    className="bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm"
+                    className="bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm border border-white/30 shadow-md"
                   >
+                    <Info className="h-5 w-5 mr-2" />
                     Learn More
                   </Button>
                 </DialogTrigger>
@@ -200,35 +210,125 @@ const Index = () => {
             </div>
           </div>
         </div>
-      </div>
+        
+        {/* Event Banner */}
+        <div className="fixed bottom-6 right-6 z-50 max-w-md">
+          <EventBanner />
+        </div>
+      </section>
 
-      <section className="py-24 bg-white">
-        <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Content Section */}
+      <section className="py-16 bg-white">
+        <div className="zen-container">
           <div className="grid gap-16 lg:grid-cols-2">
             <div className="space-y-6">
-              <h2 className="text-3xl font-semibold text-gray-900">
-                Taijiquan (Tai Chi Chuan): An Overview
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+                Taijiquan: The Art of Balanced Movement
               </h2>
-              <div className="prose prose-lg">
-                <h3 className="text-xl font-semibold text-gray-900">
-                  History of Taijiquan
-                </h3>
-                <p className="mt-4 text-gray-600">
-                  Taijiquan, also known as Tai Chi Chuan, is a traditional Chinese
-                  martial art that combines self-defense, health benefits, and
-                  philosophical principles. The history of Taijiquan dates back
-                  several centuries and involves various families and styles, each
-                  contributing to its development.
-                </p>
+              <p className="text-lg text-gray-600 mb-4">
+                Taijiquan, also known as Tai Chi Chuan, is a centuries-old Chinese martial art that 
+                combines gentle flowing movements with deep breathing and meditation. It's practiced 
+                for both its defensive training and health benefits.
+              </p>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <ChevronRight className="h-5 w-5 text-primary flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-medium text-gray-900">Physical Benefits</h3>
+                    <p className="text-gray-600">Improved balance, flexibility, and cardiovascular fitness</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <ChevronRight className="h-5 w-5 text-primary flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-medium text-gray-900">Mental Benefits</h3>
+                    <p className="text-gray-600">Reduced stress, better focus, and improved mental clarity</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <ChevronRight className="h-5 w-5 text-primary flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-medium text-gray-900">Spiritual Growth</h3>
+                    <p className="text-gray-600">Cultivation of inner peace and harmony with nature</p>
+                  </div>
+                </div>
+              </div>
+              <div className="pt-4">
+                <Button variant="outline" className="border-primary text-primary hover:bg-primary/5">
+                  Learn More About Taijiquan
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
               </div>
             </div>
-            <div className="relative h-96 overflow-hidden rounded-xl">
+            <div className="relative h-96 overflow-hidden rounded-xl shadow-xl">
               <img
                 src="/placeholder.svg"
                 alt="Taijiquan Practice"
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
               />
             </div>
+          </div>
+
+          <Separator className="my-16" />
+
+          {/* Benefits Section */}
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Benefits of Regular Practice</h2>
+            <p className="text-lg text-gray-600">
+              Discover how regular Taijiquan practice can transform your physical and mental wellbeing
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="shadow-md hover:shadow-lg transition-shadow">
+              <CardContent className="p-6">
+                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                    <path d="M18 8c0 4.5-6 9-6 9s-6-4.5-6-9a6 6 0 0 1 12 0Z" />
+                    <circle cx="12" cy="8" r="2" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold">Improved Balance</h3>
+                <p className="text-gray-600 mt-2">
+                  Regular practice strengthens legs and core, enhancing stability and reducing fall risk
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-md hover:shadow-lg transition-shadow">
+              <CardContent className="p-6">
+                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                    <path d="M4.9 4.9C2.4 7.4 1 10.6 1 14c0 5 4 9 9 9 3.4 0 6.6-1.4 9.1-3.9" />
+                    <path d="M21 12c0-4.4-3.6-8-8-8" />
+                    <path d="M15 9c0-1.7-1.3-3-3-3" />
+                    <path d="M18 4h3v3" />
+                    <path d="M3 19h3v3" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold">Stress Reduction</h3>
+                <p className="text-gray-600 mt-2">
+                  Focused movements and breathing techniques help calm the mind and reduce anxiety
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-md hover:shadow-lg transition-shadow">
+              <CardContent className="p-6">
+                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                    <path d="M19 9V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v3" />
+                    <path d="M3 16c0 2 4 4 8 4s8-2 8-4" />
+                    <path d="M19 9c0 2-4 4-8 4s-8-2-8-4" />
+                    <path d="M12 12v8" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold">Energy Flow</h3>
+                <p className="text-gray-600 mt-2">
+                  Improves circulation of qi (vital energy) throughout the body for better health
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
