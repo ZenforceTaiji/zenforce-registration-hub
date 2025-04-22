@@ -1,7 +1,6 @@
-
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { History, GalleryHorizontal, BookMarked, Calendar } from "lucide-react";
+import { History, GalleryHorizontal, BookMarked, Calendar, mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const DesktopMenu = () => {
@@ -67,6 +66,18 @@ const DesktopMenu = () => {
         >
           <Calendar className="h-4 w-4" />
           Events
+        </Button>
+      </Link>
+
+      <Link to="/contact">
+        <Button 
+          variant="ghost"
+          className={`flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
+            isActive("/contact") ? "bg-primary-50 text-primary-600" : ""
+          }`}
+        >
+          <mail className="h-4 w-4" />
+          Contact
         </Button>
       </Link>
     </div>
