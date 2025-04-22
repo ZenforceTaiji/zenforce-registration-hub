@@ -10,3 +10,6 @@ export { default as InstructorAssignmentDialog } from './InstructorAssignmentDia
 
 // Export financial components
 export { FinancialsTab } from './financials';
+
+// Export newsletter components
+export { NewsletterTab } from './newsletters/NewsletterTab';

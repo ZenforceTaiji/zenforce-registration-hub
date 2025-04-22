@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
@@ -9,7 +8,8 @@ import {
   DashboardTab,
   InstructorsTab,
   AreasTab,
-  MaintenanceTab
+  MaintenanceTab,
+  NewsletterTab
 } from "@/components/admin";
 import { SiteSettingsTab } from "@/components/admin/settings/SiteSettingsTab";
 import { FinancialsTab } from "@/components/admin/financials/FinancialsTab";
@@ -57,7 +57,6 @@ const mockStudents = [
   { id: 8, name: "Lisa Wang", email: "lisa@example.com", area: "East District", level: "Intermediate" },
 ];
 
-// Mock financial data
 const mockFinancialData = {
   studentPayments: [
     { id: 1, studentName: "John Lee", amount: 640, date: "2024-01-15", status: "Paid", type: "Monthly" },
@@ -81,16 +80,14 @@ const AdminPortal = () => {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState("dashboard");
 
-  // Effect to check for tab in URL query params
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const tab = params.get('tab');
-    if (tab && ['dashboard', 'instructors', 'areas', 'maintenance', 'events', 'settings', 'financials'].includes(tab)) {
+    if (tab && ['dashboard', 'instructors', 'areas', 'maintenance', 'events', 'settings', 'financials', 'newsletters'].includes(tab)) {
       setActiveTab(tab);
     }
   }, [location]);
 
-  // Handle tab change and update URL
   const handleTabChange = (value: string) => {
     setActiveTab(value);
     navigate(`/admin-portal?tab=${value}`, { replace: true });
@@ -127,6 +124,7 @@ const AdminPortal = () => {
           <TabsTrigger value="events">Events</TabsTrigger>
           <TabsTrigger value="financials">Financials</TabsTrigger>
           <TabsTrigger value="settings">Settings</TabsTrigger>
+          <TabsTrigger value="newsletters">Newsletters</TabsTrigger>
         </TabsList>
         
         <TabsContent value="dashboard">
@@ -162,6 +160,10 @@ const AdminPortal = () => {
 
         <TabsContent value="settings">
           <SiteSettingsTab />
+        </TabsContent>
+
+        <TabsContent value="newsletters">
+          <NewsletterTab />
         </TabsContent>
       </Tabs>
     </div>

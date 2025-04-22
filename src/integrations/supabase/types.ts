@@ -500,6 +500,63 @@ export type Database = {
         }
         Relationships: []
       }
+      newsletter_subscribers: {
+        Row: {
+          email: string
+          id: string
+          status: string | null
+          subscribed_at: string
+          unsubscribed_at: string | null
+        }
+        Insert: {
+          email: string
+          id?: string
+          status?: string | null
+          subscribed_at?: string
+          unsubscribed_at?: string | null
+        }
+        Update: {
+          email?: string
+          id?: string
+          status?: string | null
+          subscribed_at?: string
+          unsubscribed_at?: string | null
+        }
+        Relationships: []
+      }
+      newsletters: {
+        Row: {
+          content: string
+          created_at: string
+          featured: boolean | null
+          id: string
+          image_url: string | null
+          published_at: string | null
+          status: string | null
+          title: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          featured?: boolean | null
+          id?: string
+          image_url?: string | null
+          published_at?: string | null
+          status?: string | null
+          title: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          featured?: boolean | null
+          id?: string
+          image_url?: string | null
+          published_at?: string | null
+          status?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
       password_tracking: {
         Row: {
           expiry_date: string
