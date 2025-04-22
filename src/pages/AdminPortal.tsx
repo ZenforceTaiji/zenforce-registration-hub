@@ -1,4 +1,5 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import EventBanner from "@/components/EventBanner";
@@ -11,6 +12,7 @@ import {
   MaintenanceTab
 } from "@/components/admin";
 import { SiteSettingsTab } from "@/components/admin/settings/SiteSettingsTab";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const mockInstructors = [
   { id: 1, name: "Master Liang", email: "liang@zenforce.com", status: "Active", students: 15, lastLogin: "2023-07-10", certificateNumber: "ZRI2023_01", title: "Shifu" },
@@ -56,7 +58,24 @@ const mockStudents = [
 
 const AdminPortal = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState("dashboard");
+
+  // Effect to check for tab in URL query params
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const tab = params.get('tab');
+    if (tab && ['dashboard', 'instructors', 'areas', 'maintenance', 'events', 'settings'].includes(tab)) {
+      setActiveTab(tab);
+    }
+  }, [location]);
+
+  // Handle tab change and update URL
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    navigate(`/admin-portal?tab=${value}`, { replace: true });
+  };
 
   const pendingTasksCount = mockActivityData.maintenanceTasks.filter(
     task => task.status === "Pending" || task.status === "In Progress"
@@ -80,7 +99,7 @@ const AdminPortal = () => {
         pendingTasksCount={pendingTasksCount}
       />
       
-      <Tabs defaultValue="dashboard" value={activeTab} onValueChange={setActiveTab} className="w-full">
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
         <TabsList className="mb-4">
           <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
           <TabsTrigger value="instructors">Instructors</TabsTrigger>
