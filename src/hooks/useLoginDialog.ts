@@ -30,13 +30,30 @@ export function useLoginDialog(type: "student" | "instructor" | "admin", onOpenC
     setLoading(true);
 
     try {
+      // Determine the correct email to use based on the login type
+      let loginEmail;
+      
+      if (type === "admin") {
+        // For admin, use the hardcoded email from userService
+        loginEmail = "zenforce786@gmail.com";
+      } else if (type === "student") {
+        // For students, use the membership number to construct the email
+        loginEmail = `${username}@zen.martial.arts`;
+      } else {
+        // For instructors, use their username directly as email
+        loginEmail = username;
+      }
+
+      console.log(`Attempting login with email: ${loginEmail}`);
+      
       // Attempt to authenticate the user
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: type === "student" ? `${username}@zen.martial.arts` : username,
+        email: loginEmail,
         password: password,
       });
 
       if (error) {
+        console.error("Login error details:", error);
         toast({
           title: "Login Failed",
           description: error.message,
