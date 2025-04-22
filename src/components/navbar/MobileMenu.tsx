@@ -1,7 +1,6 @@
-
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { History, GalleryHorizontal, BookMarked, Calendar, UserPlus, LogIn } from "lucide-react";
+import { History, GalleryHorizontal, BookMarked, Calendar, UserPlus, LogIn, Info } from "lucide-react";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -67,6 +66,17 @@ const MobileMenu = ({ isOpen, onClose, onLoginClick }: MobileMenuProps) => {
         >
           <Calendar className="mr-2 h-4 w-4" />
           Events
+        </Link>
+        
+        <Link
+          to="/about-us"
+          className={`block px-3 py-2 rounded-md text-base font-medium ${
+            isActive("/about-us") ? "bg-primary-50 text-primary-600" : "text-gray-700 hover:bg-gray-50"
+          } flex items-center`}
+          onClick={onClose}
+        >
+          <Info className="mr-2 h-4 w-4" />
+          About Us
         </Link>
         
         <div className="pt-4 pb-3 border-t border-gray-200">

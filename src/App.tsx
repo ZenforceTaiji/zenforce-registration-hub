@@ -11,6 +11,7 @@ import InstructorPortal from "@/pages/InstructorPortal";
 import Events from "@/pages/Events";
 import Booking from "@/pages/Booking";
 import Contact from "@/pages/Contact";
+import AboutUs from "@/pages/AboutUs";
 import { Toaster } from "@/components/ui/toaster";
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <Route path="/admin-portal" element={<AdminPortal />} />
           <Route path="/student-portal" element={<StudentPortal />} />
           <Route path="/instructor-portal" element={<InstructorPortal />} />
+          <Route path="/about-us" element={<AboutUs />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
