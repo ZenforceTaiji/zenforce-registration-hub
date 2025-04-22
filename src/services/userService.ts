@@ -20,7 +20,7 @@ export const createDefaultAdminUser = async (): Promise<boolean> => {
 
     // Sign up the admin user
     const { data, error } = await supabase.auth.signUp({
-      email: 'admin@zenforce-martial-arts.com', // Using a standard email format
+      email: 'zenforce786@gmail.com', // Updated email address
       password: 'Zaydaan200@@',
       options: {
         data: {
