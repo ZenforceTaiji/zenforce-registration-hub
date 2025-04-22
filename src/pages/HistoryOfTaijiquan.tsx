@@ -1,3 +1,4 @@
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Card, 
@@ -45,39 +46,40 @@ const HistoryOfTaijiquan = () => {
               ) : null}
               
               <div className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-4">
-                  <h3 className="text-xl font-semibold">Early Origins</h3>
-                  <p>
-                    The origins of TaijiQuan (太極拳) date back to the 13th century during the late Song Dynasty or early Yuan Dynasty in China. Its creation is typically attributed to the Taoist monk Zhang Sanfeng, who is said to have developed the art after observing a fight between a snake and a crane.
-                  </p>
-                  <p>
-                    Historical records suggest the martial art first became widely recognized during the Chen family lineage in the Chen Village (Chenjiagou) in Henan Province around the 16th century.
-                  </p>
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div className="space-y-4">
+                    <h3 className="text-xl font-semibold">Early Origins</h3>
+                    <p>
+                      The origins of TaijiQuan (太極拳) date back to the 13th century during the late Song Dynasty or early Yuan Dynasty in China. Its creation is typically attributed to the Taoist monk Zhang Sanfeng, who is said to have developed the art after observing a fight between a snake and a crane.
+                    </p>
+                    <p>
+                      Historical records suggest the martial art first became widely recognized during the Chen family lineage in the Chen Village (Chenjiagou) in Henan Province around the 16th century.
+                    </p>
+                    
+                    <h3 className="text-xl font-semibold mt-6">Development Through Dynasties</h3>
+                    <p>
+                      Through the Ming Dynasty (1368-1644) and Qing Dynasty (1644-1912), TaijiQuan evolved from a fighting system into a practice that combined martial skill with health benefits and philosophical depth.
+                    </p>
+                    <p>
+                      By the 19th century, TaijiQuan had branched into several major styles, each carrying the name of the family that developed it: Chen, Yang, Wu, Wu (Hao), and Sun styles.
+                    </p>
+                  </div>
                   
-                  <h3 className="text-xl font-semibold mt-6">Development Through Dynasties</h3>
-                  <p>
-                    Through the Ming Dynasty (1368-1644) and Qing Dynasty (1644-1912), TaijiQuan evolved from a fighting system into a practice that combined martial skill with health benefits and philosophical depth.
-                  </p>
-                  <p>
-                    By the 19th century, TaijiQuan had branched into several major styles, each carrying the name of the family that developed it: Chen, Yang, Wu, Wu (Hao), and Sun styles.
-                  </p>
-                </div>
-                
-                <div className="space-y-4">
-                  <img 
-                    src="https://images.unsplash.com/photo-1518611012118-696072aa579a" 
-                    alt="Ancient Chinese scroll depicting martial arts" 
-                    className="rounded-lg shadow-md object-cover w-full h-80"
-                  />
-                  
-                  <h3 className="text-xl font-semibold mt-6">Modern Era</h3>
-                  <p>
-                    In the early 20th century, TaijiQuan became more accessible to the general public as masters began teaching outside family lineages. The Chinese government later standardized several simplified forms for mass practice and competition.
-                  </p>
-                  <p>
-                    Today, TaijiQuan is practiced worldwide as a form of exercise, meditation, and self-defense. In 2020, UNESCO recognized TaijiQuan as an Intangible Cultural Heritage of Humanity, acknowledging its cultural significance and global impact.
-                  </p>
+                  <div className="space-y-4">
+                    <img 
+                      src="https://images.unsplash.com/photo-1518611012118-696072aa579a" 
+                      alt="Ancient Chinese scroll depicting martial arts" 
+                      className="rounded-lg shadow-md object-cover w-full h-80"
+                    />
+                    
+                    <h3 className="text-xl font-semibold mt-6">Modern Era</h3>
+                    <p>
+                      In the early 20th century, TaijiQuan became more accessible to the general public as masters began teaching outside family lineages. The Chinese government later standardized several simplified forms for mass practice and competition.
+                    </p>
+                    <p>
+                      Today, TaijiQuan is practiced worldwide as a form of exercise, meditation, and self-defense. In 2020, UNESCO recognized TaijiQuan as an Intangible Cultural Heritage of Humanity, acknowledging its cultural significance and global impact.
+                    </p>
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -617,4 +619,52 @@ const HistoryOfTaijiquan = () => {
                 <div className="bg-black rounded-lg overflow-hidden">
                   <div className="aspect-w-16 aspect-h-9">
                     <div className="w-full h-full flex items-center justify-center bg-gray-900 text-white">
-                      <div className="text-center p-6
+                      <div className="text-center p-6">
+                        <p className="mb-2">Video player placeholder</p>
+                        <p className="text-sm">Videos will be added in a future update</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="grid md:grid-cols-3 gap-6">
+                  <div className="border rounded-lg overflow-hidden shadow-sm">
+                    <div className="bg-gray-200 h-48 flex items-center justify-center">
+                      <p className="text-gray-600">Video thumbnail placeholder</p>
+                    </div>
+                    <div className="p-4">
+                      <h4 className="font-semibold">Yang Style 24 Form</h4>
+                      <p className="text-sm text-gray-500 mt-1">Complete demonstration with instructions</p>
+                    </div>
+                  </div>
+                  
+                  <div className="border rounded-lg overflow-hidden shadow-sm">
+                    <div className="bg-gray-200 h-48 flex items-center justify-center">
+                      <p className="text-gray-600">Video thumbnail placeholder</p>
+                    </div>
+                    <div className="p-4">
+                      <h4 className="font-semibold">Chen Style Fundamentals</h4>
+                      <p className="text-sm text-gray-500 mt-1">Silk-reeling exercises and principles</p>
+                    </div>
+                  </div>
+                  
+                  <div className="border rounded-lg overflow-hidden shadow-sm">
+                    <div className="bg-gray-200 h-48 flex items-center justify-center">
+                      <p className="text-gray-600">Video thumbnail placeholder</p>
+                    </div>
+                    <div className="p-4">
+                      <h4 className="font-semibold">Understanding Yin-Yang in Movement</h4>
+                      <p className="text-sm text-gray-500 mt-1">Practical applications of philosophical principles</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+};
+
+export default HistoryOfTaijiquan;
