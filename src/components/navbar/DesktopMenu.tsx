@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { History, GalleryHorizontal, BookMarked, Calendar, mail } from "lucide-react";
+import { History, GalleryHorizontal, BookMarked, Calendar, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const DesktopMenu = () => {
@@ -76,7 +76,7 @@ const DesktopMenu = () => {
             isActive("/contact") ? "bg-primary-50 text-primary-600" : ""
           }`}
         >
-          <mail className="h-4 w-4" />
+          <Mail className="h-4 w-4" />
           Contact
         </Button>
       </Link>
