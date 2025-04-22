@@ -10,6 +10,7 @@ import AdminPortal from "@/pages/AdminPortal";
 import StudentPortal from "@/pages/StudentPortal";
 import InstructorPortal from "@/pages/InstructorPortal";
 import Events from "@/pages/Events";
+import Booking from "@/pages/Booking";
 import { Toaster } from "@/components/ui/toaster";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/history-of-taijiquan" element={<HistoryOfTaijiquan />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/booking" element={<Booking />} />
           <Route path="/par-form" element={<ParForm />} />
           <Route path="/admin-portal" element={<AdminPortal />} />
           <Route path="/student-portal" element={<StudentPortal />} />
