@@ -32,7 +32,12 @@ const HeroSection = () => {
     
       {/* Hero Section */}
       <section className="relative bg-primary-700 py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/placeholder.svg')] bg-cover bg-center opacity-20"></div>
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-20"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1500673922987-e212871fec22')`
+          }}
+        ></div>
         <div className="absolute inset-0 bg-gradient-to-b from-primary-800/80 to-primary-900/80"></div>
 
         <div className="relative container mx-auto px-4 py-16 lg:py-24">

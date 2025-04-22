@@ -22,7 +22,12 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center">
+            <Link to="/" className="flex items-center gap-2">
+              <img 
+                src="https://images.unsplash.com/photo-1500673922987-e212871fec22" 
+                alt="ZenForce Logo" 
+                className="h-8 w-auto"
+              />
               <span className="text-xl font-bold text-primary-600">ZenForce</span>
               <span className="text-xl font-medium ml-1 text-gray-700">TaijiQuan</span>
             </Link>

@@ -10,8 +10,8 @@ import {
   AreasTab,
   MaintenanceTab
 } from "@/components/admin";
+import { SiteSettingsTab } from "@/components/admin/settings/SiteSettingsTab";
 
-// Mock data
 const mockInstructors = [
   { id: 1, name: "Master Liang", email: "liang@zenforce.com", status: "Active", students: 15, lastLogin: "2023-07-10", certificateNumber: "ZRI2023_01", title: "Shifu" },
   { id: 2, name: "Shifu Chen", email: "chen@zenforce.com", status: "Active", students: 12, lastLogin: "2023-07-12", certificateNumber: "ZRI2023_02", title: "Shifu" },
@@ -58,7 +58,6 @@ const AdminPortal = () => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("dashboard");
 
-  // Calculate pending tasks count
   const pendingTasksCount = mockActivityData.maintenanceTasks.filter(
     task => task.status === "Pending" || task.status === "In Progress"
   ).length;
@@ -88,6 +87,7 @@ const AdminPortal = () => {
           <TabsTrigger value="areas">Geographic Areas</TabsTrigger>
           <TabsTrigger value="maintenance">Maintenance</TabsTrigger>
           <TabsTrigger value="events">Events</TabsTrigger>
+          <TabsTrigger value="settings">Settings</TabsTrigger>
         </TabsList>
         
         <TabsContent value="dashboard">
@@ -115,6 +115,10 @@ const AdminPortal = () => {
         
         <TabsContent value="events">
           <EventsCalendar />
+        </TabsContent>
+
+        <TabsContent value="settings">
+          <SiteSettingsTab />
         </TabsContent>
       </Tabs>
     </div>
