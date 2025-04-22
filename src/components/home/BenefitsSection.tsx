@@ -5,27 +5,27 @@ import { Badge } from "@/components/ui/badge";
 
 const BenefitsSection = () => {
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-12 sm:py-16 bg-gray-50">
       <div className="container mx-auto px-4">
-        <div className="text-center max-w-3xl mx-auto mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
           <Badge variant="outline" className="mb-4 border-primary-500/50 text-primary-600">Holistic Practice</Badge>
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Benefits of Regular Practice</h2>
-          <p className="text-lg text-gray-600">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Benefits of Regular Practice</h2>
+          <p className="text-base sm:text-lg text-gray-600">
             Discover how regular Taijiquan practice can transform your physical and mental wellbeing
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid gap-6 sm:gap-8 md:grid-cols-3">
           <Card className="shadow-soft hover:shadow-card-hover transition-all duration-300">
-            <CardContent className="p-6">
-              <div className="h-12 w-12 rounded-full bg-primary-50 flex items-center justify-center mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary-600">
+            <CardContent className="p-4 sm:p-6">
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-primary-50 flex items-center justify-center mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary-600">
                   <path d="M18 8c0 4.5-6 9-6 9s-6-4.5-6-9a6 6 0 0 1 12 0Z" />
                   <circle cx="12" cy="8" r="2" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold mb-2">Improved Balance</h3>
-              <p className="text-gray-600">
+              <h3 className="text-lg sm:text-xl font-bold mb-2">Improved Balance</h3>
+              <p className="text-sm sm:text-base text-gray-600">
                 Regular practice strengthens legs and core, enhancing stability and reducing fall risk
               </p>
             </CardContent>

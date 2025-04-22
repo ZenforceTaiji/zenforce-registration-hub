@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -31,7 +30,7 @@ const HeroSection = () => {
       />
     
       {/* Hero Section */}
-      <section className="relative bg-primary-700 py-20 overflow-hidden">
+      <section className="relative bg-primary-700 py-12 sm:py-16 lg:py-20 overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-20"
           style={{
@@ -40,25 +39,25 @@ const HeroSection = () => {
         ></div>
         <div className="absolute inset-0 bg-gradient-to-b from-primary-800/80 to-primary-900/80"></div>
 
-        <div className="relative container mx-auto px-4 py-16 lg:py-24">
+        <div className="relative container mx-auto px-4 py-8 sm:py-12 lg:py-16">
           <div className="max-w-3xl">
-            <h1 className="text-5xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl mb-6">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-white mb-4 sm:mb-6">
               ZenForce TaijiQuan SA
             </h1>
-            <p className="mt-6 text-xl text-white/90 max-w-2xl leading-relaxed">
+            <p className="mt-4 sm:mt-6 text-lg sm:text-xl text-white/90 max-w-2xl leading-relaxed">
               Discover the ancient art of balance, strength, and inner peace
             </p>
           </div>
           
-          <div className="mt-12 max-w-lg p-6 rounded-lg bg-white/10 backdrop-blur-sm">
-            <h2 className="text-2xl font-bold text-white mb-6">Registration Process</h2>
+          <div className="mt-8 sm:mt-12 max-w-lg p-4 sm:p-6 rounded-lg bg-white/10 backdrop-blur-sm">
+            <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Registration Process</h2>
             
             <div className="space-y-4">
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary-600 text-white flex items-center justify-center font-bold">1</div>
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary-600 text-white flex items-center justify-center font-bold text-sm sm:text-base">1</div>
                 <div>
-                  <h3 className="text-lg font-medium text-white">Complete PAR-Q Form</h3>
-                  <p className="text-white/80 text-sm">Physical Activity Readiness Questionnaire is required before registration</p>
+                  <h3 className="text-base sm:text-lg font-medium text-white">Complete PAR-Q Form</h3>
+                  <p className="text-sm text-white/80">Physical Activity Readiness Questionnaire is required before registration</p>
                 </div>
               </div>
               
@@ -79,15 +78,15 @@ const HeroSection = () => {
               </div>
             </div>
             
-            <div className="flex gap-4 mt-8">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6 sm:mt-8">
               <Button
                 variant="default"
                 size="lg"
-                className="bg-primary-600 text-white hover:bg-primary-700"
+                className="w-full sm:w-auto bg-primary-600 text-white hover:bg-primary-700"
                 onClick={handleStartRegistration}
               >
-                <FilePenLine className="h-5 w-5 mr-2" />
-                Start Registration Process
+                <FilePenLine className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
+                Start Registration
               </Button>
               
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -95,9 +94,9 @@ const HeroSection = () => {
                   <Button
                     variant="outline"
                     size="lg"
-                    className="bg-white/10 text-white hover:bg-white/20 border border-white/30"
+                    className="w-full sm:w-auto bg-white/10 text-white hover:bg-white/20 border border-white/30"
                   >
-                    <Info className="h-5 w-5 mr-2" />
+                    <Info className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                     Learn More
                   </Button>
                 </DialogTrigger>
