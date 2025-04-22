@@ -1,13 +1,7 @@
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Card, 
-  CardContent, 
-  CardDescription, 
-  CardHeader, 
-  CardTitle 
-} from "@/components/ui/card";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
+import HistoryTab from "@/components/history/tabs/HistoryTab";
+import YinYangTab from "@/components/history/tabs/YinYangTab";
 
 const HistoryOfTaijiquan = () => {
   const { data: historyContent } = useWebsiteContent('history');
@@ -33,141 +27,11 @@ const HistoryOfTaijiquan = () => {
         </TabsList>
         
         <TabsContent value="history" className="mt-0">
-          <Card>
-            <CardHeader>
-              <CardTitle>{introContent?.title || "Origins and History of TaijiQuan"}</CardTitle>
-              <CardDescription>
-                {introContent?.description || "Tracing the roots of this ancient Chinese martial art"}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {introContent?.content ? (
-                <p className="text-gray-700 leading-relaxed mb-4">{introContent.content}</p>
-              ) : null}
-              
-              <div className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-semibold">Early Origins</h3>
-                    <p>
-                      The origins of TaijiQuan (太極拳) date back to the 13th century during the late Song Dynasty or early Yuan Dynasty in China. Its creation is typically attributed to the Taoist monk Zhang Sanfeng, who is said to have developed the art after observing a fight between a snake and a crane.
-                    </p>
-                    <p>
-                      Historical records suggest the martial art first became widely recognized during the Chen family lineage in the Chen Village (Chenjiagou) in Henan Province around the 16th century.
-                    </p>
-                    
-                    <h3 className="text-xl font-semibold mt-6">Development Through Dynasties</h3>
-                    <p>
-                      Through the Ming Dynasty (1368-1644) and Qing Dynasty (1644-1912), TaijiQuan evolved from a fighting system into a practice that combined martial skill with health benefits and philosophical depth.
-                    </p>
-                    <p>
-                      By the 19th century, TaijiQuan had branched into several major styles, each carrying the name of the family that developed it: Chen, Yang, Wu, Wu (Hao), and Sun styles.
-                    </p>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <img 
-                      src="https://images.unsplash.com/photo-1518611012118-696072aa579a" 
-                      alt="Ancient Chinese scroll depicting martial arts" 
-                      className="rounded-lg shadow-md object-cover w-full h-80"
-                    />
-                    
-                    <h3 className="text-xl font-semibold mt-6">Modern Era</h3>
-                    <p>
-                      In the early 20th century, TaijiQuan became more accessible to the general public as masters began teaching outside family lineages. The Chinese government later standardized several simplified forms for mass practice and competition.
-                    </p>
-                    <p>
-                      Today, TaijiQuan is practiced worldwide as a form of exercise, meditation, and self-defense. In 2020, UNESCO recognized TaijiQuan as an Intangible Cultural Heritage of Humanity, acknowledging its cultural significance and global impact.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <HistoryTab introContent={introContent} />
         </TabsContent>
         
         <TabsContent value="yinyang" className="mt-0">
-          <Card>
-            <CardHeader>
-              <CardTitle>The Yin Yang Philosophy</CardTitle>
-              <CardDescription>
-                Understanding the philosophical foundation of TaijiQuan
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-4">
-                  <h3 className="text-xl font-semibold">The Taiji Symbol</h3>
-                  <p>
-                    The Taiji (太極) symbol, commonly known as the Yin-Yang symbol, represents the ancient Chinese understanding of how things work. The black and white halves represent opposing yet complementary forces in the universe.
-                  </p>
-                  
-                  <div className="mt-4 p-4 bg-gray-50 rounded-md border">
-                    <h4 className="font-medium mb-2">Key Principles:</h4>
-                    <ul className="list-disc pl-5 space-y-2">
-                      <li><strong>Duality:</strong> Everything contains opposite forces that depend on each other</li>
-                      <li><strong>Harmony:</strong> Balance between opposing forces creates stability</li>
-                      <li><strong>Cyclical Nature:</strong> Opposites constantly transform into each other</li>
-                      <li><strong>Relativity:</strong> Nothing is absolute; everything exists in relation to its opposite</li>
-                    </ul>
-                  </div>
-                  
-                  <h3 className="text-xl font-semibold mt-6">Application in TaijiQuan</h3>
-                  <p>
-                    In TaijiQuan, the Yin-Yang philosophy manifests through constant transitions between substantial (Yang) and insubstantial (Yin) movements. When one part of the body is Yang (active), another part is Yin (passive).
-                  </p>
-                  <p>
-                    This balance creates the flowing, circular movements characteristic of the art. Practitioners learn to respond to force with softness and to counter softness with appropriate force, embodying the principle of yielding to overcome.
-                  </p>
-                </div>
-                
-                <div>
-                  <div className="flex justify-center mb-6">
-                    <div className="bg-white rounded-full w-64 h-64 p-4 shadow-lg border flex items-center justify-center">
-                      <div className="relative w-full h-full rounded-full overflow-hidden bg-black">
-                        <div className="absolute top-0 left-0 w-1/2 h-full bg-white"></div>
-                        <div className="absolute top-0 left-0 w-full h-1/2 bg-transparent" style={{ backgroundImage: "radial-gradient(circle at 75% 50%, white 0, white 15%, transparent 15%)" }}></div>
-                        <div className="absolute bottom-0 right-0 w-full h-1/2 bg-transparent" style={{ backgroundImage: "radial-gradient(circle at 25% 50%, black 0, black 15%, transparent 15%)" }}></div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-4 mt-6">
-                    <h3 className="text-xl font-semibold">The Eight Energies</h3>
-                    <p>
-                      TaijiQuan embodies eight basic energies (ba jin) derived from Yin-Yang theory:
-                    </p>
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="p-3 bg-gray-50 rounded border">
-                        <span className="font-medium">Ward Off (Peng)</span> - Yang
-                      </div>
-                      <div className="p-3 bg-gray-50 rounded border">
-                        <span className="font-medium">Roll Back (Lu)</span> - Yin
-                      </div>
-                      <div className="p-3 bg-gray-50 rounded border">
-                        <span className="font-medium">Press (Ji)</span> - Yang
-                      </div>
-                      <div className="p-3 bg-gray-50 rounded border">
-                        <span className="font-medium">Push (An)</span> - Yang
-                      </div>
-                      <div className="p-3 bg-gray-50 rounded border">
-                        <span className="font-medium">Pull (Cai)</span> - Yin
-                      </div>
-                      <div className="p-3 bg-gray-50 rounded border">
-                        <span className="font-medium">Split (Lie)</span> - Yang
-                      </div>
-                      <div className="p-3 bg-gray-50 rounded border">
-                        <span className="font-medium">Elbow (Zhou)</span> - Yang
-                      </div>
-                      <div className="p-3 bg-gray-50 rounded border">
-                        <span className="font-medium">Shoulder (Kao)</span> - Yang
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <YinYangTab />
         </TabsContent>
         
         <TabsContent value="forms" className="mt-0">
