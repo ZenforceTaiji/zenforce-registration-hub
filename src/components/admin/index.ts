@@ -1,24 +1,10 @@
 
-import ActivityChart from "./ActivityChart";
-import AreaForm from "./AreaForm";
-import AreasTab from "./AreasTab";
-import DashboardTab from "./DashboardTab";
-import InstructorAssignmentDialog from "./InstructorAssignmentDialog";
-import InstructorForm from "./InstructorForm";
-import InstructorsTab from "./InstructorsTab";
-import MaintenanceForm from "./MaintenanceForm";
-import MaintenanceTab from "./MaintenanceTab";
-import StatsOverview from "./StatsOverview";
+// Export existing components
+export { default as DashboardTab } from './DashboardTab';
+export { default as InstructorsTab } from './InstructorsTab';
+export { default as AreasTab } from './AreasTab';
+export { default as MaintenanceTab } from './MaintenanceTab';
+export { default as StatsOverview } from './StatsOverview';
 
-export {
-  ActivityChart,
-  AreaForm,
-  AreasTab,
-  DashboardTab,
-  InstructorAssignmentDialog,
-  InstructorForm,
-  InstructorsTab,
-  MaintenanceForm,
-  MaintenanceTab,
-  StatsOverview
-};
+// Export financial components
+export { FinancialsTab } from './financials';

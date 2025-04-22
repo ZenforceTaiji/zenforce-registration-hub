@@ -12,6 +12,7 @@ import {
   MaintenanceTab
 } from "@/components/admin";
 import { SiteSettingsTab } from "@/components/admin/settings/SiteSettingsTab";
+import { FinancialsTab } from "@/components/admin/financials/FinancialsTab";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const mockInstructors = [
@@ -56,6 +57,24 @@ const mockStudents = [
   { id: 8, name: "Lisa Wang", email: "lisa@example.com", area: "East District", level: "Intermediate" },
 ];
 
+// Mock financial data
+const mockFinancialData = {
+  studentPayments: [
+    { id: 1, studentName: "John Lee", amount: 640, date: "2024-01-15", status: "Paid", type: "Monthly" },
+    { id: 2, studentName: "Sarah Wong", amount: 640, date: "2024-01-20", status: "Paid", type: "Monthly" },
+    { id: 3, studentName: "Michael Chen", amount: 640, date: "2024-01-25", status: "Overdue", type: "Monthly" },
+    { id: 4, studentName: "Emily Zhang", amount: 800, date: "2024-02-01", status: "Pending", type: "Grading Fee" },
+    { id: 5, studentName: "David Liu", amount: 1280, date: "2024-02-05", status: "Paid", type: "Registration" },
+  ],
+  expenses: [
+    { id: 1, description: "Venue Rental - North District", amount: 2500, date: "2024-01-10", category: "Facilities" },
+    { id: 2, description: "Instructor Salary - Master Liang", amount: 3500, date: "2024-01-31", category: "Salaries" },
+    { id: 3, description: "Marketing Materials", amount: 1200, date: "2024-01-15", category: "Marketing" },
+    { id: 4, description: "Insurance", amount: 1800, date: "2024-01-05", category: "Administrative" },
+    { id: 5, description: "Training Equipment", amount: 950, date: "2024-01-20", category: "Equipment" },
+  ]
+};
+
 const AdminPortal = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -66,7 +85,7 @@ const AdminPortal = () => {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const tab = params.get('tab');
-    if (tab && ['dashboard', 'instructors', 'areas', 'maintenance', 'events', 'settings'].includes(tab)) {
+    if (tab && ['dashboard', 'instructors', 'areas', 'maintenance', 'events', 'settings', 'financials'].includes(tab)) {
       setActiveTab(tab);
     }
   }, [location]);
@@ -106,6 +125,7 @@ const AdminPortal = () => {
           <TabsTrigger value="areas">Geographic Areas</TabsTrigger>
           <TabsTrigger value="maintenance">Maintenance</TabsTrigger>
           <TabsTrigger value="events">Events</TabsTrigger>
+          <TabsTrigger value="financials">Financials</TabsTrigger>
           <TabsTrigger value="settings">Settings</TabsTrigger>
         </TabsList>
         
@@ -134,6 +154,10 @@ const AdminPortal = () => {
         
         <TabsContent value="events">
           <EventsCalendar />
+        </TabsContent>
+        
+        <TabsContent value="financials">
+          <FinancialsTab financialData={mockFinancialData} />
         </TabsContent>
 
         <TabsContent value="settings">
