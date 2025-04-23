@@ -88,6 +88,10 @@ export const TrainingSelectionForm = ({ onSelectionChange }: TrainingSelectionFo
   };
 
   const handleDateSelect = (optionId: string, date: Date) => {
+    if (date.getDay() !== 6) {
+      return;
+    }
+
     const currentDates = selectedDates[optionId] || [];
     const dateExists = currentDates.some(
       existingDate => format(existingDate, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')
@@ -191,7 +195,7 @@ export const TrainingSelectionForm = ({ onSelectionChange }: TrainingSelectionFo
                     )}
                     {option.id === "saturday" && selectedTraining.includes(option.id) && (
                       <div className="mt-4">
-                        <Label className="mb-2 block">Select Training Dates</Label>
+                        <Label className="mb-2 block">Select Training Dates (Saturdays Only)</Label>
                         <Popover>
                           <PopoverTrigger asChild>
                             <Button
@@ -205,7 +209,7 @@ export const TrainingSelectionForm = ({ onSelectionChange }: TrainingSelectionFo
                               {selectedDates[option.id]?.length ? (
                                 `${selectedDates[option.id].length} date${selectedDates[option.id].length > 1 ? 's' : ''} selected`
                               ) : (
-                                "Select dates"
+                                "Select Saturdays"
                               )}
                             </Button>
                           </PopoverTrigger>
@@ -217,13 +221,13 @@ export const TrainingSelectionForm = ({ onSelectionChange }: TrainingSelectionFo
                                 if (dates) {
                                   setSelectedDates({
                                     ...selectedDates,
-                                    [option.id]: dates
+                                    [option.id]: dates.filter(date => date.getDay() === 6)
                                   });
                                   const selectedOptions = trainingOptions.map(opt => {
                                     if (opt.id === option.id) {
                                       return {
                                         ...opt,
-                                        selectedDates: dates
+                                        selectedDates: dates.filter(date => date.getDay() === 6)
                                       };
                                     }
                                     if (selectedTraining.includes(opt.id)) {
@@ -238,7 +242,9 @@ export const TrainingSelectionForm = ({ onSelectionChange }: TrainingSelectionFo
                                   onSelectionChange(selectedOptions);
                                 }
                               }}
-                              disabled={{ before: new Date() }}
+                              disabled={(date) => {
+                                return date.getDay() !== 6 || date < new Date();
+                              }}
                               className="rounded-md border pointer-events-auto"
                             />
                           </PopoverContent>
@@ -246,7 +252,7 @@ export const TrainingSelectionForm = ({ onSelectionChange }: TrainingSelectionFo
                         {selectedDates[option.id]?.length > 0 && (
                           <div className="mt-2">
                             <p className="text-sm text-gray-500">
-                              Selected dates:{" "}
+                              Selected Saturdays:{" "}
                               {selectedDates[option.id].map(date => 
                                 format(date, "PPP")
                               ).join(", ")}
