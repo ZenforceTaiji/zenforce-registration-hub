@@ -4,10 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { createMembershipInvoice } from "@/services/invoiceService";
 import { TrainingSelectionForm, TrainingOption } from "./TrainingSelectionForm";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 interface StudentDetails {
   firstName: string;
@@ -30,6 +31,7 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
   const { toast } = useToast();
   const [formData, setFormData] = useState<StudentDetails>(initialData);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [invoiceError, setInvoiceError] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -69,9 +71,10 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
     }
 
     setIsProcessing(true);
+    setInvoiceError(false);
 
     try {
-      // Create invoice for the selected training options
+      // Try to create invoice for the selected training options
       const invoiceResponse = await createMembershipInvoice(
         {
           firstName: formData.firstName,
@@ -104,13 +107,26 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
       }
     } catch (error) {
       console.error("Registration error:", error);
+      setInvoiceError(true);
       toast({
-        title: "Registration Error",
-        description: "There was a problem processing your registration. Please try again.",
-        variant: "destructive",
+        title: "Registration Notice",
+        description: "Unable to create invoice at this time. You can continue with registration.",
+        variant: "default",
       });
     } finally {
       setIsProcessing(false);
+    }
+  };
+
+  const handleContinueWithoutInvoice = () => {
+    // Save form data to session storage without invoice
+    sessionStorage.setItem("studentDetails", JSON.stringify(formData));
+    
+    // Navigate based on age
+    if (userAge === "child") {
+      navigate("/parent-details");
+    } else {
+      navigate("/previous-training");
     }
   };
 
@@ -203,17 +219,39 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
         <TrainingSelectionForm onSelectionChange={handleTrainingSelectionChange} />
       </div>
 
+      {invoiceError && (
+        <Alert className="bg-yellow-50 border-yellow-200">
+          <AlertCircle className="h-4 w-4 text-yellow-600" />
+          <AlertDescription className="text-yellow-700">
+            There was a problem connecting to the payment system. You can continue with registration and handle payment later.
+          </AlertDescription>
+        </Alert>
+      )}
+
       <div className="flex justify-between pt-4">
         <Button type="button" variant="outline" onClick={() => navigate("/par-form")}>
           Back to PAR-Q Form
         </Button>
-        <Button 
-          type="submit" 
-          className="bg-accent-red hover:bg-accent-red/90 text-white"
-          disabled={isProcessing}
-        >
-          {isProcessing ? "Processing..." : "Continue"}
-        </Button>
+        
+        <div className="space-x-3">
+          {invoiceError && (
+            <Button 
+              type="button" 
+              variant="outline"
+              onClick={handleContinueWithoutInvoice}
+            >
+              Continue Without Invoice
+            </Button>
+          )}
+          
+          <Button 
+            type="submit" 
+            className="bg-accent-red hover:bg-accent-red/90 text-white"
+            disabled={isProcessing}
+          >
+            {isProcessing ? "Processing..." : "Continue"}
+          </Button>
+        </div>
       </div>
     </form>
   );
