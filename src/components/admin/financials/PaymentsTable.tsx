@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   Table,
@@ -14,9 +13,11 @@ import {
   Receipt, 
   Check, 
   Search,
-  CreditCard
+  CreditCard,
+  Send
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import PaymentMethodsDialog from "@/components/student-portal/financial/dialogs/PaymentMethodsDialog";
 
 interface Payment {
   id: number;
@@ -40,6 +41,8 @@ export const PaymentsTable = ({
 }: PaymentsTableProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
+  const [selectedPayment, setSelectedPayment] = useState<any>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
   
   // Filter payments based on search term and status filter
   const filteredPayments = payments.filter(payment => {
@@ -69,6 +72,19 @@ export const PaymentsTable = ({
     } else {
       setStatusFilter(status);
     }
+  };
+
+  const handleSendReminder = (payment: any) => {
+    setSelectedPayment({
+      memberNumber: payment.studentName,
+      amount: `R${payment.amount.toFixed(2)}`,
+      dueDate: payment.date,
+      description: payment.type,
+      // In a real app, these would come from the student data
+      studentPhone: "27123456789",
+      studentEmail: "student@example.com"
+    });
+    setDialogOpen(true);
   };
 
   return (
@@ -138,6 +154,14 @@ export const PaymentsTable = ({
                           <Button 
                             variant="outline" 
                             size="sm" 
+                            onClick={() => handleSendReminder(payment)}
+                          >
+                            <Send className="h-4 w-4 mr-1" />
+                            Reminder
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
                             onClick={() => onGenerateInvoice(payment.id, payment.amount)}
                           >
                             <Receipt className="h-4 w-4 mr-1" />
@@ -188,6 +212,14 @@ export const PaymentsTable = ({
           Add Payment
         </Button>
       </div>
+
+      {selectedPayment && (
+        <PaymentMethodsDialog
+          open={dialogOpen}
+          onOpenChange={setDialogOpen}
+          payment={selectedPayment}
+        />
+      )}
     </div>
   );
 };

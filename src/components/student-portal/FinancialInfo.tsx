@@ -1,15 +1,16 @@
 
-import { Button } from "@/components/ui/button";
-import { FileDown } from "lucide-react";
-import PaymentHistoryTable from "./financial/PaymentHistoryTable";
-import PaymentSummaryCards from "./financial/PaymentSummaryCards";
-import PaymentInfoAlert from "./financial/PaymentInfoAlert";
-import GradingFeeCard from "./financial/GradingFeeCard";
-import { samplePayments } from "./financial/paymentData";
-import { usePaymentActions } from "./financial/usePaymentActions";
+import { Button } from "@/components/ui/button"
+import { FileDown } from "lucide-react"
+import PaymentHistoryTable from "./financial/PaymentHistoryTable"
+import PaymentSummaryCards from "./financial/PaymentSummaryCards"
+import PaymentInfoAlert from "./financial/PaymentInfoAlert"
+import GradingFeeCard from "./financial/GradingFeeCard"
+import OutstandingPaymentsTable from "./financial/OutstandingPaymentsTable"
+import { samplePayments } from "./financial/paymentData"
+import { usePaymentActions } from "./financial/usePaymentActions"
 
 const FinancialInfo = () => {
-  const { isProcessing, handlePayment, handleGradingPayment } = usePaymentActions();
+  const { isProcessing, handlePayment, handleGradingPayment } = usePaymentActions()
 
   return (
     <div className="space-y-8">
@@ -26,6 +27,14 @@ const FinancialInfo = () => {
       />
 
       <div>
+        <h3 className="text-lg font-medium mb-4">Outstanding Payments</h3>
+        <OutstandingPaymentsTable 
+          payments={samplePayments.filter(p => p.status === 'Pending' || p.status === 'Overdue')} 
+          isAdminView={false}
+        />
+      </div>
+
+      <div>
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-medium">Payment History</h3>
           <Button variant="outline" size="sm" className="flex items-center gap-1">
@@ -37,7 +46,7 @@ const FinancialInfo = () => {
         <PaymentHistoryTable payments={samplePayments} />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FinancialInfo;
+export default FinancialInfo

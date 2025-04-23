@@ -1,44 +1,33 @@
 
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { Share2 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Button } from "@/components/ui/button"
+import { Send } from "lucide-react"
+import { useState } from "react"
+import PaymentMethodsDialog from "./dialogs/PaymentMethodsDialog"
 
 interface OutstandingPayment {
-  id: string;
-  memberNumber: string;
-  amount: string;
-  dueDate: string;
-  description: string;
-  instructorPhone: string;
+  id: string
+  memberNumber: string
+  amount: string
+  dueDate: string
+  description: string
+  studentPhone?: string
+  studentEmail?: string
 }
 
 interface OutstandingPaymentsTableProps {
-  payments: OutstandingPayment[];
+  payments: OutstandingPayment[]
+  isAdminView?: boolean
 }
 
-const OutstandingPaymentsTable = ({ payments }: OutstandingPaymentsTableProps) => {
-  const { toast } = useToast();
+const OutstandingPaymentsTable = ({ payments, isAdminView = false }: OutstandingPaymentsTableProps) => {
+  const [selectedPayment, setSelectedPayment] = useState<OutstandingPayment | null>(null)
+  const [dialogOpen, setDialogOpen] = useState(false)
 
-  const handleSendWhatsApp = (payments: OutstandingPayment[]) => {
-    // Format the message for WhatsApp with all outstanding payments
-    const messageList = payments
-      .map(p => `- Member ${p.memberNumber}: ${p.amount} due on ${p.dueDate} (${p.description})`)
-      .join("\n");
-    
-    const message = `Outstanding Payments List:\n\n${messageList}\n\nPlease follow up with these members regarding their payments.`;
-    
-    // Create WhatsApp share URL with instructor's phone
-    const whatsappUrl = `https://wa.me/${payments[0].instructorPhone}?text=${encodeURIComponent(message)}`;
-    
-    // Open WhatsApp in a new window
-    window.open(whatsappUrl, '_blank');
-    
-    toast({
-      title: "WhatsApp List Ready",
-      description: "The payment list has been formatted and ready to send to instructor.",
-    });
-  };
+  const handleOpenDialog = (payment: OutstandingPayment) => {
+    setSelectedPayment(payment)
+    setDialogOpen(true)
+  }
 
   return (
     <div className="space-y-4">
@@ -50,6 +39,7 @@ const OutstandingPaymentsTable = ({ payments }: OutstandingPaymentsTableProps) =
             <TableHead>Description</TableHead>
             <TableHead>Amount</TableHead>
             <TableHead>Due Date</TableHead>
+            {isAdminView && <TableHead className="text-right">Actions</TableHead>}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -60,11 +50,23 @@ const OutstandingPaymentsTable = ({ payments }: OutstandingPaymentsTableProps) =
                 <TableCell>{payment.description}</TableCell>
                 <TableCell>{payment.amount}</TableCell>
                 <TableCell>{payment.dueDate}</TableCell>
+                {isAdminView && (
+                  <TableCell className="text-right">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleOpenDialog(payment)}
+                    >
+                      <Send className="h-4 w-4 mr-2" />
+                      Send Reminder
+                    </Button>
+                  </TableCell>
+                )}
               </TableRow>
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={4} className="text-center py-6 text-gray-500">
+              <TableCell colSpan={isAdminView ? 5 : 4} className="text-center py-6 text-gray-500">
                 No outstanding payments found
               </TableCell>
             </TableRow>
@@ -72,21 +74,15 @@ const OutstandingPaymentsTable = ({ payments }: OutstandingPaymentsTableProps) =
         </TableBody>
       </Table>
 
-      {payments.length > 0 && (
-        <div className="flex justify-end">
-          <Button
-            variant="outline"
-            size="sm"
-            className="flex items-center gap-1"
-            onClick={() => handleSendWhatsApp(payments)}
-          >
-            <Share2 className="h-4 w-4" />
-            Send List to Instructor
-          </Button>
-        </div>
+      {selectedPayment && (
+        <PaymentMethodsDialog
+          open={dialogOpen}
+          onOpenChange={setDialogOpen}
+          payment={selectedPayment}
+        />
       )}
     </div>
-  );
-};
+  )
+}
 
-export default OutstandingPaymentsTable;
+export default OutstandingPaymentsTable
