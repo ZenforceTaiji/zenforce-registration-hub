@@ -4,39 +4,39 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { InfoIcon } from "lucide-react";
+import { InfoIcon, TreePine } from "lucide-react";
 
 export interface TrainingOption {
   id: string;
   name: string;
   price: number;
   description: string;
+  schedule: string;
+  outdoor?: boolean;
 }
 
 export const trainingOptions: TrainingOption[] = [
   {
-    id: "qigong",
-    name: "Qi Gong",
-    price: 30000, // R300 in cents
-    description: "Basic Qi Gong training"
+    id: "monday-wednesday",
+    name: "Qi Gong, Relaxation and Meditation",
+    price: 12000, // R120 per week (2 sessions at R60 each)
+    description: "Focus on relaxation, meditation, and Qi Gong practices",
+    schedule: "Mondays and Wednesdays"
   },
   {
-    id: "taiji-relaxation",
-    name: "TaijiQuan (Relaxation and Forms)",
-    price: 60000, // R600 in cents
-    description: "Focus on relaxation techniques and basic forms"
+    id: "tuesday-thursday",
+    name: "Martial Arts, Push Hands and Fitness",
+    price: 16000, // R160 per week (2 sessions at R80 each)
+    description: "Advanced training including martial applications and push hands practice",
+    schedule: "Tuesdays and Thursdays"
   },
   {
-    id: "taiji-fighting",
-    name: "TaijiQuan (Fighting Forms and Push Hands)",
-    price: 80000, // R800 in cents
-    description: "Advanced training including fighting forms and push hands"
-  },
-  {
-    id: "taiji-health",
-    name: "TaijiQuan (Health issues)",
-    price: 40000, // R400 in cents
-    description: "Specialized training focusing on health improvement"
+    id: "saturday",
+    name: "Health and Meditation",
+    price: 4000, // R40 per session
+    description: "Outdoor training focusing on health improvement and meditation",
+    schedule: "Saturday Mornings",
+    outdoor: true
   }
 ];
 
@@ -66,7 +66,7 @@ export const TrainingSelectionForm = ({ onSelectionChange }: TrainingSelectionFo
       <Alert>
         <InfoIcon className="h-4 w-4" />
         <AlertDescription>
-          Training sessions are conducted twice a week. Prices are based on 30 sessions.
+          Training sessions are priced per session with a minimum of 2 sessions per week for weekday classes.
         </AlertDescription>
       </Alert>
 
@@ -82,21 +82,32 @@ export const TrainingSelectionForm = ({ onSelectionChange }: TrainingSelectionFo
                     handleCheckboxChange(option.id, checked as boolean)
                   }
                 />
-                <div className="grid gap-1.5">
-                  <div className="flex items-center justify-between">
-                    <Label 
-                      htmlFor={option.id}
-                      className="text-base font-semibold"
-                    >
-                      {option.name}
-                    </Label>
-                    <span className="font-bold">
-                      R{option.price / 100} per month
+                <div className="grid gap-1.5 w-full">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <Label 
+                        htmlFor={option.id}
+                        className="text-base font-semibold"
+                      >
+                        {option.name}
+                      </Label>
+                      <p className="text-sm text-gray-500">
+                        {option.schedule}
+                      </p>
+                    </div>
+                    <span className="font-bold text-right">
+                      R{option.price / 100} {option.id !== "saturday" ? "per week" : "per session"}
                     </span>
                   </div>
                   <p className="text-sm text-gray-500">
                     {option.description}
                   </p>
+                  {option.outdoor && (
+                    <div className="flex items-center gap-1.5 text-sm text-green-600 mt-1">
+                      <TreePine className="h-4 w-4" />
+                      <span>Outdoor training in parks or nature reserves</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </CardContent>
