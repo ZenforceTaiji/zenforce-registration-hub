@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Routes, Route } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -37,11 +38,11 @@ function App() {
           <Route path="/previous-training" element={<PreviousTraining />} />
           <Route path="/medical-condition" element={<MedicalCondition />} />
           <Route path="/physical-readiness" element={<PhysicalReadiness />} />
+          <Route path="/upload-id" element={<UploadId />} />
           <Route path="/admin-portal" element={<AdminPortal />} />
           <Route path="/student-portal" element={<StudentPortal />} />
           <Route path="/instructor-portal" element={<InstructorPortal />} />
           <Route path="/about-us" element={<AboutUs />} />
-          <Route path="/upload-id" element={<UploadId />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
