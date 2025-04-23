@@ -5,9 +5,7 @@ import PaymentHistoryTable from "./financial/PaymentHistoryTable";
 import PaymentSummaryCards from "./financial/PaymentSummaryCards";
 import PaymentInfoAlert from "./financial/PaymentInfoAlert";
 import GradingFeeCard from "./financial/GradingFeeCard";
-import OutstandingPaymentsTable from "./financial/OutstandingPaymentsTable";
 import { samplePayments } from "./financial/paymentData";
-import { sampleOutstandingPayments } from "./financial/outstandingPaymentsData";
 import { usePaymentActions } from "./financial/usePaymentActions";
 
 const FinancialInfo = () => {
@@ -26,14 +24,6 @@ const FinancialInfo = () => {
         handleGradingPayment={handleGradingPayment} 
         isProcessing={isProcessing} 
       />
-
-      <div>
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-medium">Outstanding Payments</h3>
-        </div>
-        
-        <OutstandingPaymentsTable payments={sampleOutstandingPayments} />
-      </div>
 
       <div>
         <div className="flex justify-between items-center mb-4">

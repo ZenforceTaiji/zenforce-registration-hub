@@ -10,6 +10,7 @@ interface OutstandingPayment {
   amount: string;
   dueDate: string;
   description: string;
+  instructorPhone: string;
 }
 
 interface OutstandingPaymentsTableProps {
@@ -19,64 +20,72 @@ interface OutstandingPaymentsTableProps {
 const OutstandingPaymentsTable = ({ payments }: OutstandingPaymentsTableProps) => {
   const { toast } = useToast();
 
-  const handleSendWhatsApp = (payment: OutstandingPayment) => {
-    // Format the message for WhatsApp
-    const message = `Hello, this is a friendly reminder that you have an outstanding payment of ${payment.amount} due on ${payment.dueDate} for ${payment.description}. Please make your payment at your earliest convenience. Thank you!`;
+  const handleSendWhatsApp = (payments: OutstandingPayment[]) => {
+    // Format the message for WhatsApp with all outstanding payments
+    const messageList = payments
+      .map(p => `- Member ${p.memberNumber}: ${p.amount} due on ${p.dueDate} (${p.description})`)
+      .join("\n");
     
-    // Create WhatsApp share URL
-    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    const message = `Outstanding Payments List:\n\n${messageList}\n\nPlease follow up with these members regarding their payments.`;
+    
+    // Create WhatsApp share URL with instructor's phone
+    const whatsappUrl = `https://wa.me/${payments[0].instructorPhone}?text=${encodeURIComponent(message)}`;
     
     // Open WhatsApp in a new window
     window.open(whatsappUrl, '_blank');
     
     toast({
-      title: "WhatsApp Reminder Ready",
-      description: "The payment reminder has been formatted for WhatsApp sharing.",
+      title: "WhatsApp List Ready",
+      description: "The payment list has been formatted and ready to send to instructor.",
     });
   };
 
   return (
-    <Table>
-      <TableCaption>Outstanding payments requiring attention</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Member Number</TableHead>
-          <TableHead>Description</TableHead>
-          <TableHead>Amount</TableHead>
-          <TableHead>Due Date</TableHead>
-          <TableHead>Action</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {payments.length > 0 ? (
-          payments.map((payment) => (
-            <TableRow key={payment.id}>
-              <TableCell className="font-medium">{payment.memberNumber}</TableCell>
-              <TableCell>{payment.description}</TableCell>
-              <TableCell>{payment.amount}</TableCell>
-              <TableCell>{payment.dueDate}</TableCell>
-              <TableCell>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="flex items-center gap-1"
-                  onClick={() => handleSendWhatsApp(payment)}
-                >
-                  <Share2 className="h-4 w-4" />
-                  Send WhatsApp
-                </Button>
+    <div className="space-y-4">
+      <Table>
+        <TableCaption>Outstanding payments requiring attention</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Member Number</TableHead>
+            <TableHead>Description</TableHead>
+            <TableHead>Amount</TableHead>
+            <TableHead>Due Date</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {payments.length > 0 ? (
+            payments.map((payment) => (
+              <TableRow key={payment.id}>
+                <TableCell className="font-medium">{payment.memberNumber}</TableCell>
+                <TableCell>{payment.description}</TableCell>
+                <TableCell>{payment.amount}</TableCell>
+                <TableCell>{payment.dueDate}</TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={4} className="text-center py-6 text-gray-500">
+                No outstanding payments found
               </TableCell>
             </TableRow>
-          ))
-        ) : (
-          <TableRow>
-            <TableCell colSpan={5} className="text-center py-6 text-gray-500">
-              No outstanding payments found
-            </TableCell>
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+          )}
+        </TableBody>
+      </Table>
+
+      {payments.length > 0 && (
+        <div className="flex justify-end">
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-1"
+            onClick={() => handleSendWhatsApp(payments)}
+          >
+            <Share2 className="h-4 w-4" />
+            Send List to Instructor
+          </Button>
+        </div>
+      )}
+    </div>
   );
 };
 
