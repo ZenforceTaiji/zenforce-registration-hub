@@ -1,4 +1,3 @@
-
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -141,6 +140,10 @@ const UploadId = () => {
               variant="outline" 
               onClick={handleSaveForLater}
               className="flex items-center gap-2"
+              style={{
+                padding: "0.75rem 1.5rem",
+                minWidth: "160px",
+              }}
             >
               <Save className="h-4 w-4" />
               Save & Continue Later
@@ -150,13 +153,24 @@ const UploadId = () => {
                 type="button" 
                 variant="outline" 
                 onClick={() => navigate("/medical-condition")}
+                style={{
+                  padding: "0.75rem 1.5rem",
+                  minWidth: "160px",
+                }}
               >
                 Back
               </Button>
               <Button 
                 type="button" 
                 onClick={handleContinue}
-                className="bg-accent-red hover:bg-accent-red/90 text-white"
+                className="bg-red-600 hover:bg-red-700 text-white font-medium"
+                style={{
+                  padding: "0.75rem 1.5rem",
+                  minWidth: "200px",
+                  position: "relative",
+                  zIndex: 50,
+                  boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+                }}
               >
                 Continue
               </Button>
