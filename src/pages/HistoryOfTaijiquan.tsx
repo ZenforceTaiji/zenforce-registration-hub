@@ -1,12 +1,12 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
-import { HistoryTab } from "@/components/history/HistoryTab";
-import { YinYangTab } from "@/components/history/YinYangTab";
 import { FormsTab } from "@/components/history/FormsTab";
 import { MastersTab } from "@/components/history/MastersTab";
 import { HuiPeopleTab } from "@/components/history/HuiPeopleTab";
 import { VideosTab } from "@/components/history/VideosTab";
+import HistoryTab from "@/components/history/tabs/HistoryTab";
+import YinYangTab from "@/components/history/tabs/YinYangTab";
 
 const HistoryOfTaijiquan = () => {
   const { data: historyContent } = useWebsiteContent('history');
