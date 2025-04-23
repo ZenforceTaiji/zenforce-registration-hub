@@ -1,4 +1,3 @@
-
 // iKhokha Payment Service
 // This service handles API communication with the iKhokha payment gateway
 
@@ -24,39 +23,19 @@ export const IKHOKHA_APP_KEY = "IK9NX5EM6KL0LGZY6UPCMYGXUQ9UIMN7";
 const IKHOKHA_API_SECRET = "dbZfuRUfZkvdU90QRCXRx7YlsdlZSVVi5H";
 const IKHOKHA_API_URL = "https://api.ikhokha.com/pay/v1"; // Updated API endpoint
 
+const IKHOKHA_MERCHANT_URL = "https://pay.ikhokha.com/zenforce-taijiquan-sa/buy/zenforce";
+
 export const createPaymentLink = async (paymentData: PaymentRequest): Promise<string> => {
-  try {
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Authorization", `Basic ${btoa(`${IKHOKHA_APP_KEY}:${IKHOKHA_API_SECRET}`)}`);
-    headers.append("Accept", "application/json");
-    
-    // Log request details for debugging
-    console.log("Payment request:", JSON.stringify(paymentData));
-    console.log("Request URL:", `${IKHOKHA_API_URL}/payments`);
-    
-    const response = await fetch(`${IKHOKHA_API_URL}/payments`, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify(paymentData),
-      mode: "cors",
-    });
-
-    console.log("Response status:", response.status);
-    
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("Payment API error:", errorText);
-      throw new Error(`Payment request failed: ${response.statusText} - ${errorText}`);
-    }
-
-    const data = await response.json();
-    console.log("Payment response:", data);
-    return data.paymentUrl;
-  } catch (error) {
-    console.error("Error creating payment link:", error);
-    throw error;
+  // In development/demo mode, use the payment simulator
+  const isDemoMode = true; // Set to false in production
+  
+  if (isDemoMode) {
+    console.log("Using demo payment mode");
+    return `/payment-simulator?amount=${paymentData.amount/100}&reference=${paymentData.reference}&type=payment`;
   }
+  
+  // In production, use the iKhokha merchant URL
+  return IKHOKHA_MERCHANT_URL;
 };
 
 export const getPaymentStatus = async (paymentId: string): Promise<any> => {
@@ -103,16 +82,12 @@ export const createTypedPayment = async (
   try {
     const timestamp = Date.now();
     const typePrefix = type === PaymentType.REGISTRATION ? "REG" :
-                        type === PaymentType.MONTHLY ? "MEM" :
-                        type === PaymentType.GRADING ? "GRD" : "OTH";
+                      type === PaymentType.MONTHLY ? "MEM" :
+                      type === PaymentType.GRADING ? "GRD" : "OTH";
     
     const reference = `${typePrefix}-${timestamp}`;
     const fullDescription = description || `ZenForce TaijiQuan - ${type}`;
     
-    // Default URLs if not provided
-    const defaultSuccessUrl = `${window.location.origin}/payment-success`;
-    const defaultCancelUrl = `${window.location.origin}/payment-cancelled`;
-
     // Store payment details in session storage
     const paymentDetails = {
       amount: amount,
@@ -122,17 +97,6 @@ export const createTypedPayment = async (
       timestamp: new Date().toISOString()
     };
     sessionStorage.setItem("lastPaymentAttempt", JSON.stringify(paymentDetails));
-    
-    const paymentData: PaymentRequest = {
-      amount: amount, // Amount in cents
-      reference: reference,
-      description: fullDescription,
-      successUrl: successUrl || defaultSuccessUrl,
-      cancelUrl: cancelUrl || defaultCancelUrl
-    };
-    
-    // Instead of try/catch for just API errors, we use a consistent approach
-    // where we always use mock payment for development/demo purposes
     
     // Demo mode - skip actual payment gateway
     const isDemoMode = true; // Set to false in production
@@ -149,27 +113,12 @@ export const createTypedPayment = async (
         paymentId: reference
       };
     } else {
-      // Try to use the actual payment gateway
-      try {
-        const paymentUrl = await createPaymentLink(paymentData);
-        
-        return {
-          success: true,
-          paymentUrl: paymentUrl,
-          paymentId: reference
-        };
-      } catch (apiError) {
-        console.error("API Error while creating payment:", apiError);
-        
-        // Still provide a fallback
-        const directPaymentUrl = `/payment-simulator?amount=${amount/100}&reference=${reference}&type=${encodeURIComponent(type)}&fallback=true`;
-        
-        return {
-          success: true,
-          paymentUrl: directPaymentUrl,
-          paymentId: reference
-        };
-      }
+      // Use the direct iKhokha merchant URL in production
+      return {
+        success: true,
+        paymentUrl: IKHOKHA_MERCHANT_URL,
+        paymentId: reference
+      };
     }
   } catch (error) {
     console.error("Error creating typed payment:", error);

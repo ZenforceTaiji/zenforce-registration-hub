@@ -1,7 +1,7 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CreditCard, Receipt, ExternalLink } from "lucide-react";
+import IKhokhaButton from "@/components/ui/ikhokha-button";
 
 interface PaymentSummaryCardsProps {
   handlePayment: () => Promise<void>;
@@ -38,14 +38,11 @@ const PaymentSummaryCards = ({ handlePayment, isProcessing }: PaymentSummaryCard
             </div>
           </div>
           <p className="text-xs text-gray-500 mt-2">Due on May 1, 2024</p>
-          <Button 
-            onClick={handlePayment} 
-            disabled={isProcessing}
-            className="w-full mt-4 flex items-center gap-2"
-          >
-            {isProcessing ? "Processing..." : "Pay Now"}
-            {!isProcessing && <ExternalLink className="h-4 w-4" />}
-          </Button>
+          <div className="flex justify-center mt-4">
+            <IKhokhaButton 
+              merchantUrl="https://pay.ikhokha.com/zenforce-taijiquan-sa/buy/zenforce"
+            />
+          </div>
         </CardContent>
       </Card>
 
