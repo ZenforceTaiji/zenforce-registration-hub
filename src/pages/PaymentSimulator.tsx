@@ -23,7 +23,7 @@ const PaymentSimulator = () => {
       toast({
         title: "Payment Gateway Fallback",
         description: "External payment gateway is unavailable. Using simulator instead.",
-        variant: "warning",
+        variant: "default", // Changed from "warning" to "default"
       });
     }
   }, [isFallback, toast]);
