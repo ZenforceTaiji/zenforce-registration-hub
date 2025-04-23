@@ -21,6 +21,7 @@ import PhysicalReadiness from "@/pages/PhysicalReadiness";
 import UploadId from "@/pages/UploadId";
 import Indemnity from "@/pages/Indemnity";
 import Popia from "@/pages/Popia";
+import Summary from "@/pages/Summary"; // Add this import
 import { Toaster } from "@/components/ui/toaster";
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
           <Route path="/upload-id" element={<UploadId />} />
           <Route path="/indemnity" element={<Indemnity />} />
           <Route path="/popia" element={<Popia />} />
+          <Route path="/summary" element={<Summary />} /> {/* Add this route */}
           <Route path="/admin-portal" element={<AdminPortal />} />
           <Route path="/student-portal" element={<StudentPortal />} />
           <Route path="/instructor-portal" element={<InstructorPortal />} />
@@ -56,4 +58,3 @@ function App() {
 }
 
 export default App;
-
