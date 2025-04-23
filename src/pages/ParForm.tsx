@@ -90,6 +90,7 @@ const ParForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Form submitted!");
     
     const requiredFields: Array<keyof ParQFormData> = [
       "heartCondition", 
@@ -567,19 +568,29 @@ const ParForm = () => {
                 Cancel
               </Button>
               <Button 
-                type="submit" 
-                className="bg-accent-red hover:bg-accent-red/90 text-white p-4 z-10 relative"
-                style={{ display: 'block', visibility: 'visible' }}
+                type="submit"
+                className="bg-red-600 hover:bg-red-700 text-white font-medium"
+                style={{
+                  padding: "0.75rem 1.5rem",
+                  minWidth: "200px",
+                  position: "relative",
+                  zIndex: 50,
+                  boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+                }}
+                onClick={(e) => {
+                  console.log("Submit button clicked!");
+                  handleSubmit(e);
+                }}
               >
-                Submit and Continue to Registration
+                Submit and Continue
               </Button>
             </div>
           </div>
         </form>
       </div>
       
-      <div className="text-center mt-4 text-gray-400 text-sm">
-        Form end marker
+      <div className="text-center mt-6 mb-12 py-2 bg-gray-100 rounded-md max-w-3xl mx-auto">
+        <p className="text-gray-600">End of Form</p>
       </div>
     </div>
   );
