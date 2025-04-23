@@ -238,7 +238,7 @@ export function RegistrationDialog({ onClose }: RegistrationDialogProps) {
       <DialogHeader>
         <DialogTitle>Welcome to ZenForce TaijiQuan</DialogTitle>
         <DialogDescription>
-          Please complete the registration selections below
+          Please complete the registration selections below. Registration includes accepting our terms and conditions regarding payments, attendance, and other policies.
         </DialogDescription>
       </DialogHeader>
 

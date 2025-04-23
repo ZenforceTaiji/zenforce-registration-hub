@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -14,6 +15,7 @@ interface StudentDetails {
   telephone?: string;
   email?: string;
   physicalAddress?: string;
+  termsAccepted: boolean;
 }
 
 const Registration = () => {
@@ -36,6 +38,7 @@ const Registration = () => {
     telephone: "",
     email: "",
     physicalAddress: "",
+    termsAccepted: false,
   });
 
   useEffect(() => {

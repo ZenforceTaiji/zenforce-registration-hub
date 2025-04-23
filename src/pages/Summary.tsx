@@ -1,10 +1,11 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { TrainingOption } from "@/components/registration/TrainingSelectionForm";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { InfoIcon } from "lucide-react";
+import { Info, Check } from "lucide-react";
 
 const Summary = () => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const Summary = () => {
       
       <div className="max-w-3xl mx-auto space-y-8">
         <Alert className="bg-blue-50 border-blue-200">
-          <InfoIcon className="h-4 w-4 text-blue-500" />
+          <Info className="h-4 w-4 text-blue-500" />
           <AlertDescription className="text-blue-700">
             Thank you for registering! ZenForce TaijiQuan will send an invoice to your email address ({studentDetails.email}). 
             Please note that payment should be made within 3 days of receiving the invoice.
@@ -73,6 +74,22 @@ const Summary = () => {
                 </div>
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="pt-6">
+            <h2 className="text-xl font-semibold mb-4">Terms & Conditions</h2>
+            <div className="flex items-center gap-3">
+              <div className="bg-green-100 p-2 rounded-full">
+                <Check className="h-5 w-5 text-green-600" />
+              </div>
+              <p>You have accepted the Terms & Conditions and School Disclaimer</p>
+            </div>
+            <p className="mt-4 text-sm text-gray-500">
+              By proceeding with registration, you agree to comply with all terms and conditions 
+              of ZenForce TaijiQuan SA, including fee payments, attendance policies, and the rules outlined in the School Disclaimer.
+            </p>
           </CardContent>
         </Card>
 

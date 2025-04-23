@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -275,6 +276,9 @@ const ParForm = () => {
               </p>
               <p className="font-medium text-red-600">
                 Note: If your health changes after completing this form, please consult a healthcare professional before continuing with physical activity.
+              </p>
+              <p className="mt-4 font-medium">
+                By the terms and conditions of ZenForce TaijiQuan SA, you are required to complete this PAR-Q form prior to attending your first class. Failure to do so may result in being refused participation in any class activities.
               </p>
             </div>
           </ScrollArea>

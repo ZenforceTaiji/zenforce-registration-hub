@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { TrainingSelectionForm, TrainingOption } from "./TrainingSelectionForm";
 import { PersonalDetailsForm } from "./form/PersonalDetailsForm";
 import { FormActions } from "./form/FormActions";
+import { TermsAndConditionsSection } from "./TermsAndConditionsSection";
 
 interface StudentDetails {
   firstName: string;
@@ -15,6 +16,7 @@ interface StudentDetails {
   email?: string;
   physicalAddress?: string;
   selectedTraining?: TrainingOption[];
+  termsAccepted: boolean;
 }
 
 interface RegistrationFormProps {
@@ -25,7 +27,10 @@ interface RegistrationFormProps {
 const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [formData, setFormData] = useState<StudentDetails>(initialData);
+  const [formData, setFormData] = useState<StudentDetails>({
+    ...initialData,
+    termsAccepted: initialData.termsAccepted || false
+  });
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +42,13 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
     setFormData((prev) => ({
       ...prev,
       selectedTraining: selectedOptions
+    }));
+  };
+
+  const handleTermsAcceptance = (accepted: boolean) => {
+    setFormData((prev) => ({
+      ...prev,
+      termsAccepted: accepted
     }));
   };
 
@@ -56,6 +68,15 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
       toast({
         title: "Training Selection Required",
         description: "Please select at least one training option",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!formData.termsAccepted) {
+      toast({
+        title: "Terms & Conditions",
+        description: "You must accept the terms and conditions to proceed",
         variant: "destructive",
       });
       return;
@@ -91,6 +112,11 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
         <h3 className="text-lg font-semibold">Select Your Training Options *</h3>
         <TrainingSelectionForm onSelectionChange={handleTrainingSelectionChange} />
       </div>
+
+      <TermsAndConditionsSection 
+        accepted={formData.termsAccepted} 
+        onAcceptChange={handleTermsAcceptance} 
+      />
 
       <FormActions
         onBack={() => navigate("/par-form")}
