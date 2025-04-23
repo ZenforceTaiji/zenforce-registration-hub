@@ -1,16 +1,21 @@
 
-import { FINANCIAL_RULES } from "@/constants/financialRules";
+import { TRAINING_PACKAGES } from "@/constants/financialRules";
 
-export const validatePaymentAmount = (amount: number, type: 'session' | 'monthly') => {
-  if (type === 'session' && amount < FINANCIAL_RULES.SESSION_FEE) {
-    return { isValid: false, message: `Session fee must be at least R${FINANCIAL_RULES.SESSION_FEE / 100}` };
+export const validatePaymentAmount = (amount: number, type: 'session' | 'monthly', packageType: keyof typeof TRAINING_PACKAGES) => {
+  const package_ = TRAINING_PACKAGES[packageType];
+  
+  if (type === 'session' && amount < package_.price) {
+    return { 
+      isValid: false, 
+      message: `Session fee for ${package_.name} must be at least R${package_.price / 100}` 
+    };
   }
 
-  const minimumMonthlyFee = FINANCIAL_RULES.SESSION_FEE * FINANCIAL_RULES.MINIMUM_SESSIONS_PER_WEEK * 4;
+  const minimumMonthlyFee = package_.price * (package_.minSessions || 1) * 4;
   if (type === 'monthly' && amount < minimumMonthlyFee) {
     return { 
       isValid: false, 
-      message: `Monthly fee must be at least R${minimumMonthlyFee / 100} (${FINANCIAL_RULES.MINIMUM_SESSIONS_PER_WEEK} sessions per week)`
+      message: `Monthly fee for ${package_.name} must be at least R${minimumMonthlyFee / 100} (${package_.minSessions || 1} sessions per week)`
     };
   }
 

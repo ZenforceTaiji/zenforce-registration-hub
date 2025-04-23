@@ -1,20 +1,25 @@
 
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Info } from "lucide-react";
-import { FINANCIAL_RULES, calculateMonthlyFee } from "@/constants/financialRules";
+import { TRAINING_PACKAGES, FINANCIAL_RULES } from "@/constants/financialRules";
 
 const PaymentInfoAlert = () => {
-  const monthlyFee = calculateMonthlyFee() / 100; // Convert cents to Rand
-
   return (
     <Alert className="bg-blue-50 border-blue-200">
       <Info className="h-4 w-4 text-blue-500" />
       <AlertDescription className="text-blue-700">
         <div className="space-y-2">
-          <p>
-            <strong>Monthly Fee:</strong> R{monthlyFee.toFixed(2)} 
-            (R{FINANCIAL_RULES.SESSION_FEE / 100} per session, minimum {FINANCIAL_RULES.MINIMUM_SESSIONS_PER_WEEK} sessions per week)
-          </p>
+          <h4 className="font-medium">Training Packages:</h4>
+          
+          {Object.entries(TRAINING_PACKAGES).map(([key, package_]) => (
+            <p key={key}>
+              <strong>{package_.name}</strong> ({package_.schedule}): 
+              R{package_.price / 100} per session
+              {package_.minSessions > 1 && ` (minimum ${package_.minSessions} sessions per week)`}
+              {package_.isOutdoor && ` - Outdoor training in ${package_.location}`}
+            </p>
+          ))}
+
           <p>
             <strong>Late Cancellation Fee:</strong> R{FINANCIAL_RULES.LATE_CANCELLATION_FEE / 100} 
             (if cancelled less than 1 hour before class)

@@ -1,4 +1,6 @@
+
 import { useState } from "react";
+import { TRAINING_PACKAGES } from "@/constants/financialRules";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { InfoIcon } from "lucide-react";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -19,28 +21,28 @@ export interface TrainingOption {
 export const trainingOptions: TrainingOption[] = [
   {
     id: "monday-wednesday",
-    name: "Qi Gong, Relaxation and Meditation",
-    price: 12000,
+    name: TRAINING_PACKAGES.QI_GONG.name,
+    price: TRAINING_PACKAGES.QI_GONG.price,
     description: "Focus on relaxation, meditation, and Qi Gong practices",
-    schedule: "Mondays and Wednesdays",
+    schedule: TRAINING_PACKAGES.QI_GONG.schedule,
     details: "This training focuses on ancient Chinese practices that combine meditation, controlled breathing, and gentle physical movement. Qi Gong helps improve mental clarity, reduce stress, enhance energy flow, and promote overall well-being. Perfect for beginners and those seeking a mindful practice."
   },
   {
     id: "tuesday-thursday",
-    name: "Martial Arts, Push Hands and Fitness",
-    price: 16000,
+    name: TRAINING_PACKAGES.MARTIAL_ARTS.name,
+    price: TRAINING_PACKAGES.MARTIAL_ARTS.price,
     description: "Advanced training including martial applications and push hands practice",
-    schedule: "Tuesdays and Thursdays",
+    schedule: TRAINING_PACKAGES.MARTIAL_ARTS.schedule,
     details: "Advanced training that combines traditional martial arts techniques with Push Hands (Tui Shou) practice. This training develops sensitivity, balance, and practical self-defense skills while improving overall fitness and coordination. Suitable for those interested in the martial aspects of Tai Chi."
   },
   {
     id: "saturday",
-    name: "Health and Meditation",
-    price: 4000,
+    name: TRAINING_PACKAGES.SATURDAY.name,
+    price: TRAINING_PACKAGES.SATURDAY.price,
     description: "Outdoor training focusing on health improvement and meditation",
-    schedule: "Saturday Mornings",
+    schedule: TRAINING_PACKAGES.SATURDAY.schedule,
     outdoor: true,
-    details: "A unique outdoor experience combining health-focused exercises with meditation in natural settings. Training takes place in parks or nature reserves, allowing participants to connect with nature while practicing. This session emphasizes breathing techniques, gentle movement, and mindfulness practices suitable for all levels."
+    details: `A unique outdoor experience combining health-focused exercises with meditation in natural settings. Training takes place in ${TRAINING_PACKAGES.SATURDAY.location}, allowing participants to connect with nature while practicing. This session emphasizes breathing techniques, gentle movement, and mindfulness practices suitable for all levels.`
   }
 ];
 
