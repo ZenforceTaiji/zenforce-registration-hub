@@ -8,9 +8,21 @@ import GradingFeeCard from "./financial/GradingFeeCard"
 import OutstandingPaymentsTable from "./financial/OutstandingPaymentsTable"
 import { samplePayments } from "./financial/paymentData"
 import { usePaymentActions } from "./financial/usePaymentActions"
+import { PaymentRecord } from "./types"
 
 const FinancialInfo = () => {
   const { isProcessing, handlePayment, handleGradingPayment } = usePaymentActions()
+
+  // Map PaymentRecord to OutstandingPayment format
+  const outstandingPayments = samplePayments
+    .filter(p => p.status === "Pending" || p.status === "Failed")
+    .map(payment => ({
+      id: payment.id,
+      memberNumber: payment.id, // Using ID as member number for sample data
+      amount: payment.amount,
+      dueDate: payment.date,
+      description: payment.description,
+    }));
 
   return (
     <div className="space-y-8">
@@ -29,7 +41,7 @@ const FinancialInfo = () => {
       <div>
         <h3 className="text-lg font-medium mb-4">Outstanding Payments</h3>
         <OutstandingPaymentsTable 
-          payments={samplePayments.filter(p => p.status === 'Pending' || p.status === 'Overdue')} 
+          payments={outstandingPayments}
           isAdminView={false}
         />
       </div>
