@@ -54,13 +54,24 @@ const Completion = () => {
                 <Button
                   variant="outline"
                   onClick={handleReturn}
+                  style={{
+                    padding: "0.75rem 1.5rem",
+                    minWidth: "160px",
+                  }}
                 >
                   Return to Home
                 </Button>
                 
                 <Button
-                  className="bg-accent-red hover:bg-accent-red/90 text-white"
+                  className="bg-red-600 hover:bg-red-700 text-white font-medium"
                   onClick={handleContinue}
+                  style={{
+                    padding: "0.75rem 1.5rem",
+                    minWidth: "200px",
+                    position: "relative",
+                    zIndex: 50,
+                    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+                  }}
                 >
                   Continue to Student Portal
                 </Button>
@@ -74,4 +85,3 @@ const Completion = () => {
 };
 
 export default Completion;
-
