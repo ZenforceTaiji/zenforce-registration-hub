@@ -1,88 +1,71 @@
 
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { Send } from "lucide-react"
-import { useState } from "react"
-import PaymentMethodsDialog from "./dialogs/PaymentMethodsDialog"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { calculateLateFees } from "@/constants/financialRules";
 
 interface OutstandingPayment {
-  id: string
-  memberNumber: string
-  amount: string
-  dueDate: string
-  description: string
-  studentPhone?: string
-  studentEmail?: string
+  id: string | number;
+  memberNumber: string | number;
+  amount: number;
+  dueDate: string;
+  description: string;
 }
 
 interface OutstandingPaymentsTableProps {
-  payments: OutstandingPayment[]
-  isAdminView?: boolean
+  payments: OutstandingPayment[];
+  isAdminView?: boolean;
 }
 
 const OutstandingPaymentsTable = ({ payments, isAdminView = false }: OutstandingPaymentsTableProps) => {
-  const [selectedPayment, setSelectedPayment] = useState<OutstandingPayment | null>(null)
-  const [dialogOpen, setDialogOpen] = useState(false)
-
-  const handleOpenDialog = (payment: OutstandingPayment) => {
-    setSelectedPayment(payment)
-    setDialogOpen(true)
-  }
+  const calculateDaysLate = (dueDate: string) => {
+    const today = new Date();
+    const due = new Date(dueDate);
+    const diffTime = Math.abs(today.getTime() - due.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
 
   return (
-    <div className="space-y-4">
+    <div className="border rounded-md">
       <Table>
-        <TableCaption>Outstanding payments requiring attention</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead>Member Number</TableHead>
+            {isAdminView && <TableHead>Member #</TableHead>}
             <TableHead>Description</TableHead>
-            <TableHead>Amount</TableHead>
             <TableHead>Due Date</TableHead>
-            {isAdminView && <TableHead className="text-right">Actions</TableHead>}
+            <TableHead className="text-right">Amount</TableHead>
+            <TableHead className="text-right">Late Fees</TableHead>
+            <TableHead className="text-right">Total Due</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {payments.length > 0 ? (
-            payments.map((payment) => (
-              <TableRow key={payment.id}>
-                <TableCell className="font-medium">{payment.memberNumber}</TableCell>
-                <TableCell>{payment.description}</TableCell>
-                <TableCell>{payment.amount}</TableCell>
-                <TableCell>{payment.dueDate}</TableCell>
-                {isAdminView && (
-                  <TableCell className="text-right">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleOpenDialog(payment)}
-                    >
-                      <Send className="h-4 w-4 mr-2" />
-                      Send Reminder
-                    </Button>
-                  </TableCell>
-                )}
-              </TableRow>
-            ))
+            payments.map((payment) => {
+              const daysLate = calculateDaysLate(payment.dueDate);
+              const lateFees = calculateLateFees(daysLate);
+              const total = payment.amount + lateFees;
+
+              return (
+                <TableRow key={payment.id}>
+                  {isAdminView && <TableCell>{payment.memberNumber}</TableCell>}
+                  <TableCell>{payment.description}</TableCell>
+                  <TableCell>{new Date(payment.dueDate).toLocaleDateString()}</TableCell>
+                  <TableCell className="text-right">R{(payment.amount / 100).toFixed(2)}</TableCell>
+                  <TableCell className="text-right">R{(lateFees / 100).toFixed(2)}</TableCell>
+                  <TableCell className="text-right font-medium">R{(total / 100).toFixed(2)}</TableCell>
+                </TableRow>
+              )
+            })
           ) : (
             <TableRow>
-              <TableCell colSpan={isAdminView ? 5 : 4} className="text-center py-6 text-gray-500">
-                No outstanding payments found
+              <TableCell colSpan={isAdminView ? 6 : 5} className="text-center py-4">
+                No outstanding payments
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
-
-      {selectedPayment && (
-        <PaymentMethodsDialog
-          open={dialogOpen}
-          onOpenChange={setDialogOpen}
-          payment={selectedPayment}
-        />
-      )}
     </div>
-  )
-}
+  );
+};
 
-export default OutstandingPaymentsTable
+export default OutstandingPaymentsTable;

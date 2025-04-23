@@ -1,19 +1,37 @@
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Info } from "lucide-react";
+import { FINANCIAL_RULES, calculateMonthlyFee } from "@/constants/financialRules";
 
 const PaymentInfoAlert = () => {
+  const monthlyFee = calculateMonthlyFee() / 100; // Convert cents to Rand
+
   return (
-    <Alert>
-      <AlertTitle>Payment Information</AlertTitle>
-      <AlertDescription>
-        <p>Monthly fees are due on the 1st of each month. Late payments may incur additional charges.</p>
-        <p className="mt-2">Payment options:</p>
-        <p>1. Pay online with credit/debit card via iKhokha</p>
-        <p>2. Bank details for EFT payments:</p>
-        <p>Bank: First National Bank</p>
-        <p>Account: 12345678</p>
-        <p>Branch: 250655</p>
-        <p>Reference: Your membership number</p>
+    <Alert className="bg-blue-50 border-blue-200">
+      <Info className="h-4 w-4 text-blue-500" />
+      <AlertDescription className="text-blue-700">
+        <div className="space-y-2">
+          <p>
+            <strong>Monthly Fee:</strong> R{monthlyFee.toFixed(2)} 
+            (R{FINANCIAL_RULES.SESSION_FEE / 100} per session, minimum {FINANCIAL_RULES.MINIMUM_SESSIONS_PER_WEEK} sessions per week)
+          </p>
+          <p>
+            <strong>Late Cancellation Fee:</strong> R{FINANCIAL_RULES.LATE_CANCELLATION_FEE / 100} 
+            (if cancelled less than 1 hour before class)
+          </p>
+          <p>
+            <strong>Late Payment Penalty:</strong> R{FINANCIAL_RULES.LATE_PAYMENT_FEE_PER_DAY / 100} per day
+          </p>
+          <p>
+            <strong>Important Notes:</strong>
+          </p>
+          <ul className="list-disc pl-5 text-sm">
+            <li>All fees must be paid by the second day of training</li>
+            <li>Accounts {FINANCIAL_RULES.DEBT_COLLECTION_DAYS} days overdue will be sent to collections with {FINANCIAL_RULES.DEBT_COLLECTION_INTEREST}% interest</li>
+            <li>Membership cancellation requires {FINANCIAL_RULES.CANCELLATION_NOTICE_DAYS} days notice</li>
+            <li>December training requires advance payment</li>
+          </ul>
+        </div>
       </AlertDescription>
     </Alert>
   );
