@@ -12,7 +12,6 @@ const Completion = () => {
   const [studentDetails, setStudentDetails] = useState<any>(null);
 
   useEffect(() => {
-    // Load student details
     const studentData = sessionStorage.getItem("studentDetails");
     if (studentData) {
       setStudentDetails(JSON.parse(studentData));
@@ -25,6 +24,15 @@ const Completion = () => {
   if (!studentDetails) {
     return <div className="zen-container py-12">Loading...</div>;
   }
+
+  const handleContinue = () => {
+    // Navigate to the student portal or another relevant page
+    navigate("/student-portal");
+  };
+
+  const handleReturn = () => {
+    navigate("/");
+  };
 
   return (
     <div className="zen-container py-12 animate-fade-in">
@@ -42,12 +50,21 @@ const Completion = () => {
             </p>
             
             <div className="text-center space-y-4">
-              <Button
-                className="bg-accent-red hover:bg-accent-red/90 text-white"
-                onClick={() => navigate("/")}
-              >
-                Return to Home
-              </Button>
+              <div className="flex justify-center gap-4">
+                <Button
+                  variant="outline"
+                  onClick={handleReturn}
+                >
+                  Return to Home
+                </Button>
+                
+                <Button
+                  className="bg-accent-red hover:bg-accent-red/90 text-white"
+                  onClick={handleContinue}
+                >
+                  Continue to Student Portal
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
