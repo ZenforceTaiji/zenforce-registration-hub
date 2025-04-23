@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Routes, Route } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -18,6 +17,7 @@ import AboutUs from "@/pages/AboutUs";
 import PreviousTraining from "@/pages/PreviousTraining";
 import MedicalCondition from "@/pages/MedicalCondition";
 import PhysicalReadiness from "@/pages/PhysicalReadiness";
+import UploadId from "@/pages/UploadId";
 import { Toaster } from "@/components/ui/toaster";
 
 function App() {
@@ -41,6 +41,7 @@ function App() {
           <Route path="/student-portal" element={<StudentPortal />} />
           <Route path="/instructor-portal" element={<InstructorPortal />} />
           <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/upload-id" element={<UploadId />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
