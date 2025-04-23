@@ -1,14 +1,12 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { createMembershipInvoice } from "@/services/invoiceService";
 import { TrainingSelectionForm, TrainingOption } from "./TrainingSelectionForm";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
+import { PersonalDetailsForm } from "./form/PersonalDetailsForm";
+import { InvoiceError } from "./form/InvoiceError";
+import { FormActions } from "./form/FormActions";
 
 interface StudentDetails {
   firstName: string;
@@ -33,7 +31,7 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [invoiceError, setInvoiceError] = useState<boolean>(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -47,6 +45,16 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
 
   const calculateTotalPrice = () => {
     return formData.selectedTraining?.reduce((total, option) => total + option.price, 0) || 0;
+  };
+
+  const handleContinueWithoutInvoice = () => {
+    sessionStorage.setItem("studentDetails", JSON.stringify(formData));
+    
+    if (userAge === "child") {
+      navigate("/parent-details");
+    } else {
+      navigate("/previous-training");
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -74,7 +82,6 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
     setInvoiceError(false);
 
     try {
-      // Try to create invoice for the selected training options
       const invoiceResponse = await createMembershipInvoice(
         {
           firstName: formData.firstName,
@@ -95,11 +102,9 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
         throw new Error(invoiceResponse.errorMessage || "Failed to create invoice");
       }
 
-      // Save form data to session storage
       sessionStorage.setItem("studentDetails", JSON.stringify(formData));
       sessionStorage.setItem("invoiceUrl", invoiceResponse.invoiceUrl || "");
       
-      // Navigate based on age
       if (userAge === "child") {
         navigate("/parent-details");
       } else {
@@ -118,141 +123,23 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
     }
   };
 
-  const handleContinueWithoutInvoice = () => {
-    // Save form data to session storage without invoice
-    sessionStorage.setItem("studentDetails", JSON.stringify(formData));
-    
-    // Navigate based on age
-    if (userAge === "child") {
-      navigate("/parent-details");
-    } else {
-      navigate("/previous-training");
-    }
-  };
-
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="space-y-2">
-          <Label htmlFor="firstName">First Name *</Label>
-          <Input
-            id="firstName"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            placeholder="Enter your first name"
-            required
-          />
-        </div>
-        
-        <div className="space-y-2">
-          <Label htmlFor="lastName">Last Name *</Label>
-          <Input
-            id="lastName"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            placeholder="Enter your last name"
-            required
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="identityNumber">Identity Number</Label>
-          <Input
-            id="identityNumber"
-            name="identityNumber"
-            value={formData.identityNumber}
-            onChange={handleChange}
-            placeholder="Enter your ID number"
-          />
-        </div>
-        
-        <div className="space-y-2">
-          <Label htmlFor="mobile">Mobile</Label>
-          <Input
-            id="mobile"
-            name="mobile"
-            value={formData.mobile}
-            onChange={handleChange}
-            placeholder="Enter your mobile number"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="telephone">Telephone</Label>
-          <Input
-            id="telephone"
-            name="telephone"
-            value={formData.telephone}
-            onChange={handleChange}
-            placeholder="Enter your telephone number"
-          />
-        </div>
-        
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Enter your email address"
-          />
-        </div>
-
-        <div className="space-y-2 sm:col-span-2">
-          <Label htmlFor="physicalAddress">Physical Address</Label>
-          <Input
-            id="physicalAddress"
-            name="physicalAddress"
-            value={formData.physicalAddress}
-            onChange={handleChange}
-            placeholder="Enter your physical address"
-          />
-        </div>
-      </div>
+      <PersonalDetailsForm formData={formData} onChange={handleChange} />
 
       <div className="space-y-4">
         <h3 className="text-lg font-semibold">Select Your Training Options *</h3>
         <TrainingSelectionForm onSelectionChange={handleTrainingSelectionChange} />
       </div>
 
-      {invoiceError && (
-        <Alert className="bg-yellow-50 border-yellow-200">
-          <AlertCircle className="h-4 w-4 text-yellow-600" />
-          <AlertDescription className="text-yellow-700">
-            There was a problem connecting to the payment system. You can continue with registration and handle payment later.
-          </AlertDescription>
-        </Alert>
-      )}
+      {invoiceError && <InvoiceError />}
 
-      <div className="flex justify-between pt-4">
-        <Button type="button" variant="outline" onClick={() => navigate("/par-form")}>
-          Back to PAR-Q Form
-        </Button>
-        
-        <div className="space-x-3">
-          {invoiceError && (
-            <Button 
-              type="button" 
-              variant="outline"
-              onClick={handleContinueWithoutInvoice}
-            >
-              Continue Without Invoice
-            </Button>
-          )}
-          
-          <Button 
-            type="submit" 
-            className="bg-accent-red hover:bg-accent-red/90 text-white"
-            disabled={isProcessing}
-          >
-            {isProcessing ? "Processing..." : "Continue"}
-          </Button>
-        </div>
-      </div>
+      <FormActions
+        onBack={() => navigate("/par-form")}
+        onContinueWithoutInvoice={handleContinueWithoutInvoice}
+        showInvoiceError={invoiceError}
+        isProcessing={isProcessing}
+      />
     </form>
   );
 };
