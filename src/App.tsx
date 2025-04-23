@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Routes, Route } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -53,6 +54,9 @@ function App() {
           <Route path="/student-portal" element={<StudentPortal />} />
           <Route path="/instructor-portal" element={<InstructorPortal />} />
           <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/payment-cancelled" element={<PaymentCancelled />} />
+          <Route path="/payment-simulator" element={<PaymentSimulator />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
