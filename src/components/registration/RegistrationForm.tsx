@@ -2,10 +2,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import { createMembershipInvoice } from "@/services/invoiceService";
 import { TrainingSelectionForm, TrainingOption } from "./TrainingSelectionForm";
 import { PersonalDetailsForm } from "./form/PersonalDetailsForm";
-import { InvoiceError } from "./form/InvoiceError";
 import { FormActions } from "./form/FormActions";
 
 interface StudentDetails {
@@ -29,7 +27,6 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
   const { toast } = useToast();
   const [formData, setFormData] = useState<StudentDetails>(initialData);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [invoiceError, setInvoiceError] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -41,20 +38,6 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
       ...prev,
       selectedTraining: selectedOptions
     }));
-  };
-
-  const calculateTotalPrice = () => {
-    return formData.selectedTraining?.reduce((total, option) => total + option.price, 0) || 0;
-  };
-
-  const handleContinueWithoutInvoice = () => {
-    sessionStorage.setItem("studentDetails", JSON.stringify(formData));
-    
-    if (userAge === "child") {
-      navigate("/parent-details");
-    } else {
-      navigate("/previous-training");
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -79,31 +62,9 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
     }
 
     setIsProcessing(true);
-    setInvoiceError(false);
 
     try {
-      const invoiceResponse = await createMembershipInvoice(
-        {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email || "",
-          mobile: formData.mobile,
-        },
-        {
-          title: "Monthly Training Package",
-          price: calculateTotalPrice(),
-          description: formData.selectedTraining
-            .map(option => option.name)
-            .join(", ")
-        }
-      );
-
-      if (!invoiceResponse.success) {
-        throw new Error(invoiceResponse.errorMessage || "Failed to create invoice");
-      }
-
       sessionStorage.setItem("studentDetails", JSON.stringify(formData));
-      sessionStorage.setItem("invoiceUrl", invoiceResponse.invoiceUrl || "");
       
       if (userAge === "child") {
         navigate("/parent-details");
@@ -112,11 +73,10 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
       }
     } catch (error) {
       console.error("Registration error:", error);
-      setInvoiceError(true);
       toast({
-        title: "Registration Notice",
-        description: "Unable to create invoice at this time. You can continue with registration.",
-        variant: "default",
+        title: "Registration Error",
+        description: "An error occurred during registration. Please try again.",
+        variant: "destructive",
       });
     } finally {
       setIsProcessing(false);
@@ -132,12 +92,8 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
         <TrainingSelectionForm onSelectionChange={handleTrainingSelectionChange} />
       </div>
 
-      {invoiceError && <InvoiceError />}
-
       <FormActions
         onBack={() => navigate("/par-form")}
-        onContinueWithoutInvoice={handleContinueWithoutInvoice}
-        showInvoiceError={invoiceError}
         isProcessing={isProcessing}
       />
     </form>

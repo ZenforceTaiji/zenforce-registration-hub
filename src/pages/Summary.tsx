@@ -4,15 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { TrainingOption } from "@/components/registration/TrainingSelectionForm";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { InfoIcon } from "lucide-react";
 
 const Summary = () => {
   const navigate = useNavigate();
   const [studentDetails, setStudentDetails] = useState<any>(null);
-  const [invoiceUrl, setInvoiceUrl] = useState<string | null>(null);
 
   useEffect(() => {
     const details = sessionStorage.getItem("studentDetails");
-    const invoice = sessionStorage.getItem("invoiceUrl");
     
     if (!details) {
       navigate("/");
@@ -20,7 +20,6 @@ const Summary = () => {
     }
     
     setStudentDetails(JSON.parse(details));
-    setInvoiceUrl(invoice);
   }, [navigate]);
 
   const calculateTotalPrice = (selectedTraining?: TrainingOption[]) => {
@@ -36,6 +35,14 @@ const Summary = () => {
       <h1 className="page-title mb-8">Registration Summary</h1>
       
       <div className="max-w-3xl mx-auto space-y-8">
+        <Alert className="bg-blue-50 border-blue-200">
+          <InfoIcon className="h-4 w-4 text-blue-500" />
+          <AlertDescription className="text-blue-700">
+            Thank you for registering! ZenForce TaijiQuan will send an invoice to your email address ({studentDetails.email}). 
+            Please note that payment should be made within 3 days of receiving the invoice.
+          </AlertDescription>
+        </Alert>
+
         <Card>
           <CardContent className="pt-6">
             <h2 className="text-xl font-semibold mb-4">Personal Details</h2>
@@ -69,17 +76,6 @@ const Summary = () => {
             </div>
           </CardContent>
         </Card>
-
-        {invoiceUrl && (
-          <div className="text-center">
-            <Button
-              className="bg-accent-red hover:bg-accent-red/90 text-white"
-              onClick={() => window.open(invoiceUrl, "_blank")}
-            >
-              View Invoice
-            </Button>
-          </div>
-        )}
 
         <div className="flex justify-between pt-4">
           <Button
