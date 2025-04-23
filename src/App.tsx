@@ -19,6 +19,7 @@ import PreviousTraining from "@/pages/PreviousTraining";
 import MedicalCondition from "@/pages/MedicalCondition";
 import PhysicalReadiness from "@/pages/PhysicalReadiness";
 import UploadId from "@/pages/UploadId";
+import Indemnity from "@/pages/Indemnity";
 import { Toaster } from "@/components/ui/toaster";
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           <Route path="/medical-condition" element={<MedicalCondition />} />
           <Route path="/physical-readiness" element={<PhysicalReadiness />} />
           <Route path="/upload-id" element={<UploadId />} />
+          <Route path="/indemnity" element={<Indemnity />} />
           <Route path="/admin-portal" element={<AdminPortal />} />
           <Route path="/student-portal" element={<StudentPortal />} />
           <Route path="/instructor-portal" element={<InstructorPortal />} />
