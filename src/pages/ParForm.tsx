@@ -566,12 +566,20 @@ const ParForm = () => {
               >
                 Cancel
               </Button>
-              <Button type="submit" className="bg-accent-red hover:bg-accent-red/90 text-white">
+              <Button 
+                type="submit" 
+                className="bg-accent-red hover:bg-accent-red/90 text-white p-4 z-10 relative"
+                style={{ display: 'block', visibility: 'visible' }}
+              >
                 Submit and Continue to Registration
               </Button>
             </div>
           </div>
         </form>
+      </div>
+      
+      <div className="text-center mt-4 text-gray-400 text-sm">
+        Form end marker
       </div>
     </div>
   );
