@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
@@ -116,16 +117,18 @@ const AdminPortal = () => {
       />
       
       <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-        <TabsList className="mb-4">
-          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-          <TabsTrigger value="instructors">Instructors</TabsTrigger>
-          <TabsTrigger value="areas">Geographic Areas</TabsTrigger>
-          <TabsTrigger value="maintenance">Maintenance</TabsTrigger>
-          <TabsTrigger value="events">Events</TabsTrigger>
-          <TabsTrigger value="financials">Financials</TabsTrigger>
-          <TabsTrigger value="settings">Settings</TabsTrigger>
-          <TabsTrigger value="newsletters">Newsletters</TabsTrigger>
-        </TabsList>
+        <div className="overflow-x-auto">
+          <TabsList className="mb-4 inline-flex h-auto w-auto flex-nowrap">
+            <TabsTrigger value="dashboard" className="whitespace-nowrap">Dashboard</TabsTrigger>
+            <TabsTrigger value="instructors" className="whitespace-nowrap">Instructors</TabsTrigger>
+            <TabsTrigger value="areas" className="whitespace-nowrap">Geographic Areas</TabsTrigger>
+            <TabsTrigger value="maintenance" className="whitespace-nowrap">Maintenance</TabsTrigger>
+            <TabsTrigger value="events" className="whitespace-nowrap">Events</TabsTrigger>
+            <TabsTrigger value="financials" className="whitespace-nowrap">Financials</TabsTrigger>
+            <TabsTrigger value="settings" className="whitespace-nowrap">Settings</TabsTrigger>
+            <TabsTrigger value="newsletters" className="whitespace-nowrap">Newsletters</TabsTrigger>
+          </TabsList>
+        </div>
         
         <TabsContent value="dashboard">
           <DashboardTab activityData={mockActivityData} />
