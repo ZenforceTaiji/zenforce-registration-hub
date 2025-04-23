@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -108,7 +109,7 @@ const PhysicalReadiness = () => {
           </Card>
 
           <div className="flex justify-between">
-            <Button type="button" variant="outline" onClick={() => navigate("/")}>
+            <Button type="button" variant="outline" onClick={() => navigate("/medical-condition")}>
               Back
             </Button>
             <Button 
