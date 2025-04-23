@@ -1,3 +1,4 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CreditCard, Receipt, ExternalLink } from "lucide-react";
@@ -10,7 +11,7 @@ interface PaymentSummaryCardsProps {
 
 const PaymentSummaryCards = ({ handlePayment, isProcessing }: PaymentSummaryCardsProps) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <Card>
         <CardContent className="pt-6">
           <div className="flex items-start justify-between">
@@ -42,23 +43,6 @@ const PaymentSummaryCards = ({ handlePayment, isProcessing }: PaymentSummaryCard
             <IKhokhaButton 
               merchantUrl="https://pay.ikhokha.com/zenforce-taijiquan-sa/buy/zenforce"
             />
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardContent className="pt-6">
-          <div className="flex items-start justify-between">
-            <div>
-              <p className="text-sm text-gray-500">Payment Method</p>
-              <p className="text-lg font-medium text-gray-900">iKhokha / Card Payment</p>
-            </div>
-            <div className="rounded-full bg-purple-100 p-2">
-              <CreditCard className="h-5 w-5 text-purple-600" />
-            </div>
-          </div>
-          <div className="mt-4">
-            <Button size="sm" className="w-full">Update Payment Method</Button>
           </div>
         </CardContent>
       </Card>
