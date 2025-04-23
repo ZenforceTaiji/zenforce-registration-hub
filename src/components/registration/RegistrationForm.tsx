@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -6,6 +7,8 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { createMembershipInvoice } from "@/services/invoiceService";
+import { TrainingSelectionForm, TrainingOption } from "./TrainingSelectionForm";
 
 interface StudentDetails {
   firstName: string;
@@ -17,6 +20,7 @@ interface StudentDetails {
   physicalAddress?: string;
   trainingReason?: string;
   healthIssuesDetails?: string;
+  selectedTraining?: TrainingOption[];
 }
 
 interface RegistrationFormProps {
@@ -28,6 +32,7 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [formData, setFormData] = useState<StudentDetails>(initialData);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -38,15 +43,24 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
     setFormData((prev) => ({
       ...prev,
       trainingReason: value,
-      // Reset health issues details if not selecting health issues
       healthIssuesDetails: value !== "health" ? "" : prev.healthIssuesDetails
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleTrainingSelectionChange = (selectedOptions: TrainingOption[]) => {
+    setFormData((prev) => ({
+      ...prev,
+      selectedTraining: selectedOptions
+    }));
+  };
+
+  const calculateTotalPrice = () => {
+    return formData.selectedTraining?.reduce((total, option) => total + option.price, 0) || 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Basic validation
     if (!formData.firstName || !formData.lastName) {
       toast({
         title: "Required Fields",
@@ -56,32 +70,58 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
       return;
     }
 
-    if (!formData.trainingReason) {
+    if (!formData.selectedTraining || formData.selectedTraining.length === 0) {
       toast({
-        title: "Required Field",
-        description: "Please select your reason for training",
+        title: "Training Selection Required",
+        description: "Please select at least one training option",
         variant: "destructive",
       });
       return;
     }
 
-    if (formData.trainingReason === "health" && !formData.healthIssuesDetails) {
+    setIsProcessing(true);
+
+    try {
+      // Create invoice for the selected training options
+      const invoiceResponse = await createMembershipInvoice(
+        {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email || "",
+          mobile: formData.mobile,
+        },
+        {
+          title: "Monthly Training Package",
+          price: calculateTotalPrice(),
+          description: formData.selectedTraining
+            .map(option => option.name)
+            .join(", ")
+        }
+      );
+
+      if (!invoiceResponse.success) {
+        throw new Error(invoiceResponse.errorMessage || "Failed to create invoice");
+      }
+
+      // Save form data to session storage
+      sessionStorage.setItem("studentDetails", JSON.stringify(formData));
+      sessionStorage.setItem("invoiceUrl", invoiceResponse.invoiceUrl || "");
+      
+      // Navigate based on age
+      if (userAge === "child") {
+        navigate("/parent-details");
+      } else {
+        navigate("/previous-training");
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
       toast({
-        title: "Required Field",
-        description: "Please provide details about your health issues",
+        title: "Registration Error",
+        description: "There was a problem processing your registration. Please try again.",
         variant: "destructive",
       });
-      return;
-    }
-    
-    // Save form data to session storage
-    sessionStorage.setItem("studentDetails", JSON.stringify(formData));
-    
-    // Navigate to parent details page if user is under 18, or to previous training if 18+
-    if (userAge === "child") {
-      navigate("/parent-details");
-    } else {
-      navigate("/previous-training");
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -215,12 +255,21 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
         </div>
       )}
 
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold">Select Your Training Options *</h3>
+        <TrainingSelectionForm onSelectionChange={handleTrainingSelectionChange} />
+      </div>
+
       <div className="flex justify-between pt-4">
         <Button type="button" variant="outline" onClick={() => navigate("/par-form")}>
           Back to PAR-Q Form
         </Button>
-        <Button type="submit" className="bg-accent-red hover:bg-accent-red/90 text-white">
-          Continue
+        <Button 
+          type="submit" 
+          className="bg-accent-red hover:bg-accent-red/90 text-white"
+          disabled={isProcessing}
+        >
+          {isProcessing ? "Processing..." : "Continue"}
         </Button>
       </div>
     </form>
