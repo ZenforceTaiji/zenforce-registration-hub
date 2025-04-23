@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -60,6 +60,10 @@ const ParForm = () => {
   const initialFormData = savedFormData ? JSON.parse(savedFormData) : defaultFormData;
   
   const [formData, setFormData] = useState<ParQFormData>(initialFormData);
+
+  useEffect(() => {
+    console.log("ParForm submit button rendering");
+  }, []);
 
   useEffect(() => {
     return () => {
