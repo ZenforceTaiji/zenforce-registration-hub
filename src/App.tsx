@@ -15,6 +15,7 @@ import Booking from "@/pages/Booking";
 import Contact from "@/pages/Contact";
 import AboutUs from "@/pages/AboutUs";
 import PreviousTraining from "@/pages/PreviousTraining";
+import MedicalCondition from "@/pages/MedicalCondition";
 import { Toaster } from "@/components/ui/toaster";
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route path="/par-form" element={<ParForm />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/previous-training" element={<PreviousTraining />} />
+          <Route path="/medical-condition" element={<MedicalCondition />} />
           <Route path="/admin-portal" element={<AdminPortal />} />
           <Route path="/student-portal" element={<StudentPortal />} />
           <Route path="/instructor-portal" element={<InstructorPortal />} />
