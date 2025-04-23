@@ -130,11 +130,11 @@ const AdminPortal = () => {
           </TabsList>
         </div>
         
-        <TabsContent value="dashboard">
+        <TabsContent value="dashboard" className="relative z-10">
           <DashboardTab activityData={mockActivityData} />
         </TabsContent>
         
-        <TabsContent value="instructors">
+        <TabsContent value="instructors" className="relative z-10">
           <InstructorsTab 
             instructors={mockInstructors} 
             areas={mockAreas}
@@ -142,30 +142,30 @@ const AdminPortal = () => {
           />
         </TabsContent>
         
-        <TabsContent value="areas">
+        <TabsContent value="areas" className="relative z-10">
           <AreasTab 
             areas={mockAreas}
             students={mockStudents}
           />
         </TabsContent>
         
-        <TabsContent value="maintenance">
+        <TabsContent value="maintenance" className="relative z-10">
           <MaintenanceTab maintenanceTasks={mockActivityData.maintenanceTasks} />
         </TabsContent>
         
-        <TabsContent value="events">
+        <TabsContent value="events" className="relative z-10">
           <EventsCalendar />
         </TabsContent>
         
-        <TabsContent value="financials">
+        <TabsContent value="financials" className="relative z-10">
           <FinancialsTab financialData={mockFinancialData} />
         </TabsContent>
 
-        <TabsContent value="settings">
+        <TabsContent value="settings" className="relative z-10">
           <SiteSettingsTab />
         </TabsContent>
 
-        <TabsContent value="newsletters">
+        <TabsContent value="newsletters" className="relative z-10">
           <NewsletterTab />
         </TabsContent>
       </Tabs>
