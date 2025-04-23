@@ -1,17 +1,24 @@
-
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { InfoIcon, TreePine } from "lucide-react";
+import { InfoIcon, TreePine, Calendar as CalendarIcon } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 export interface TrainingOption {
   id: string;
@@ -21,6 +28,7 @@ export interface TrainingOption {
   schedule: string;
   outdoor?: boolean;
   details: string;
+  selectedDates?: Date[];
 }
 
 export const trainingOptions: TrainingOption[] = [
@@ -57,6 +65,7 @@ interface TrainingSelectionFormProps {
 
 export const TrainingSelectionForm = ({ onSelectionChange }: TrainingSelectionFormProps) => {
   const [selectedTraining, setSelectedTraining] = useState<string[]>([]);
+  const [selectedDates, setSelectedDates] = useState<{[key: string]: Date[]}>({});
 
   const handleCheckboxChange = (optionId: string, checked: boolean) => {
     const newSelection = checked
@@ -65,11 +74,53 @@ export const TrainingSelectionForm = ({ onSelectionChange }: TrainingSelectionFo
     
     setSelectedTraining(newSelection);
     
-    const selectedOptions = trainingOptions.filter(option => 
-      newSelection.includes(option.id)
-    );
+    const selectedOptions = trainingOptions.map(option => {
+      if (newSelection.includes(option.id)) {
+        return {
+          ...option,
+          selectedDates: selectedDates[option.id] || []
+        };
+      }
+      return option;
+    }).filter(option => newSelection.includes(option.id));
     
     onSelectionChange(selectedOptions);
+  };
+
+  const handleDateSelect = (optionId: string, date: Date) => {
+    const currentDates = selectedDates[optionId] || [];
+    const dateExists = currentDates.some(
+      existingDate => format(existingDate, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')
+    );
+
+    const newDates = dateExists
+      ? currentDates.filter(d => format(d, 'yyyy-MM-dd') !== format(date, 'yyyy-MM-dd'))
+      : [...currentDates, date];
+
+    setSelectedDates({
+      ...selectedDates,
+      [optionId]: newDates
+    });
+
+    if (selectedTraining.includes(optionId)) {
+      const selectedOptions = trainingOptions.map(option => {
+        if (option.id === optionId) {
+          return {
+            ...option,
+            selectedDates: newDates
+          };
+        }
+        if (selectedTraining.includes(option.id)) {
+          return {
+            ...option,
+            selectedDates: selectedDates[option.id] || []
+          };
+        }
+        return option;
+      }).filter(option => selectedTraining.includes(option.id));
+      
+      onSelectionChange(selectedOptions);
+    }
   };
 
   return (
@@ -136,6 +187,72 @@ export const TrainingSelectionForm = ({ onSelectionChange }: TrainingSelectionFo
                       <div className="flex items-center gap-1.5 text-sm text-green-600 mt-1">
                         <TreePine className="h-4 w-4" />
                         <span>Outdoor training in parks or nature reserves</span>
+                      </div>
+                    )}
+                    {option.id === "saturday" && selectedTraining.includes(option.id) && (
+                      <div className="mt-4">
+                        <Label className="mb-2 block">Select Training Dates</Label>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant="outline"
+                              className={cn(
+                                "justify-start text-left font-normal w-full",
+                                !selectedDates[option.id]?.length && "text-muted-foreground"
+                              )}
+                            >
+                              <CalendarIcon className="mr-2 h-4 w-4" />
+                              {selectedDates[option.id]?.length ? (
+                                `${selectedDates[option.id].length} date${selectedDates[option.id].length > 1 ? 's' : ''} selected`
+                              ) : (
+                                "Select dates"
+                              )}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="multiple"
+                              selected={selectedDates[option.id] || []}
+                              onSelect={(dates) => {
+                                if (dates) {
+                                  setSelectedDates({
+                                    ...selectedDates,
+                                    [option.id]: dates
+                                  });
+                                  const selectedOptions = trainingOptions.map(opt => {
+                                    if (opt.id === option.id) {
+                                      return {
+                                        ...opt,
+                                        selectedDates: dates
+                                      };
+                                    }
+                                    if (selectedTraining.includes(opt.id)) {
+                                      return {
+                                        ...opt,
+                                        selectedDates: selectedDates[opt.id] || []
+                                      };
+                                    }
+                                    return opt;
+                                  }).filter(opt => selectedTraining.includes(opt.id));
+                                  
+                                  onSelectionChange(selectedOptions);
+                                }
+                              }}
+                              disabled={{ before: new Date() }}
+                              className="rounded-md border pointer-events-auto"
+                            />
+                          </PopoverContent>
+                        </Popover>
+                        {selectedDates[option.id]?.length > 0 && (
+                          <div className="mt-2">
+                            <p className="text-sm text-gray-500">
+                              Selected dates:{" "}
+                              {selectedDates[option.id].map(date => 
+                                format(date, "PPP")
+                              ).join(", ")}
+                            </p>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
