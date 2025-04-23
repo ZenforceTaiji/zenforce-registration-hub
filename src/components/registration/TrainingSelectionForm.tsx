@@ -1,24 +1,9 @@
 import { useState } from "react";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { InfoIcon, TreePine, Calendar as CalendarIcon } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
+import { InfoIcon } from "lucide-react";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { TrainingOption } from "./training/TrainingOption";
+import { DateSelector } from "./training/DateSelector";
 
 export interface TrainingOption {
   id: string;
@@ -87,23 +72,10 @@ export const TrainingSelectionForm = ({ onSelectionChange }: TrainingSelectionFo
     onSelectionChange(selectedOptions);
   };
 
-  const handleDateSelect = (optionId: string, date: Date) => {
-    if (date.getDay() !== 6) {
-      return;
-    }
-
-    const currentDates = selectedDates[optionId] || [];
-    const dateExists = currentDates.some(
-      existingDate => format(existingDate, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')
-    );
-
-    const newDates = dateExists
-      ? currentDates.filter(d => format(d, 'yyyy-MM-dd') !== format(date, 'yyyy-MM-dd'))
-      : [...currentDates, date];
-
+  const handleDateSelect = (optionId: string, dates: Date[]) => {
     setSelectedDates({
       ...selectedDates,
-      [optionId]: newDates
+      [optionId]: dates
     });
 
     if (selectedTraining.includes(optionId)) {
@@ -111,7 +83,7 @@ export const TrainingSelectionForm = ({ onSelectionChange }: TrainingSelectionFo
         if (option.id === optionId) {
           return {
             ...option,
-            selectedDates: newDates
+            selectedDates: dates
           };
         }
         if (selectedTraining.includes(option.id)) {
@@ -139,132 +111,19 @@ export const TrainingSelectionForm = ({ onSelectionChange }: TrainingSelectionFo
 
         <div className="grid gap-4">
           {trainingOptions.map((option) => (
-            <Card key={option.id}>
-              <CardContent className="pt-6">
-                <div className="flex items-start space-x-2">
-                  <Checkbox
-                    id={option.id}
-                    checked={selectedTraining.includes(option.id)}
-                    onCheckedChange={(checked) => 
-                      handleCheckboxChange(option.id, checked as boolean)
-                    }
-                  />
-                  <div className="grid gap-1.5 w-full">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <Label 
-                            htmlFor={option.id}
-                            className="text-base font-semibold"
-                          >
-                            {option.name}
-                          </Label>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Button 
-                                variant="ghost" 
-                                size="sm" 
-                                className="h-6 px-2 text-muted-foreground hover:text-foreground"
-                              >
-                                Learn More
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent className="max-w-[300px] p-4">
-                              <p className="text-sm leading-relaxed">
-                                {option.details}
-                              </p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </div>
-                        <p className="text-sm text-gray-500">
-                          {option.schedule}
-                        </p>
-                      </div>
-                      <span className="font-bold text-right">
-                        R{option.price / 100} {option.id !== "saturday" ? "per week" : "per session"}
-                      </span>
-                    </div>
-                    <p className="text-sm text-gray-500">
-                      {option.description}
-                    </p>
-                    {option.outdoor && (
-                      <div className="flex items-center gap-1.5 text-sm text-green-600 mt-1">
-                        <TreePine className="h-4 w-4" />
-                        <span>Outdoor training in parks or nature reserves</span>
-                      </div>
-                    )}
-                    {option.id === "saturday" && selectedTraining.includes(option.id) && (
-                      <div className="mt-4">
-                        <Label className="mb-2 block">Select Training Dates (Saturdays Only)</Label>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <Button
-                              variant="outline"
-                              className={cn(
-                                "justify-start text-left font-normal w-full",
-                                !selectedDates[option.id]?.length && "text-muted-foreground"
-                              )}
-                            >
-                              <CalendarIcon className="mr-2 h-4 w-4" />
-                              {selectedDates[option.id]?.length ? (
-                                `${selectedDates[option.id].length} date${selectedDates[option.id].length > 1 ? 's' : ''} selected`
-                              ) : (
-                                "Select Saturdays"
-                              )}
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="multiple"
-                              selected={selectedDates[option.id] || []}
-                              onSelect={(dates) => {
-                                if (dates) {
-                                  setSelectedDates({
-                                    ...selectedDates,
-                                    [option.id]: dates.filter(date => date.getDay() === 6)
-                                  });
-                                  const selectedOptions = trainingOptions.map(opt => {
-                                    if (opt.id === option.id) {
-                                      return {
-                                        ...opt,
-                                        selectedDates: dates.filter(date => date.getDay() === 6)
-                                      };
-                                    }
-                                    if (selectedTraining.includes(opt.id)) {
-                                      return {
-                                        ...opt,
-                                        selectedDates: selectedDates[opt.id] || []
-                                      };
-                                    }
-                                    return opt;
-                                  }).filter(opt => selectedTraining.includes(opt.id));
-                                  
-                                  onSelectionChange(selectedOptions);
-                                }
-                              }}
-                              disabled={(date) => {
-                                return date.getDay() !== 6 || date < new Date();
-                              }}
-                              className="rounded-md border pointer-events-auto"
-                            />
-                          </PopoverContent>
-                        </Popover>
-                        {selectedDates[option.id]?.length > 0 && (
-                          <div className="mt-2">
-                            <p className="text-sm text-gray-500">
-                              Selected Saturdays:{" "}
-                              {selectedDates[option.id].map(date => 
-                                format(date, "PPP")
-                              ).join(", ")}
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <div key={option.id}>
+              <TrainingOption
+                option={option}
+                checked={selectedTraining.includes(option.id)}
+                onCheckboxChange={(checked) => handleCheckboxChange(option.id, checked)}
+              />
+              {option.id === "saturday" && selectedTraining.includes(option.id) && (
+                <DateSelector
+                  selectedDates={selectedDates[option.id] || []}
+                  onDatesChange={(dates) => handleDateSelect(option.id, dates)}
+                />
+              )}
+            </div>
           ))}
         </div>
       </div>
