@@ -5,12 +5,16 @@ export const TRAINING_PACKAGES = {
     price: 6000, // R60.00 in cents
     schedule: "Mondays and Wednesdays",
     minSessions: 2,
+    isOutdoor: false,
+    location: "",
   },
   MARTIAL_ARTS: {
     name: "Martial Arts, Push Hands and Fitness",
     price: 8000, // R80.00 in cents
     schedule: "Tuesdays and Thursdays",
     minSessions: 2,
+    isOutdoor: false,
+    location: "",
   },
   SATURDAY: {
     name: "Health and Meditation",

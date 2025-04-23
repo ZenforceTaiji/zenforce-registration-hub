@@ -19,7 +19,7 @@ const FinancialInfo = () => {
     .map(payment => ({
       id: payment.id,
       memberNumber: payment.id, // Using ID as member number for sample data
-      amount: payment.amount,
+      amount: parseFloat(payment.amount.replace("R", "").replace(",", "")) * 100, // Convert to cents
       dueDate: payment.date,
       description: payment.description,
     }));
