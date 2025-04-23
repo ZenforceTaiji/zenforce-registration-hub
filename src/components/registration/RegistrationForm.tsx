@@ -1,9 +1,10 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 
 interface StudentDetails {
@@ -14,6 +15,8 @@ interface StudentDetails {
   telephone?: string;
   email?: string;
   physicalAddress?: string;
+  trainingReason?: string;
+  healthIssuesDetails?: string;
 }
 
 interface RegistrationFormProps {
@@ -26,9 +29,18 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
   const { toast } = useToast();
   const [formData, setFormData] = useState<StudentDetails>(initialData);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleTrainingReasonChange = (value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      trainingReason: value,
+      // Reset health issues details if not selecting health issues
+      healthIssuesDetails: value !== "health" ? "" : prev.healthIssuesDetails
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -39,6 +51,24 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
       toast({
         title: "Required Fields",
         description: "Please enter your first and last name",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!formData.trainingReason) {
+      toast({
+        title: "Required Field",
+        description: "Please select your reason for training",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (formData.trainingReason === "health" && !formData.healthIssuesDetails) {
+      toast({
+        title: "Required Field",
+        description: "Please provide details about your health issues",
         variant: "destructive",
       });
       return;
@@ -138,6 +168,52 @@ const RegistrationForm = ({ initialData, userAge }: RegistrationFormProps) => {
           />
         </div>
       </div>
+
+      <div className="space-y-4">
+        <Label>Reason For Training *</Label>
+        <RadioGroup 
+          value={formData.trainingReason} 
+          onValueChange={handleTrainingReasonChange}
+          className="space-y-3"
+        >
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="martial" id="martial" />
+            <Label htmlFor="martial">Martial Arts / Self-Defence</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="relaxation" id="relaxation" />
+            <Label htmlFor="relaxation">Relaxation and Meditation</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="health" id="health" />
+            <Label htmlFor="health">Help with health issues</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="weight" id="weight" />
+            <Label htmlFor="weight">Weight Loss</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="all" id="all" />
+            <Label htmlFor="all">All of the above</Label>
+          </div>
+        </RadioGroup>
+      </div>
+
+      {formData.trainingReason === "health" && (
+        <div className="space-y-3">
+          <Label htmlFor="healthIssuesDetails">
+            Please explain the health issues you need help with *
+          </Label>
+          <Textarea
+            id="healthIssuesDetails"
+            name="healthIssuesDetails"
+            value={formData.healthIssuesDetails}
+            onChange={handleChange}
+            placeholder="Please provide details about your health concerns..."
+            className="h-24"
+          />
+        </div>
+      )}
 
       <div className="flex justify-between pt-4">
         <Button type="button" variant="outline" onClick={() => navigate("/par-form")}>
