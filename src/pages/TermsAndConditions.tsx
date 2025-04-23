@@ -89,6 +89,20 @@ const TermsAndConditions = () => {
             The Student shall adhere to the following dress code: loose, comfortable clothing and flat-soled shoes. The wearing of heels, sandals, or socks without shoes is strictly prohibited due to safety concerns. The Student is further advised to arrive punctually to ensure participation in warm-up exercises.
           </p>
           
+          <h4 className="text-lg font-medium mt-6">Dress Code for Females</h4>
+          <p>
+            Female Students are required to wear appropriate training attire that ensures comfort, safety, and freedom of movement. Acceptable clothing options include:
+          </p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Traditional Kung Fu suit</li>
+            <li>Loose-fitting clothes (not excessively baggy)</li>
+            <li>Yoga outfit</li>
+            <li>Any dedicated training outfit suitable for martial arts</li>
+          </ul>
+          <p className="mt-2 font-semibold text-red-600">
+            IMPORTANT: Female Students MUST wear a sports bra during training. This is crucial due to the dynamic movements, jumping, and physical activities involved in Taijiquan training to prevent discomfort or potential injury.
+          </p>
+          
           <h4 className="text-lg font-medium mt-6">Health and Safety</h4>
           <p>
             It is the responsibility of the Student to consult with a licensed medical practitioner prior to commencing training, especially if the Student suffers from any known medical conditions. Should there be any material change to the Student's health or physical condition, it is incumbent upon the Student to notify the instructor immediately.
@@ -111,14 +125,14 @@ const TermsAndConditions = () => {
           
           <h4 className="text-lg font-medium mt-6">Privacy and Data Protection</h4>
           <p>
-            In compliance with the Protection of Personal Information Act (POPIA), ZenForce TaijiQuan SA will collect, store, and process the Student's personal information solely for the purpose of administering the school's Taijiquan classes. The Student's information will be held in strict confidence and will not be shared with any third party without the Student's prior consent, except as required by law.
+            In compliance with the Protection of Personal Information Act (POPIA), ZenForce Taijiquan SA will collect, store, and process the Student's personal information solely for the purpose of administering the school's Taijiquan classes. The Student's information will be held in strict confidence and will not be shared with any third party without the Student's prior consent, except as required by law.
           </p>
           
           <h3 className="text-lg font-medium mt-6">School Disclaimer</h3>
           
           <h4 className="text-lg font-medium mt-4">Medical Advice and Liability</h4>
           <p>
-            The Student is strongly advised to seek medical advice from a licensed healthcare provider before commencing any physical activity with ZenForce TaijiQuan SA. Participation in Taijiquan classes is entirely at the Student's own risk. ZenForce Taijiquan SA and its instructors shall not be held liable for any injury, illness, or medical condition sustained by the Student as a result of participating in any classes.
+            The Student is strongly advised to seek medical advice from a licensed healthcare provider before commencing any physical activity with ZenForce Taijiquan SA. Participation in Taijiquan classes is entirely at the Student's own risk. ZenForce Taijiquan SA and its instructors shall not be held liable for any injury, illness, or medical condition sustained by the Student as a result of participating in any classes.
           </p>
           
           <h4 className="text-lg font-medium mt-6">Home Practice Liability</h4>
