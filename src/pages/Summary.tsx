@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -81,11 +80,22 @@ const Summary = () => {
           <Button
             variant="outline"
             onClick={() => navigate("/registration")}
+            style={{
+              padding: "0.75rem 1.5rem",
+              minWidth: "160px",
+            }}
           >
             Back to Registration
           </Button>
           <Button
-            className="bg-accent-red hover:bg-accent-red/90 text-white"
+            className="bg-red-600 hover:bg-red-700 text-white font-medium"
+            style={{
+              padding: "0.75rem 1.5rem",
+              minWidth: "200px",
+              position: "relative",
+              zIndex: 50,
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+            }}
             onClick={() => navigate("/completion")}
           >
             Complete Registration
