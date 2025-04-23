@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Routes, Route } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -25,6 +26,7 @@ import Completion from "@/pages/Completion";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCancelled from "./pages/PaymentCancelled";
 import PaymentSimulator from "./pages/PaymentSimulator";
+import TermsAndConditions from "@/pages/TermsAndConditions";  // Add this import
 import { Toaster } from "@/components/ui/toaster";
 
 function App() {
