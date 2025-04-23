@@ -1,3 +1,4 @@
+
 import { Routes, Route } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Index from "@/pages/Index";
@@ -5,6 +6,7 @@ import Gallery from "@/pages/Gallery";
 import HistoryOfTaijiquan from "@/pages/HistoryOfTaijiquan";
 import NotFound from "@/pages/NotFound";
 import ParForm from "@/pages/ParForm";
+import Registration from "@/pages/Registration";
 import AdminPortal from "@/pages/AdminPortal";
 import StudentPortal from "@/pages/StudentPortal";
 import InstructorPortal from "@/pages/InstructorPortal";
@@ -27,6 +29,7 @@ function App() {
           <Route path="/booking" element={<Booking />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/par-form" element={<ParForm />} />
+          <Route path="/registration" element={<Registration />} />
           <Route path="/admin-portal" element={<AdminPortal />} />
           <Route path="/student-portal" element={<StudentPortal />} />
           <Route path="/instructor-portal" element={<InstructorPortal />} />
