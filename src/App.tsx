@@ -22,6 +22,9 @@ import Indemnity from "@/pages/Indemnity";
 import Popia from "@/pages/Popia";
 import Summary from "@/pages/Summary";
 import Completion from "@/pages/Completion";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentCancelled from "./pages/PaymentCancelled";
+import PaymentSimulator from "./pages/PaymentSimulator";
 import { Toaster } from "@/components/ui/toaster";
 
 function App() {
