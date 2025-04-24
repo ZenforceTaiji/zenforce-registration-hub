@@ -1,3 +1,4 @@
+
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { TRAINING_PACKAGES } from "@/constants/financialRules";
 
@@ -24,9 +25,10 @@ const TermsAndConditions = () => {
             <ul className="list-disc pl-6 space-y-2">
               {Object.entries(TRAINING_PACKAGES).map(([key, pkg]) => (
                 <li key={key}>
-                  <strong>{pkg.name}</strong> ({pkg.schedule}): R{pkg.price / 100} per session
+                  <strong>{pkg.name}</strong> ({pkg.schedule}): R{pkg.price / 100} per {key === 'ONLINE' ? 'participant' : 'session'}
                   {pkg.minSessions > 1 && ` (minimum ${pkg.minSessions} sessions per week)`}
                   {pkg.isOutdoor && ` - ${pkg.location ? `Outdoor training in ${pkg.location}` : 'Outdoor training'}`}
+                  {key === 'ONLINE' && " - By appointment only"}
                 </li>
               ))}
             </ul>
@@ -34,6 +36,34 @@ const TermsAndConditions = () => {
               The Student acknowledges that membership fees are non-refundable and must be paid in full prior to attending any class.
             </p>
           </div>
+          
+          <h4 className="text-lg font-medium mt-6">Online Class Special Provisions</h4>
+          <p>
+            For Students participating in online classes, the following additional provisions apply:
+          </p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>
+              Online classes are available for relaxation, meditation, and health improvement purposes only.
+            </li>
+            <li>
+              Students enrolled in online classes are not eligible for grading or participation in competitions.
+            </li>
+            <li>
+              Online class fees are charged per participant per session (R{TRAINING_PACKAGES.ONLINE.price / 100} per participant).
+            </li>
+            <li>
+              Classes are conducted by appointment only and subject to instructor availability.
+            </li>
+            <li>
+              Students must have a functioning webcam and microphone for participation.
+            </li>
+            <li>
+              The number of participants present during the online session must match the number registered and paid for. The Student acknowledges that the ZenForce system may use camera access to verify participant count.
+            </li>
+            <li>
+              If additional participants are detected beyond the number registered, the class may be terminated without refund, or additional fees may be charged retrospectively.
+            </li>
+          </ul>
           
           <h4 className="text-lg font-medium mt-6">Course Fees</h4>
           <p>

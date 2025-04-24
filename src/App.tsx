@@ -26,7 +26,9 @@ import Completion from "@/pages/Completion";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCancelled from "./pages/PaymentCancelled";
 import PaymentSimulator from "./pages/PaymentSimulator";
-import TermsAndConditions from "@/pages/TermsAndConditions";  // Add this import
+import TermsAndConditions from "@/pages/TermsAndConditions";
+import OnlineRegistration from "@/pages/OnlineRegistration";
+import OnlinePayment from "@/pages/OnlinePayment";
 import { Toaster } from "@/components/ui/toaster";
 
 function App() {
@@ -59,6 +61,8 @@ function App() {
           <Route path="/payment-cancelled" element={<PaymentCancelled />} />
           <Route path="/payment-simulator" element={<PaymentSimulator />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+          <Route path="/online-registration" element={<OnlineRegistration />} />
+          <Route path="/online-payment" element={<OnlinePayment />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

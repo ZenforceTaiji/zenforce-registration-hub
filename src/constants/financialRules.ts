@@ -24,6 +24,16 @@ export const TRAINING_PACKAGES = {
     isOutdoor: true,
     location: "Parks or Nature Reserves",
   },
+  ONLINE: {
+    name: "Online Classes",
+    price: 3000, // R30.00 in cents
+    schedule: "By Appointment Only",
+    minSessions: 1,
+    isOnline: true,
+    isGradingEligible: false,
+    isCompetitionEligible: false,
+    maxParticipantsPerDevice: 10,
+  },
 };
 
 export const FINANCIAL_RULES = {

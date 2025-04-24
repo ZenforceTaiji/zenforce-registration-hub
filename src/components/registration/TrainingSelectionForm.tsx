@@ -6,6 +6,7 @@ import { InfoIcon } from "lucide-react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { TrainingOption } from "./training/TrainingOption";
 import { DateSelector } from "./training/DateSelector";
+import { OnlineParticipantsSelector } from "./training/OnlineParticipantsSelector";
 
 export interface TrainingOption {
   id: string;
@@ -14,8 +15,12 @@ export interface TrainingOption {
   description: string;
   schedule: string;
   outdoor?: boolean;
+  online?: boolean;
+  isGradingEligible?: boolean;
+  isCompetitionEligible?: boolean;
   details: string;
   selectedDates?: Date[];
+  participantCount?: number;
 }
 
 export const trainingOptions: TrainingOption[] = [
@@ -42,7 +47,18 @@ export const trainingOptions: TrainingOption[] = [
     description: "Outdoor training focusing on health improvement and meditation",
     schedule: TRAINING_PACKAGES.SATURDAY.schedule,
     outdoor: true,
-    details: `A unique outdoor experience combining health-focused exercises with meditation in natural settings. Training takes place in ${TRAINING_PACKAGES.SATURDAY.location}, allowing participants to connect with nature while practicing. This session emphasizes breathing techniques, gentle movement, and mindfulness practices suitable for all levels.`
+    details: `A unique outdoor experience combining health-focused exercises with meditation in natural settings. Training takes place in parks or nature reserves, allowing participants to connect with nature while practicing. This session emphasizes breathing techniques, gentle movement, and mindfulness practices suitable for all levels.`
+  },
+  {
+    id: "online",
+    name: TRAINING_PACKAGES.ONLINE.name,
+    price: TRAINING_PACKAGES.ONLINE.price,
+    description: "Online classes focused on relaxation, meditation, and health improvement",
+    schedule: TRAINING_PACKAGES.ONLINE.schedule,
+    online: true,
+    isGradingEligible: false,
+    isCompetitionEligible: false,
+    details: "Virtual training sessions focused on relaxation techniques, meditation, and health improvement. These online classes are designed for those who cannot attend in-person sessions or prefer to practice from home. Note: Online class participants are not eligible for grading or competition participation. Price is per participant per session."
   }
 ];
 
@@ -53,6 +69,7 @@ interface TrainingSelectionFormProps {
 export const TrainingSelectionForm = ({ onSelectionChange }: TrainingSelectionFormProps) => {
   const [selectedTraining, setSelectedTraining] = useState<string[]>([]);
   const [selectedDates, setSelectedDates] = useState<{[key: string]: Date[]}>({});
+  const [participantCounts, setParticipantCounts] = useState<{[key: string]: number}>({});
 
   const handleCheckboxChange = (optionId: string, checked: boolean) => {
     const newSelection = checked
@@ -60,45 +77,46 @@ export const TrainingSelectionForm = ({ onSelectionChange }: TrainingSelectionFo
       : selectedTraining.filter(id => id !== optionId);
     
     setSelectedTraining(newSelection);
-    
-    const selectedOptions = trainingOptions.map(option => {
-      if (newSelection.includes(option.id)) {
-        return {
-          ...option,
-          selectedDates: selectedDates[option.id] || []
-        };
-      }
-      return option;
-    }).filter(option => newSelection.includes(option.id));
-    
-    onSelectionChange(selectedOptions);
+    updateSelectedOptions(newSelection, selectedDates, participantCounts);
   };
 
   const handleDateSelect = (optionId: string, dates: Date[]) => {
-    setSelectedDates({
+    const newSelectedDates = {
       ...selectedDates,
       [optionId]: dates
-    });
+    };
+    
+    setSelectedDates(newSelectedDates);
+    updateSelectedOptions(selectedTraining, newSelectedDates, participantCounts);
+  };
 
-    if (selectedTraining.includes(optionId)) {
-      const selectedOptions = trainingOptions.map(option => {
-        if (option.id === optionId) {
-          return {
-            ...option,
-            selectedDates: dates
-          };
-        }
-        if (selectedTraining.includes(option.id)) {
-          return {
-            ...option,
-            selectedDates: selectedDates[option.id] || []
-          };
-        }
-        return option;
-      }).filter(option => selectedTraining.includes(option.id));
-      
-      onSelectionChange(selectedOptions);
-    }
+  const handleParticipantCountChange = (optionId: string, count: number) => {
+    const newParticipantCounts = {
+      ...participantCounts,
+      [optionId]: count
+    };
+    
+    setParticipantCounts(newParticipantCounts);
+    updateSelectedOptions(selectedTraining, selectedDates, newParticipantCounts);
+  };
+
+  const updateSelectedOptions = (
+    selection: string[], 
+    dates: {[key: string]: Date[]},
+    counts: {[key: string]: number}
+  ) => {
+    const selectedOptions = trainingOptions.map(option => {
+      if (selection.includes(option.id)) {
+        return {
+          ...option,
+          selectedDates: dates[option.id] || [],
+          participantCount: counts[option.id] || 1
+        };
+      }
+      return option;
+    }).filter(option => selection.includes(option.id));
+    
+    onSelectionChange(selectedOptions);
   };
 
   return (
@@ -119,10 +137,18 @@ export const TrainingSelectionForm = ({ onSelectionChange }: TrainingSelectionFo
                 checked={selectedTraining.includes(option.id)}
                 onCheckboxChange={(checked) => handleCheckboxChange(option.id, checked)}
               />
+              
               {option.id === "saturday" && selectedTraining.includes(option.id) && (
                 <DateSelector
                   selectedDates={selectedDates[option.id] || []}
                   onDatesChange={(dates) => handleDateSelect(option.id, dates)}
+                />
+              )}
+              
+              {option.id === "online" && selectedTraining.includes(option.id) && (
+                <OnlineParticipantsSelector
+                  participantCount={participantCounts[option.id] || 1}
+                  onParticipantCountChange={(count) => handleParticipantCountChange(option.id, count)}
                 />
               )}
             </div>
