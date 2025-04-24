@@ -25,10 +25,10 @@ const TermsAndConditions = () => {
             <ul className="list-disc pl-6 space-y-2">
               {Object.entries(TRAINING_PACKAGES).map(([key, pkg]) => (
                 <li key={key}>
-                  <strong>{pkg.name}</strong> ({pkg.schedule}): R{pkg.price / 100} per {key === 'ONLINE' ? 'participant' : 'session'}
+                  <strong>{pkg.name}</strong> ({pkg.schedule}): R{pkg.price / 100} per {pkg.isOnline ? 'participant' : 'session'}
                   {pkg.minSessions > 1 && ` (minimum ${pkg.minSessions} sessions per week)`}
-                  {pkg.isOutdoor && ` - ${pkg.location ? `Outdoor training in ${pkg.location}` : 'Outdoor training'}`}
-                  {key === 'ONLINE' && " - By appointment only"}
+                  {pkg.isOutdoor && pkg.location && ` - ${pkg.location ? `Outdoor training in ${pkg.location}` : 'Outdoor training'}`}
+                  {pkg.isOnline && " - By appointment only"}
                 </li>
               ))}
             </ul>

@@ -14,9 +14,10 @@ const PaymentInfoAlert = () => {
           {Object.entries(TRAINING_PACKAGES).map(([key, package_]) => (
             <p key={key}>
               <strong>{package_.name}</strong> ({package_.schedule}): 
-              R{package_.price / 100} per session
+              R{package_.price / 100} per {package_.isOnline ? 'participant' : 'session'}
               {package_.minSessions > 1 && ` (minimum ${package_.minSessions} sessions per week)`}
-              {package_.isOutdoor && ` - Outdoor training in ${package_.location}`}
+              {package_.isOutdoor && package_.location && ` - Outdoor training in ${package_.location}`}
+              {package_.isOnline && ` - By appointment only`}
             </p>
           ))}
 
