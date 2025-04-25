@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { DesktopMenu, MobileMenu, LoginOptions } from "./navbar";
-import { LoginDialog } from "./LoginDialog";
+import { DesktopMenu, MobileMenu, LoginOptions } from ".";
+import { LoginDialog } from "../LoginDialog";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -19,39 +19,41 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white shadow-sm border-b z-50 sticky top-0">
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-        <div className="flex justify-between h-14 sm:h-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center gap-1 sm:gap-2">
+            <Link to="/" className="flex items-center gap-2">
               <img 
                 src="https://images.unsplash.com/photo-1500673922987-e212871fec22" 
                 alt="ZenForce Logo" 
-                className="h-6 w-auto sm:h-8"
+                className="h-8 w-auto"
               />
-              <span className="text-lg sm:text-xl font-bold text-primary-600">ZenForce</span>
-              <span className="text-lg sm:text-xl font-medium ml-0.5 sm:ml-1 text-gray-700">TaijiQuan</span>
+              <div className="flex items-center">
+                <span className="text-xl font-bold text-primary-600">ZenForce</span>
+                <span className="text-xl font-medium text-gray-700 ml-1">TaijiQuan SA</span>
+              </div>
             </Link>
             
             {/* Desktop menu */}
             <DesktopMenu />
           </div>
 
-          <div className="flex items-center">
+          <div className="flex items-center space-x-4">
             {/* Desktop login options */}
             <LoginOptions onLoginClick={handleLoginClick} />
 
             {/* Mobile menu button */}
-            <div className="md:hidden flex items-center">
+            <div className="md:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="inline-flex items-center justify-center p-1.5 sm:p-2 rounded-md text-gray-700 hover:text-primary-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-600 transition-colors"
+                className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-600 transition-colors"
                 aria-expanded={isOpen}
               >
                 <span className="sr-only">{isOpen ? "Close menu" : "Open menu"}</span>
                 {isOpen ? (
-                  <X className="block h-5 w-5 sm:h-6 sm:w-6" aria-hidden="true" />
+                  <X className="block h-6 w-6" aria-hidden="true" />
                 ) : (
-                  <Menu className="block h-5 w-5 sm:h-6 sm:w-6" aria-hidden="true" />
+                  <Menu className="block h-6 w-6" aria-hidden="true" />
                 )}
               </button>
             </div>

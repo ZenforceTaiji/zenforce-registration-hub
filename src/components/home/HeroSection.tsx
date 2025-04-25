@@ -38,7 +38,7 @@ const HeroSection = () => {
         onContinue={() => navigate("/par-form")}
       />
     
-      <section className="relative bg-primary-700 py-12 sm:py-16 lg:py-20 overflow-hidden">
+      <section className="relative bg-primary-700 py-8 sm:py-12 lg:py-16 overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-20"
           style={{
@@ -48,12 +48,12 @@ const HeroSection = () => {
         ></div>
         <div className="absolute inset-0 bg-gradient-to-b from-primary-800/80 to-primary-900/80"></div>
 
-        <div className="relative container mx-auto px-4 py-8 sm:py-12 lg:py-16">
+        <div className="relative container mx-auto px-4">
           <div className="max-w-3xl">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-white mb-4 sm:mb-6">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-white mb-4">
               ZenForce TaijiQuan SA
             </h1>
-            <p className="mt-4 sm:mt-6 text-lg sm:text-xl text-white/90 max-w-2xl leading-relaxed">
+            <p className="mt-4 text-lg sm:text-xl text-white/90 max-w-2xl leading-relaxed">
               Discover the ancient art of balance, strength, and inner peace
             </p>
           </div>
