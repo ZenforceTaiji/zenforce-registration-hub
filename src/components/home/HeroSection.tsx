@@ -42,7 +42,8 @@ const HeroSection = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-20"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1500673922987-e212871fec22')`
+            backgroundImage: `url('https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7')`,
+            backgroundBlendMode: 'multiply'
           }}
         ></div>
         <div className="absolute inset-0 bg-gradient-to-b from-primary-800/80 to-primary-900/80"></div>
