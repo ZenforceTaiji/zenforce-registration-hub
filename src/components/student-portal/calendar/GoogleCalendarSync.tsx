@@ -55,9 +55,9 @@ const GoogleCalendarSync = () => {
       </div>
       
       <Button 
-        variant={isSynced ? "default" : "default"}
+        variant="default"
         size="sm" 
-        className="w-full"
+        className={`w-full ${!isSynced ? 'border border-primary hover:bg-primary/10' : ''}`}
         onClick={handleSync}
         disabled={isLoading}
       >
