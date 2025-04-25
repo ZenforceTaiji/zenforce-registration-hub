@@ -59,7 +59,8 @@ const GreetingGenerator = () => {
 
   return (
     <div className="p-4 max-w-md mx-auto">
-      <h2 className="text-lg font-semibold mb-4">Generate Greeting Audio Files</h2>
+      <h2 className="text-xl font-semibold mb-4">Generate Greeting Audio Files</h2>
+      <p className="mb-4 text-gray-600">Enter your ElevenLabs API key to generate greeting audio files in English, Mandarin, and Cantonese.</p>
       <Input
         type="password"
         placeholder="Enter your ElevenLabs API key"
@@ -70,7 +71,7 @@ const GreetingGenerator = () => {
       <Button 
         onClick={handleGenerate}
         disabled={isGenerating}
-        className="w-full"
+        className="w-full bg-primary hover:bg-primary/90"
       >
         {isGenerating ? "Generating..." : "Generate Greetings"}
       </Button>

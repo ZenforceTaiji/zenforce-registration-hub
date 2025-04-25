@@ -101,23 +101,13 @@ const WelcomeSplash = ({ onComplete }: WelcomeSplashProps) => {
           </Button>
 
           <div className="flex gap-4 mt-4">
-            {hasPlayedGreetings || audioError ? (
-              <Button
-                variant="default"
-                className="bg-primary-600 hover:bg-primary-700"
-                onClick={onComplete}
-              >
-                Enter Site
-              </Button>
-            ) : (
-              <Button
-                variant="outline"
-                className="text-white border-white hover:bg-white/10"
-                onClick={onComplete}
-              >
-                Skip Intro
-              </Button>
-            )}
+            <Button
+              variant="default"
+              className="bg-primary-600 hover:bg-primary-700"
+              onClick={onComplete}
+            >
+              Enter Site
+            </Button>
           </div>
         </div>
       </div>
