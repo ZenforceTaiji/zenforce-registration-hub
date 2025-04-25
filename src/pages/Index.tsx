@@ -12,13 +12,20 @@ const Index = () => {
   const [showSplash, setShowSplash] = useState(false);
 
   useEffect(() => {
+    // Check if user has visited before
     const hasVisited = localStorage.getItem("hasVisitedBefore");
+    
+    // Set initial splash state
+    setShowSplash(!hasVisited);
+    
+    // Force localStorage to be updated if there was an issue
     if (!hasVisited) {
-      setShowSplash(true);
+      localStorage.setItem("hasVisitedBefore", "pending");
     }
   }, []);
 
   const handleSplashComplete = () => {
+    // Ensure localStorage is set
     localStorage.setItem("hasVisitedBefore", "true");
     setShowSplash(false);
   };

@@ -10,6 +10,7 @@ interface WelcomeSplashProps {
 const WelcomeSplash = ({ onComplete }: WelcomeSplashProps) => {
   const [isMuted, setIsMuted] = useState(false);
   const [hasPlayedGreetings, setHasPlayedGreetings] = useState(false);
+  const [audioError, setAudioError] = useState(false);
 
   useEffect(() => {
     const bgMusic = new Audio("/lovable-uploads/taiji-background.mp3");
@@ -21,21 +22,46 @@ const WelcomeSplash = ({ onComplete }: WelcomeSplashProps) => {
     
     const playSequentially = async () => {
       if (!isMuted) {
-        bgMusic.volume = 0.2;
-        await bgMusic.play();
-        
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        await englishGreeting.play();
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        await mandarinGreeting.play();
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        await cantoneseGreeting.play();
-        
-        setHasPlayedGreetings(true);
+        try {
+          bgMusic.volume = 0.2;
+          await bgMusic.play().catch(err => {
+            console.error('Background music error:', err);
+            setAudioError(true);
+          });
+          
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          
+          await englishGreeting.play().catch(err => {
+            console.error('English greeting error:', err);
+            setAudioError(true);
+          });
+          
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          
+          await mandarinGreeting.play().catch(err => {
+            console.error('Mandarin greeting error:', err);
+            setAudioError(true);
+          });
+          
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          
+          await cantoneseGreeting.play().catch(err => {
+            console.error('Cantonese greeting error:', err);
+            setAudioError(true);
+          });
+          
+          setHasPlayedGreetings(true);
+        } catch (error) {
+          console.error('Audio playback error:', error);
+          setAudioError(true);
+          setHasPlayedGreetings(true); // Allow proceeding even with errors
+        }
+      } else {
+        setHasPlayedGreetings(true); // If muted, allow proceeding immediately
       }
     };
 
-    playSequentially().catch(console.error);
+    playSequentially();
 
     return () => {
       bgMusic.pause();
@@ -74,15 +100,25 @@ const WelcomeSplash = ({ onComplete }: WelcomeSplashProps) => {
             {isMuted ? <VolumeX className="h-6 w-6" /> : <Volume2 className="h-6 w-6" />}
           </Button>
 
-          {hasPlayedGreetings && (
-            <Button
-              variant="default"
-              className="mt-4 bg-primary-600 hover:bg-primary-700"
-              onClick={onComplete}
-            >
-              Enter Site
-            </Button>
-          )}
+          <div className="flex gap-4 mt-4">
+            {hasPlayedGreetings || audioError ? (
+              <Button
+                variant="default"
+                className="bg-primary-600 hover:bg-primary-700"
+                onClick={onComplete}
+              >
+                Enter Site
+              </Button>
+            ) : (
+              <Button
+                variant="outline"
+                className="text-white border-white hover:bg-white/10"
+                onClick={onComplete}
+              >
+                Skip Intro
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </div>
