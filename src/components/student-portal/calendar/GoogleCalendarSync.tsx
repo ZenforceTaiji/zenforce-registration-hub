@@ -45,7 +45,7 @@ const GoogleCalendarSync = () => {
             Synced with Google Calendar
           </div>
         ) : (
-          <Alert variant="outline" className="py-2">
+          <Alert variant="default" className="py-2">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription className="text-xs">
               Connect to your Google Calendar to sync class schedule
