@@ -35,7 +35,10 @@ const Navbar = () => {
               </div>
             </Link>
             
-            <DesktopMenu />
+            {/* Add more spacing between logo and menu */}
+            <div className="ml-12">
+              <DesktopMenu />
+            </div>
           </div>
 
           <div className="flex items-center space-x-4">
