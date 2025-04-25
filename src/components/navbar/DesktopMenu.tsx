@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { History, GalleryHorizontal, BookMarked, Calendar, Mail, Info } from "lucide-react";
@@ -9,11 +10,11 @@ const DesktopMenu = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="hidden md:flex ml-10 space-x-1">
+    <div className="hidden md:flex space-x-1">
       <Link to="/">
         <Button 
           variant="ghost"
-          className={`px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
+          className={`px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
             isActive("/") ? "bg-primary-50 text-primary-600" : ""
           }`}
         >
@@ -24,7 +25,7 @@ const DesktopMenu = () => {
       <Link to="/history-of-taijiquan">
         <Button 
           variant="ghost"
-          className={`flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
+          className={`flex items-center gap-1 px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
             isActive("/history-of-taijiquan") ? "bg-primary-50 text-primary-600" : ""
           }`}
         >
@@ -36,7 +37,7 @@ const DesktopMenu = () => {
       <Link to="/gallery">
         <Button 
           variant="ghost"
-          className={`flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
+          className={`flex items-center gap-1 px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
             isActive("/gallery") ? "bg-primary-50 text-primary-600" : ""
           }`}
         >
@@ -48,7 +49,7 @@ const DesktopMenu = () => {
       <Link to="/booking">
         <Button 
           variant="ghost"
-          className={`flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
+          className={`flex items-center gap-1 px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
             isActive("/booking") ? "bg-primary-50 text-primary-600" : ""
           }`}
         >
@@ -60,7 +61,7 @@ const DesktopMenu = () => {
       <Link to="/events">
         <Button 
           variant="ghost"
-          className={`flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
+          className={`flex items-center gap-1 px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
             isActive("/events") ? "bg-primary-50 text-primary-600" : ""
           }`}
         >
@@ -72,7 +73,7 @@ const DesktopMenu = () => {
       <Link to="/contact">
         <Button 
           variant="ghost"
-          className={`flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
+          className={`flex items-center gap-1 px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
             isActive("/contact") ? "bg-primary-50 text-primary-600" : ""
           }`}
         >
@@ -84,7 +85,7 @@ const DesktopMenu = () => {
       <Link to="/about-us">
         <Button 
           variant="ghost"
-          className={`flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
+          className={`flex items-center gap-1 px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
             isActive("/about-us") ? "bg-primary-50 text-primary-600" : ""
           }`}
         >

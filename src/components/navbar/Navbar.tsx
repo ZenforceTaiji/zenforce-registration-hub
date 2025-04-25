@@ -37,7 +37,7 @@ const Navbar = () => {
             </Link>
             
             {/* Desktop menu with increased left margin */}
-            <div className="ml-8">
+            <div className="ml-10">
               <DesktopMenu />
             </div>
           </div>
