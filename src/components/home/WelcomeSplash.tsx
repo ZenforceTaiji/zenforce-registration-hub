@@ -13,61 +13,39 @@ const WelcomeSplash = ({ onComplete }: WelcomeSplashProps) => {
   const [audioError, setAudioError] = useState(false);
 
   useEffect(() => {
-    const bgMusic = new Audio("/lovable-uploads/taiji-background.mp3");
-    const englishGreeting = new Audio("/lovable-uploads/english-greeting.mp3");
-    const mandarinGreeting = new Audio("/lovable-uploads/mandarin-greeting.mp3");
-    const cantoneseGreeting = new Audio("/lovable-uploads/cantonese-greeting.mp3");
-
-    bgMusic.loop = true;
-    
-    const playSequentially = async () => {
-      if (!isMuted) {
-        try {
-          bgMusic.volume = 0.2;
-          await bgMusic.play().catch(err => {
-            console.error('Background music error:', err);
-            setAudioError(true);
-          });
-          
-          await new Promise(resolve => setTimeout(resolve, 1000));
-          
-          await englishGreeting.play().catch(err => {
-            console.error('English greeting error:', err);
-            setAudioError(true);
-          });
-          
-          await new Promise(resolve => setTimeout(resolve, 2000));
-          
-          await mandarinGreeting.play().catch(err => {
-            console.error('Mandarin greeting error:', err);
-            setAudioError(true);
-          });
-          
-          await new Promise(resolve => setTimeout(resolve, 2000));
-          
-          await cantoneseGreeting.play().catch(err => {
-            console.error('Cantonese greeting error:', err);
-            setAudioError(true);
-          });
-          
-          setHasPlayedGreetings(true);
-        } catch (error) {
-          console.error('Audio playback error:', error);
-          setAudioError(true);
-          setHasPlayedGreetings(true); // Allow proceeding even with errors
-        }
-      } else {
-        setHasPlayedGreetings(true); // If muted, allow proceeding immediately
-      }
+    // Check if audio files exist before trying to play them
+    const audioFiles = {
+      background: "/lovable-uploads/taiji-background.mp3",
+      english: "/lovable-uploads/english-greeting.mp3",
+      mandarin: "/lovable-uploads/mandarin-greeting.mp3",
+      cantonese: "/lovable-uploads/cantonese-greeting.mp3"
     };
 
-    playSequentially();
+    // Set hasPlayedGreetings to true after a short delay to ensure "Enter Site" button shows up
+    const timer = setTimeout(() => {
+      setHasPlayedGreetings(true);
+    }, 2000);
+
+    // Only attempt to play audio if not muted
+    if (!isMuted) {
+      try {
+        const bgMusic = new Audio(audioFiles.background);
+        bgMusic.loop = true;
+        bgMusic.volume = 0.2;
+        
+        // Play background music but catch errors
+        bgMusic.play().catch(err => {
+          console.log('Audio file not available yet, skipping playback');
+          setAudioError(true);
+        });
+      } catch (error) {
+        console.log('Audio playback error:', error);
+        setAudioError(true);
+      }
+    }
 
     return () => {
-      bgMusic.pause();
-      englishGreeting.pause();
-      mandarinGreeting.pause();
-      cantoneseGreeting.pause();
+      clearTimeout(timer);
     };
   }, [isMuted]);
 
@@ -109,6 +87,10 @@ const WelcomeSplash = ({ onComplete }: WelcomeSplashProps) => {
               Enter Site
             </Button>
           </div>
+
+          <p className="text-white text-sm mt-2">
+            Click "Enter Site" to access the greeting generator
+          </p>
         </div>
       </div>
     </div>
