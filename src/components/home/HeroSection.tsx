@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -59,7 +60,7 @@ const HeroSection = () => {
           <div className="mt-8 sm:mt-12 max-w-lg p-4 sm:p-6 rounded-lg bg-white/10 backdrop-blur-sm">
             <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Registration Process</h2>
             
-            <div className="space-y-4">
+            <div className="space-y-4 mb-6">
               <div className="flex items-start gap-3 sm:gap-4">
                 <div className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary-600 text-white flex items-center justify-center font-bold text-sm sm:text-base">1</div>
                 <div>
@@ -85,11 +86,11 @@ const HeroSection = () => {
               </div>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6 sm:mt-8">
+            <div className="space-y-3">
               <Button
                 variant="default"
                 size="lg"
-                className="w-full sm:w-auto bg-primary-600 text-white hover:bg-primary-700 flex items-center gap-2"
+                className="w-full bg-primary-600 text-white hover:bg-primary-700 flex items-center gap-2"
                 onClick={handleStartInPersonRegistration}
               >
                 <MapPin className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -99,27 +100,27 @@ const HeroSection = () => {
               <Button
                 variant="secondary"
                 size="lg"
-                className="w-full sm:w-auto bg-white/10 text-white hover:bg-white/20 border border-white/30 flex items-center gap-2"
+                className="w-full bg-white/10 text-white hover:bg-white/20 border border-white/30 flex items-center gap-2"
                 onClick={handleStartOnlineRegistration}
               >
                 <Globe className="h-4 w-4 sm:h-5 sm:w-5" />
                 Online Training Registration
               </Button>
-            </div>
 
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              <DialogTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="mt-4 w-full bg-white/10 text-white hover:bg-white/20 border border-white/30"
-                >
-                  <Info className="h-4 w-4 mr-2" />
-                  Learn More
-                </Button>
-              </DialogTrigger>
-              <RegistrationDialog onClose={() => setIsDialogOpen(false)} />
-            </Dialog>
+              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full bg-white/10 text-white hover:bg-white/20 border border-white/30"
+                  >
+                    <Info className="h-4 w-4 mr-2" />
+                    Learn More
+                  </Button>
+                </DialogTrigger>
+                <RegistrationDialog onClose={() => setIsDialogOpen(false)} />
+              </Dialog>
+            </div>
           </div>
         </div>
       </section>
