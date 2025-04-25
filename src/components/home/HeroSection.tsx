@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -38,7 +37,7 @@ const HeroSection = () => {
         onContinue={() => navigate("/par-form")}
       />
     
-      <section className="relative bg-gradient-to-br from-red-900 to-red-800 py-6 sm:py-10 lg:py-14 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-red-900 to-red-800 py-4 sm:py-6 lg:py-8 overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-15"
           style={{
@@ -58,7 +57,7 @@ const HeroSection = () => {
             </p>
           </div>
           
-          <div className="mt-8 sm:mt-12 max-w-lg p-4 sm:p-6 rounded-lg bg-white/10 backdrop-blur-sm">
+          <div className="mt-6 sm:mt-8 max-w-lg p-4 sm:p-6 rounded-lg bg-white/10 backdrop-blur-sm">
             <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Registration Process</h2>
             
             <div className="space-y-4 mb-6">
