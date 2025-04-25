@@ -14,6 +14,9 @@ import Certificates from "@/components/student-portal/Certificates";
 import FinancialInfo from "@/components/student-portal/FinancialInfo";
 import MediaGallery from "@/components/student-portal/MediaGallery";
 import ClassCalendar from "@/components/student-portal/calendar/ClassCalendar";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Video } from "lucide-react";
 
 const StudentPortal = () => {
   return (
@@ -23,9 +26,17 @@ const StudentPortal = () => {
           <h1 className="text-3xl font-bold tracking-tight">Student Portal</h1>
           <p className="text-gray-500 mt-1">View your grading information, certificates, and more</p>
         </div>
-        <div className="mt-4 md:mt-0 p-3 border rounded-lg bg-white shadow-sm">
-          <div className="text-sm text-gray-500">Current Grade</div>
-          <div className="text-2xl font-bold text-accent-red">G02</div>
+        <div className="mt-4 md:mt-0 flex space-x-3">
+          <div className="p-3 border rounded-lg bg-white shadow-sm">
+            <div className="text-sm text-gray-500">Current Grade</div>
+            <div className="text-2xl font-bold text-accent-red">G02</div>
+          </div>
+          <Link to="/online-classes">
+            <Button className="h-full" variant="outline">
+              <Video className="mr-2 h-4 w-4" />
+              Online Classes
+            </Button>
+          </Link>
         </div>
       </div>
 

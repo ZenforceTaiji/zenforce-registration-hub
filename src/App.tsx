@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Routes, Route } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -29,6 +28,8 @@ import PaymentSimulator from "./pages/PaymentSimulator";
 import TermsAndConditions from "@/pages/TermsAndConditions";
 import OnlineRegistration from "@/pages/OnlineRegistration";
 import OnlinePayment from "@/pages/OnlinePayment";
+import OnlineClasses from "./pages/OnlineClasses";
+import OnlineClassRoom from "./pages/OnlineClassRoom";
 import { Toaster } from "@/components/ui/toaster";
 
 function App() {
@@ -63,6 +64,8 @@ function App() {
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="/online-registration" element={<OnlineRegistration />} />
           <Route path="/online-payment" element={<OnlinePayment />} />
+          <Route path="/online-classes" element={<OnlineClasses />} />
+          <Route path="/online-classroom/:sessionId" element={<OnlineClassRoom />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

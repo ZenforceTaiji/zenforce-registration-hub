@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -9,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 const PaymentSuccess = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const searchParams = new URLSearchParams(window.location.search);
 
   useEffect(() => {
     // Show toast notification
@@ -19,6 +19,17 @@ const PaymentSuccess = () => {
     
     // Save payment status to session storage
     sessionStorage.setItem("paymentCompleted", "true");
+    
+    // Add this inside the existing useEffect:
+    // Redirect to online classes page if payment was for an online class
+    const paymentType = searchParams.get("type");
+    if (paymentType === "online") {
+      // In a real app, we'd also store the session details in the database
+      // and send an email with connection instructions
+      setTimeout(() => {
+        navigate("/online-classes");
+      }, 5000); // Redirect after 5 seconds
+    }
   }, [toast]);
 
   return (
