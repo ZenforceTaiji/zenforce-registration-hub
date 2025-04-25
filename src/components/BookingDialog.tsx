@@ -25,6 +25,7 @@ interface BookingDialogProps {
   date: Date;
   instructor: Instructor;
   timeSlot: TimeSlot;
+  sessionType?: "special" | "online-individual" | "online-group";
 }
 
 interface BookingFormData {
@@ -35,7 +36,7 @@ interface BookingFormData {
   notes: string;
 }
 
-const BookingDialog = ({ open, onOpenChange, date, instructor, timeSlot }: BookingDialogProps) => {
+const BookingDialog = ({ open, onOpenChange, date, instructor, timeSlot, sessionType }: BookingDialogProps) => {
   const { toast } = useToast();
   const [formData, setFormData] = useState<BookingFormData>({
     name: "",
@@ -117,6 +118,15 @@ const BookingDialog = ({ open, onOpenChange, date, instructor, timeSlot }: Booki
                 <User className="mr-1 h-4 w-4 text-gray-500" />
                 {instructor.name}
               </div>
+              {sessionType && (
+                <>
+                  <div className="text-gray-500">Session Type:</div>
+                  <div className="col-span-2 font-medium">
+                    {sessionType === "online-individual" ? "Online Individual" : 
+                     sessionType === "online-group" ? "Online Group" : "Special Event"}
+                  </div>
+                </>
+              )}
             </div>
           </div>
           

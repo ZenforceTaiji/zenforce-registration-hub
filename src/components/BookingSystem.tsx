@@ -490,7 +490,7 @@ const BookingSystem = () => {
                       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                         {availableTimeSlots.map(slot => {
                           // Determine button style based on availability and capacity
-                          let buttonVariant = "outline";
+                          let buttonVariant: "outline" | "default" = "outline";
                           let buttonClass = "justify-center";
                           let capacityText = "";
                           
