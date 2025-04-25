@@ -3,7 +3,7 @@ import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
-import { Lotus, Muscle, Brain, Users } from "lucide-react";
+import { Flower, Shield, Brain, Users } from "lucide-react";
 import ImageCard from "@/components/history/shared/ImageCard";
 
 const PurposeOfTaijiquan = () => {
@@ -22,11 +22,11 @@ const PurposeOfTaijiquan = () => {
       <Tabs defaultValue="general">
         <TabsList className="grid grid-cols-2 md:grid-cols-4 w-full mb-6">
           <TabsTrigger value="general" className="flex items-center gap-2">
-            <Lotus className="h-4 w-4" />
+            <Flower className="h-4 w-4" />
             General Overview
           </TabsTrigger>
           <TabsTrigger value="health" className="flex items-center gap-2">
-            <Muscle className="h-4 w-4" />
+            <Shield className="h-4 w-4" />
             Health Benefits
           </TabsTrigger>
           <TabsTrigger value="mental" className="flex items-center gap-2">
@@ -85,19 +85,19 @@ const PurposeOfTaijiquan = () => {
                   <h3 className="text-lg font-semibold text-red-800">Physical Improvements</h3>
                   <ul className="space-y-3">
                     <li className="flex items-start gap-2">
-                      <Muscle className="h-5 w-5 text-red-600 mt-0.5" />
+                      <Shield className="h-5 w-5 text-red-600 mt-0.5" />
                       <span>Enhanced balance and flexibility</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <Muscle className="h-5 w-5 text-red-600 mt-0.5" />
+                      <Shield className="h-5 w-5 text-red-600 mt-0.5" />
                       <span>Improved muscle strength and definition</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <Muscle className="h-5 w-5 text-red-600 mt-0.5" />
+                      <Shield className="h-5 w-5 text-red-600 mt-0.5" />
                       <span>Better posture and body awareness</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <Muscle className="h-5 w-5 text-red-600 mt-0.5" />
+                      <Shield className="h-5 w-5 text-red-600 mt-0.5" />
                       <span>Increased energy levels and stamina</span>
                     </li>
                   </ul>
