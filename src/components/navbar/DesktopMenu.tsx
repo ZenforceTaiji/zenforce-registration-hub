@@ -1,8 +1,15 @@
 
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { History, GalleryHorizontal, BookMarked, Calendar, Mail, Info } from "lucide-react";
+import { History, GalleryHorizontal, BookMarked, Calendar, Mail, Info, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const DesktopMenu = () => {
   const location = useLocation();
@@ -22,17 +29,35 @@ const DesktopMenu = () => {
         </Button>
       </Link>
       
-      <Link to="/history-of-taijiquan">
-        <Button 
-          variant="ghost"
-          className={`flex items-center gap-1 px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
-            isActive("/history-of-taijiquan") ? "bg-primary-50 text-primary-600" : ""
-          }`}
-        >
-          <History className="h-4 w-4" />
-          History of TaijiQuan
-        </Button>
-      </Link>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button 
+            variant="ghost" 
+            className={`flex items-center gap-1 px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
+              isActive("/history-of-taijiquan") ? "bg-primary-50 text-primary-600" : ""
+            }`}
+          >
+            TaijiQuan
+            <ChevronDown className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56 bg-white">
+          <DropdownMenuGroup>
+            <DropdownMenuItem asChild>
+              <Link to="/history-of-taijiquan" className="flex items-center gap-2">
+                <History className="h-4 w-4" />
+                History of TaijiQuan
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link to="/purpose-of-taijiquan" className="flex items-center gap-2">
+                <Info className="h-4 w-4" />
+                Purpose of TaijiQuan
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
       
       <Link to="/gallery">
         <Button 

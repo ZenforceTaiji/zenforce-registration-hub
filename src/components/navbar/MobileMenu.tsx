@@ -1,6 +1,11 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { History, GalleryHorizontal, BookMarked, Calendar, UserPlus, LogIn, Info } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -27,16 +32,35 @@ const MobileMenu = ({ isOpen, onClose, onLoginClick }: MobileMenuProps) => {
         >
           Home
         </Link>
-        <Link
-          to="/history-of-taijiquan"
-          className={`block px-3 py-2 rounded-md text-base font-medium ${
-            isActive("/history-of-taijiquan") ? "bg-primary-50 text-primary-600" : "text-gray-700 hover:bg-gray-50"
-          } flex items-center`}
-          onClick={onClose}
-        >
-          <History className="mr-2 h-4 w-4" />
-          History of TaijiQuan
-        </Link>
+
+        <Collapsible className="w-full">
+          <CollapsibleTrigger className="flex w-full items-center px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">
+            TaijiQuan
+          </CollapsibleTrigger>
+          <CollapsibleContent className="ml-4">
+            <Link
+              to="/history-of-taijiquan"
+              className={`block px-3 py-2 rounded-md text-base font-medium ${
+                isActive("/history-of-taijiquan") ? "bg-primary-50 text-primary-600" : "text-gray-700 hover:bg-gray-50"
+              } flex items-center`}
+              onClick={onClose}
+            >
+              <History className="mr-2 h-4 w-4" />
+              History of TaijiQuan
+            </Link>
+            <Link
+              to="/purpose-of-taijiquan"
+              className={`block px-3 py-2 rounded-md text-base font-medium ${
+                isActive("/purpose-of-taijiquan") ? "bg-primary-50 text-primary-600" : "text-gray-700 hover:bg-gray-50"
+              } flex items-center`}
+              onClick={onClose}
+            >
+              <Info className="mr-2 h-4 w-4" />
+              Purpose of TaijiQuan
+            </Link>
+          </CollapsibleContent>
+        </Collapsible>
+        
         <Link
           to="/gallery"
           className={`block px-3 py-2 rounded-md text-base font-medium ${

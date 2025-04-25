@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import Index from "@/pages/Index";
 import Gallery from "@/pages/Gallery";
 import HistoryOfTaijiquan from "@/pages/HistoryOfTaijiquan";
+import PurposeOfTaijiquan from "@/pages/PurposeOfTaijiquan";
 import NotFound from "@/pages/NotFound";
 import ParForm from "@/pages/ParForm";
 import Registration from "@/pages/Registration";
@@ -42,6 +43,7 @@ function App() {
           <Route path="/" element={<Index />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/history-of-taijiquan" element={<HistoryOfTaijiquan />} />
+          <Route path="/purpose-of-taijiquan" element={<PurposeOfTaijiquan />} />
           <Route path="/events" element={<Events />} />
           <Route path="/booking" element={<Booking />} />
           <Route path="/contact" element={<Contact />} />
