@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -104,7 +103,7 @@ const HeroSection = () => {
                 onClick={handleStartOnlineRegistration}
               >
                 <Globe className="h-4 w-4 sm:h-5 sm:w-5" />
-                Online Registration
+                Online Training Registration
               </Button>
             </div>
 
