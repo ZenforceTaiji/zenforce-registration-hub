@@ -1,8 +1,9 @@
+
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { DesktopMenu, MobileMenu, LoginOptions } from "./navbar";
-import { LoginDialog } from "./LoginDialog";
+import { DesktopMenu, MobileMenu, LoginOptions } from ".";
+import { LoginDialog } from "../LoginDialog";
 
 const Navbar = () => {
   const navigate = useNavigate();
