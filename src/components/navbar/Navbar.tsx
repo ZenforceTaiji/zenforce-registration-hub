@@ -30,14 +30,12 @@ const Navbar = () => {
               />
               <div className="flex items-center">
                 <span className="text-xl font-bold text-primary-600">ZenForce</span>
-                <span className="text-xl font-medium text-gray-700">&nbsp;TaijiQuan&nbsp;</span>
-                <span className="text-xl font-medium text-gray-700">SA</span>
-                <span className="text-xs align-super">™</span>
+                <span className="text-xl font-medium text-gray-700">&nbsp;Taiji&nbsp;</span>
               </div>
             </Link>
             
             {/* Desktop menu with increased left margin */}
-            <div className="ml-10">
+            <div className="ml-20">
               <DesktopMenu />
             </div>
           </div>

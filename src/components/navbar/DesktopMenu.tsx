@@ -10,7 +10,7 @@ const DesktopMenu = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="hidden md:flex space-x-1">
+    <div className="hidden md:flex space-x-3">
       <Link to="/">
         <Button 
           variant="ghost"
