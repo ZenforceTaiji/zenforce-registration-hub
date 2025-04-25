@@ -1,17 +1,18 @@
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { RegistrationDialog } from "@/components/RegistrationDialog";
 import AgeSelectionDialog from "@/components/registration/AgeSelectionDialog";
-import { FilePenLine, Info } from "lucide-react";
+import { FilePenLine, Info, Globe, MapPin } from "lucide-react";
 
 const HeroSection = () => {
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [showAgeDialog, setShowAgeDialog] = useState(false);
 
-  const handleStartRegistration = () => {
+  const handleStartInPersonRegistration = () => {
     const userAge = sessionStorage.getItem("userAge");
     if (!userAge) {
       setShowAgeDialog(true);
@@ -20,16 +21,23 @@ const HeroSection = () => {
     }
   };
 
+  const handleStartOnlineRegistration = () => {
+    const userAge = sessionStorage.getItem("userAge");
+    if (!userAge) {
+      setShowAgeDialog(true);
+    } else {
+      navigate("/online-registration");
+    }
+  };
+
   return (
     <>
-      {/* Age Selection Dialog */}
       <AgeSelectionDialog 
         open={showAgeDialog} 
         onOpenChange={setShowAgeDialog}
         onContinue={() => navigate("/par-form")}
       />
     
-      {/* Hero Section */}
       <section className="relative bg-primary-700 py-12 sm:py-16 lg:py-20 overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-20"
@@ -82,27 +90,37 @@ const HeroSection = () => {
               <Button
                 variant="default"
                 size="lg"
-                className="w-full sm:w-auto bg-primary-600 text-white hover:bg-primary-700"
-                onClick={handleStartRegistration}
+                className="w-full sm:w-auto bg-primary-600 text-white hover:bg-primary-700 flex items-center gap-2"
+                onClick={handleStartInPersonRegistration}
               >
-                <FilePenLine className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-                Start Registration
+                <MapPin className="h-4 w-4 sm:h-5 sm:w-5" />
+                In-Person Training Registration
               </Button>
               
-              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="w-full sm:w-auto bg-white/10 text-white hover:bg-white/20 border border-white/30"
-                  >
-                    <Info className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-                    Learn More
-                  </Button>
-                </DialogTrigger>
-                <RegistrationDialog onClose={() => setIsDialogOpen(false)} />
-              </Dialog>
+              <Button
+                variant="secondary"
+                size="lg"
+                className="w-full sm:w-auto bg-white/10 text-white hover:bg-white/20 border border-white/30 flex items-center gap-2"
+                onClick={handleStartOnlineRegistration}
+              >
+                <Globe className="h-4 w-4 sm:h-5 sm:w-5" />
+                Online Registration
+              </Button>
             </div>
+
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="mt-4 w-full bg-white/10 text-white hover:bg-white/20 border border-white/30"
+                >
+                  <Info className="h-4 w-4 mr-2" />
+                  Learn More
+                </Button>
+              </DialogTrigger>
+              <RegistrationDialog onClose={() => setIsDialogOpen(false)} />
+            </Dialog>
           </div>
         </div>
       </section>
