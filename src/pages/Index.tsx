@@ -6,6 +6,7 @@ import BenefitsSection from "@/components/home/BenefitsSection";
 import { FeaturedNewsletters } from "@/components/home/FeaturedNewsletters";
 import FloatingWhatsAppButton from "@/components/FloatingWhatsAppButton";
 import WelcomeSplash from "@/components/home/WelcomeSplash";
+import GreetingGenerator from "@/components/home/GreetingGenerator";
 
 const Index = () => {
   const [showSplash, setShowSplash] = useState(false);
@@ -25,6 +26,7 @@ const Index = () => {
   return (
     <>
       {showSplash && <WelcomeSplash onComplete={handleSplashComplete} />}
+      <GreetingGenerator />
       <div className="min-h-screen w-full bg-gray-50">
         <HeroSection />
         <FeaturedNewsletters />
