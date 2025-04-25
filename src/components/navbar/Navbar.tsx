@@ -20,32 +20,34 @@ const Navbar = () => {
   return (
     <nav className="bg-white shadow-sm border-b z-50 sticky top-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex items-center space-x-4">
-            <Link to="/" className="flex items-center">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center">
+            <Link to="/" className="flex items-center gap-2">
               <img 
                 src="https://images.unsplash.com/photo-1500673922987-e212871fec22" 
                 alt="ZenForce Logo" 
                 className="h-8 w-auto"
               />
-              <div className="ml-3">
+              <div className="flex items-center">
                 <span className="text-xl font-bold text-primary-600">ZenForce</span>
                 <span className="text-xl font-medium text-gray-700">&nbsp;TaijiQuan&nbsp;</span>
                 <span className="text-xl font-medium text-gray-700">SA</span>
-                <span className="text-xs align-top">™</span>
+                <span className="text-xs align-super">™</span>
               </div>
             </Link>
             
-            {/* Desktop menu */}
-            <DesktopMenu />
+            {/* Desktop menu with increased left margin */}
+            <div className="ml-8">
+              <DesktopMenu />
+            </div>
           </div>
 
-          <div className="flex items-center">
+          <div className="flex items-center space-x-4">
             {/* Desktop login options */}
             <LoginOptions onLoginClick={handleLoginClick} />
 
             {/* Mobile menu button */}
-            <div className="md:hidden flex items-center">
+            <div className="md:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-600 transition-colors"
