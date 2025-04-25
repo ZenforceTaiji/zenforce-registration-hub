@@ -13,6 +13,7 @@ import GradingGuide from "@/components/student-portal/GradingGuide";
 import Certificates from "@/components/student-portal/Certificates";
 import FinancialInfo from "@/components/student-portal/FinancialInfo";
 import MediaGallery from "@/components/student-portal/MediaGallery";
+import ClassCalendar from "@/components/student-portal/calendar/ClassCalendar";
 
 const StudentPortal = () => {
   return (
@@ -29,12 +30,13 @@ const StudentPortal = () => {
       </div>
 
       <Tabs defaultValue="grading">
-        <TabsList className="grid grid-cols-2 md:grid-cols-5 w-full mb-6">
+        <TabsList className="grid grid-cols-2 md:grid-cols-6 w-full mb-6">
           <TabsTrigger value="grading">Grading</TabsTrigger>
           <TabsTrigger value="guide">Grading Guide</TabsTrigger>
           <TabsTrigger value="certificates">Certificates</TabsTrigger>
           <TabsTrigger value="financial">Financial</TabsTrigger>
           <TabsTrigger value="media">Images & Videos</TabsTrigger>
+          <TabsTrigger value="calendar">Calendar</TabsTrigger>
         </TabsList>
         
         <TabsContent value="grading" className="mt-0">
@@ -103,6 +105,20 @@ const StudentPortal = () => {
             </CardHeader>
             <CardContent>
               <MediaGallery />
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="calendar" className="mt-0">
+          <Card>
+            <CardHeader>
+              <CardTitle>Class Calendar</CardTitle>
+              <CardDescription>
+                View your upcoming classes and set reminders
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ClassCalendar />
             </CardContent>
           </Card>
         </TabsContent>
