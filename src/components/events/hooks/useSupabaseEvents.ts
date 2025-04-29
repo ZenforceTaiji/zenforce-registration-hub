@@ -3,7 +3,9 @@ import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
-interface Event {
+export type LocationType = "in-person" | "online" | "hybrid";
+
+export interface Event {
   id: string;
   title: string;
   description: string | null;
@@ -11,6 +13,8 @@ interface Event {
   start_time: string;
   end_time: string;
   location: string;
+  location_type?: LocationType;
+  meeting_link?: string;
   is_public: boolean;
 }
 
@@ -59,6 +63,18 @@ export const useSupabaseEvents = () => {
         variant: "destructive"
       });
       return false;
+    }
+
+    // Validate location details based on location type
+    if (newEvent.location_type === "online" || newEvent.location_type === "hybrid") {
+      if (!newEvent.meeting_link) {
+        toast({
+          title: "Missing meeting link",
+          description: "Please provide a meeting link for online or hybrid events",
+          variant: "destructive"
+        });
+        return false;
+      }
     }
 
     try {

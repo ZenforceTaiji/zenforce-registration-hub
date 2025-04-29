@@ -3,7 +3,8 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Clock, MapPin, Calendar as CalendarIcon, Trash2 } from "lucide-react";
+import { Clock, MapPin, Calendar as CalendarIcon, Trash2, Globe, Link as LinkIcon } from "lucide-react";
+import { LocationType } from "./hooks/useSupabaseEvents";
 
 interface Event {
   id: string;
@@ -13,6 +14,8 @@ interface Event {
   start_time: string;
   end_time: string;
   location: string;
+  location_type?: LocationType;
+  meeting_link?: string;
   is_public: boolean;
 }
 
@@ -103,9 +106,33 @@ const SupabaseEventsList: React.FC<SupabaseEventsListProps> = ({
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center">
-                      <MapPin className="mr-2 h-4 w-4 text-gray-500" />
-                      {event.location}
+                    <div className="flex flex-col gap-1">
+                      {/* Location display based on location type */}
+                      <div className="flex items-center">
+                        {!event.location_type || event.location_type === "in-person" ? (
+                          <MapPin className="mr-2 h-4 w-4 text-gray-500" />
+                        ) : event.location_type === "online" ? (
+                          <Globe className="mr-2 h-4 w-4 text-gray-500" />
+                        ) : (
+                          <MapPin className="mr-2 h-4 w-4 text-gray-500" />
+                        )}
+                        {event.location}
+                      </div>
+                      
+                      {/* Meeting link for online or hybrid events */}
+                      {(event.location_type === "online" || event.location_type === "hybrid") && event.meeting_link && (
+                        <div className="flex items-center text-xs text-blue-600 hover:text-blue-800">
+                          <LinkIcon className="mr-1 h-3 w-3" />
+                          <a 
+                            href={event.meeting_link.startsWith('http') ? event.meeting_link : `https://${event.meeting_link}`}
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="hover:underline"
+                          >
+                            Join Online
+                          </a>
+                        </div>
+                      )}
                     </div>
                   </TableCell>
                   <TableCell className="text-right">
