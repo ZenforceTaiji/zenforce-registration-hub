@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 interface WelcomeSplashProps {
   onComplete: () => void;
@@ -13,14 +14,6 @@ const WelcomeSplash = ({ onComplete }: WelcomeSplashProps) => {
   const [audioError, setAudioError] = useState(false);
 
   useEffect(() => {
-    // Check if audio files exist before trying to play them
-    const audioFiles = {
-      background: "/lovable-uploads/taiji-background.mp3",
-      english: "/lovable-uploads/english-greeting.mp3",
-      mandarin: "/lovable-uploads/mandarin-greeting.mp3",
-      cantonese: "/lovable-uploads/cantonese-greeting.mp3"
-    };
-
     // Set hasPlayedGreetings to true after a short delay to ensure "Enter Site" button shows up
     const timer = setTimeout(() => {
       setHasPlayedGreetings(true);
@@ -29,15 +22,12 @@ const WelcomeSplash = ({ onComplete }: WelcomeSplashProps) => {
     // Only attempt to play audio if not muted
     if (!isMuted) {
       try {
-        const bgMusic = new Audio(audioFiles.background);
-        bgMusic.loop = true;
-        bgMusic.volume = 0.2;
-        
-        // Play background music but catch errors
-        bgMusic.play().catch(err => {
-          console.log('Audio file not available yet, skipping playback');
-          setAudioError(true);
+        // Note: Audio playback is disabled until files are available
+        console.log('Audio functionality is ready but files are not yet available');
+        toast.info("Audio files not yet uploaded. Welcome splash will continue without audio.", {
+          duration: 5000
         });
+        setAudioError(true);
       } catch (error) {
         console.log('Audio playback error:', error);
         setAudioError(true);
@@ -51,6 +41,9 @@ const WelcomeSplash = ({ onComplete }: WelcomeSplashProps) => {
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
+    toast.info(isMuted ? "Audio unmuted" : "Audio muted", {
+      duration: 2000
+    });
   };
 
   return (
@@ -91,6 +84,12 @@ const WelcomeSplash = ({ onComplete }: WelcomeSplashProps) => {
           <p className="text-white text-sm mt-2">
             Click "Enter Site" to access the greeting generator
           </p>
+          
+          {audioError && (
+            <p className="text-amber-300 text-xs mt-2">
+              Note: Audio files aren't available yet. You can still use the site.
+            </p>
+          )}
         </div>
       </div>
     </div>
