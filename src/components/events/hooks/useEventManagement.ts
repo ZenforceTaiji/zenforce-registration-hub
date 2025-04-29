@@ -9,6 +9,9 @@ interface Event {
   time: string;
   location: string;
   description: string;
+  locationType: "in-person" | "online" | "hybrid";
+  mapLocation?: string;
+  onlineLink?: string;
 }
 
 // Define a type for user roles
@@ -22,7 +25,9 @@ const initialEvents: Event[] = [
     date: "2023-08-15",
     time: "10:00 AM",
     location: "Main Dojo",
-    description: "Annual summer grading for all belt levels."
+    description: "Annual summer grading for all belt levels.",
+    locationType: "in-person",
+    mapLocation: "123 Main St, Cape Town, South Africa"
   },
   {
     id: 2,
@@ -30,15 +35,20 @@ const initialEvents: Event[] = [
     date: "2023-08-22",
     time: "6:30 PM",
     location: "Conference Room",
-    description: "Learn how to support your child's martial arts journey."
+    description: "Learn how to support your child's martial arts journey.",
+    locationType: "hybrid",
+    mapLocation: "456 Oak Ave, Cape Town, South Africa",
+    onlineLink: "https://zoom.us/j/123456789"
   },
   {
     id: 3,
-    title: "Competition Preparation",
+    title: "Online Competition Preparation",
     date: "2023-09-05",
     time: "5:00 PM",
-    location: "Training Hall",
-    description: "Special training session for competition participants."
+    location: "Virtual Training Room",
+    description: "Special online training session for competition participants.",
+    locationType: "online",
+    onlineLink: "https://teams.microsoft.com/l/meetup-join/123456789"
   }
 ];
 
@@ -51,7 +61,8 @@ export const useEventManagement = (userRole: UserRole = "student") => {
     date: "",
     time: "",
     location: "",
-    description: ""
+    description: "",
+    locationType: "in-person"
   });
 
   // Check if user has permission to manage events
@@ -59,13 +70,43 @@ export const useEventManagement = (userRole: UserRole = "student") => {
 
   const handleAddEvent = () => {
     // Validate form
-    if (!newEvent.title || !newEvent.date || !newEvent.time || !newEvent.location) {
+    if (!newEvent.title || !newEvent.date || !newEvent.time) {
       toast({
         title: "Missing information",
         description: "Please fill in all required fields",
         variant: "destructive"
       });
       return;
+    }
+
+    // Location validation based on type
+    if ((newEvent.locationType === "in-person" || newEvent.locationType === "hybrid") && !newEvent.mapLocation) {
+      toast({
+        title: "Missing location",
+        description: "Please enter the physical location address",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if ((newEvent.locationType === "online" || newEvent.locationType === "hybrid") && !newEvent.onlineLink) {
+      toast({
+        title: "Missing online link",
+        description: "Please enter the online meeting link",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // If location display name is not provided, create one based on type
+    if (!newEvent.location) {
+      if (newEvent.locationType === "in-person") {
+        newEvent.location = "In-Person: " + (newEvent.mapLocation || "");
+      } else if (newEvent.locationType === "online") {
+        newEvent.location = "Online Meeting";
+      } else {
+        newEvent.location = "Hybrid Event";
+      }
     }
 
     // Add new event
@@ -82,7 +123,8 @@ export const useEventManagement = (userRole: UserRole = "student") => {
       date: "",
       time: "",
       location: "",
-      description: ""
+      description: "",
+      locationType: "in-person"
     });
     setIsAddingEvent(false);
     

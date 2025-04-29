@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Clock, MapPin, Calendar as CalendarIcon, Trash2 } from "lucide-react";
+import { Clock, MapPin, Calendar as CalendarIcon, Trash2, Globe, Link } from "lucide-react";
 
 interface Event {
   id: number;
@@ -12,6 +12,9 @@ interface Event {
   time: string;
   location: string;
   description: string;
+  locationType: "in-person" | "online" | "hybrid";
+  mapLocation?: string;
+  onlineLink?: string;
 }
 
 interface EventsListProps {
@@ -30,6 +33,71 @@ const EventsList = ({ events, date, canManageEvents, handleDeleteEvent, handleBo
 
   // Determine which events to display
   const displayEvents = date ? eventsForSelectedDate : events;
+
+  // Helper function to render location with the right icon
+  const renderLocationInfo = (event: Event) => {
+    if (event.locationType === "in-person") {
+      return (
+        <div>
+          <div className="flex items-center">
+            <MapPin className="mr-2 h-4 w-4 text-gray-500" />
+            {event.location}
+          </div>
+          {event.mapLocation && (
+            <div className="text-xs text-gray-500 mt-1 ml-6">
+              {event.mapLocation}
+            </div>
+          )}
+        </div>
+      );
+    }
+    
+    if (event.locationType === "online") {
+      return (
+        <div>
+          <div className="flex items-center">
+            <Globe className="mr-2 h-4 w-4 text-gray-500" />
+            {event.location}
+          </div>
+          {event.onlineLink && (
+            <div className="text-xs text-blue-500 mt-1 ml-6 flex items-center">
+              <Link className="h-3 w-3 mr-1" />
+              <a href={event.onlineLink} target="_blank" rel="noopener noreferrer">
+                Join online meeting
+              </a>
+            </div>
+          )}
+        </div>
+      );
+    }
+    
+    // Hybrid
+    return (
+      <div>
+        <div className="flex items-center">
+          <div className="flex space-x-1 mr-2">
+            <MapPin className="h-4 w-4 text-gray-500" />
+            <Globe className="h-4 w-4 text-gray-500" />
+          </div>
+          {event.location}
+        </div>
+        {event.mapLocation && (
+          <div className="text-xs text-gray-500 mt-1 ml-6 flex items-center">
+            <MapPin className="h-3 w-3 mr-1" />
+            {event.mapLocation}
+          </div>
+        )}
+        {event.onlineLink && (
+          <div className="text-xs text-blue-500 mt-1 ml-6 flex items-center">
+            <Link className="h-3 w-3 mr-1" />
+            <a href={event.onlineLink} target="_blank" rel="noopener noreferrer">
+              Join online meeting
+            </a>
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <Card className="md:col-span-2">
@@ -87,10 +155,7 @@ const EventsList = ({ events, date, canManageEvents, handleDeleteEvent, handleBo
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center">
-                      <MapPin className="mr-2 h-4 w-4 text-gray-500" />
-                      {event.location}
-                    </div>
+                    {renderLocationInfo(event)}
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
