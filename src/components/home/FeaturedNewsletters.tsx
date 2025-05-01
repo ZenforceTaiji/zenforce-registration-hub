@@ -3,7 +3,6 @@ import React from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function FeaturedNewsletters() {
-  // Remove any import or usage of GreetingGenerator if it exists
   return (
     <section className="py-12 bg-white">
       <div className="container mx-auto px-4">
