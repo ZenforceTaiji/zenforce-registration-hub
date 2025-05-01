@@ -2,6 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { MapPin, Globe, Info } from "lucide-react";
 
 const HeroSection = () => {
   return (
@@ -16,16 +17,28 @@ const HeroSection = () => {
             Experience the ancient art of balance, strength, and inner peace
           </p>
           
-          <div className="mt-10 space-y-6">
-            <div className="flex flex-col md:flex-row gap-4 justify-center">
-              <Button asChild className="w-full md:w-auto bg-amber-700 hover:bg-amber-600 text-white">
-                <Link to="/registration">Begin Your Journey</Link>
-              </Button>
-              
-              <Button asChild variant="outline" className="w-full md:w-auto border-amber-500 text-amber-500 hover:bg-amber-500/10">
-                <Link to="/purpose-of-taijiquan">Learn About TaijiQuan</Link>
-              </Button>
-            </div>
+          <div className="mt-10 space-y-4">
+            {/* Registration buttons that match the provided image */}
+            <Link to="/registration" className="block w-full max-w-md mx-auto">
+              <div className="flex items-center justify-center gap-2 px-4 py-3 bg-amber-700/80 hover:bg-amber-700 text-white rounded-md transition-all">
+                <MapPin className="w-5 h-5" />
+                <span className="text-lg">In-Person Training Registration</span>
+              </div>
+            </Link>
+            
+            <Link to="/online-registration" className="block w-full max-w-md mx-auto">
+              <div className="flex items-center justify-center gap-2 px-4 py-3 bg-black/60 hover:bg-black/80 text-white border border-amber-700/50 rounded-md transition-all">
+                <Globe className="w-5 h-5" />
+                <span className="text-lg">Online Training Registration</span>
+              </div>
+            </Link>
+            
+            <Link to="/purpose-of-taijiquan" className="block w-full max-w-md mx-auto">
+              <div className="flex items-center justify-center gap-2 px-4 py-3 bg-black/60 hover:bg-black/80 text-white border border-amber-700/50 rounded-md transition-all">
+                <Info className="w-5 h-5" />
+                <span className="text-lg">Learn More</span>
+              </div>
+            </Link>
             
             <div className="pt-12 pb-6 border-t border-amber-900/30">
               <h2 className="text-2xl font-semibold mb-4 text-amber-500">Our Training Programs</h2>
