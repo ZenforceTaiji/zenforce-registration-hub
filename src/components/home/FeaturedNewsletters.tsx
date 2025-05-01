@@ -1,72 +1,30 @@
 
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Share2 } from "lucide-react";
+import React from "react";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
-export const FeaturedNewsletters = () => {
-  const { data: newsletters } = useQuery({
-    queryKey: ['featured-newsletters'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('newsletters')
-        .select('*')
-        .eq('featured', true)
-        .eq('status', 'published')
-        .order('created_at', { ascending: false })
-        .limit(4);
-      
-      if (error) throw error;
-      return data;
-    },
-  });
-
-  const handleShare = (newsletter: any) => {
-    const message = `*${newsletter.title}*\n\n${newsletter.content}`;
-    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
-  };
-
-  if (!newsletters?.length) return null;
-
+export function FeaturedNewsletters() {
+  // Remove any import or usage of GreetingGenerator if it exists
   return (
-    <section className="py-12 bg-gray-50">
+    <section className="py-12 bg-white">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-8">Latest Updates</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {newsletters.map((newsletter) => (
-            <Card key={newsletter.id}>
-              {newsletter.image_url && (
-                <img 
-                  src={newsletter.image_url} 
-                  alt={newsletter.title}
-                  className="w-full h-48 object-cover rounded-t-lg"
-                />
-              )}
+        <h2 className="text-3xl font-bold text-center mb-12">Latest Newsletters</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[1, 2, 3].map((item) => (
+            <Card key={item} className="hover:shadow-lg transition-shadow">
               <CardHeader>
-                <CardTitle>{newsletter.title}</CardTitle>
+                <CardTitle>Newsletter {item}</CardTitle>
+                <CardDescription>Published on May {item}, 2025</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-600 mb-4">
-                  {newsletter.content.length > 150 
-                    ? `${newsletter.content.substring(0, 150)}...` 
-                    : newsletter.content}
-                </p>
-                <Button
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => handleShare(newsletter)}
-                  className="w-full"
-                >
-                  <Share2 className="h-4 w-4 mr-2" />
-                  Share via WhatsApp
-                </Button>
+                <p>Read our latest updates and announcements about upcoming classes and events.</p>
               </CardContent>
+              <CardFooter>
+                <a href="#" className="text-primary hover:underline">Read more →</a>
+              </CardFooter>
             </Card>
           ))}
         </div>
       </div>
     </section>
   );
-};
+}
