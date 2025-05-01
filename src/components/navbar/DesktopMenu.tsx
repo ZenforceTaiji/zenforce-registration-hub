@@ -21,8 +21,8 @@ const DesktopMenu = () => {
       <Link to="/">
         <Button 
           variant="ghost"
-          className={`px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
-            isActive("/") ? "bg-primary-50 text-primary-600" : ""
+          className={`px-3 py-2 text-gray-300 hover:text-amber-500 hover:bg-amber-900/20 rounded-md transition-colors ${
+            isActive("/") ? "bg-amber-900/30 text-amber-500" : ""
           }`}
         >
           Home
@@ -33,24 +33,24 @@ const DesktopMenu = () => {
         <DropdownMenuTrigger asChild>
           <Button 
             variant="ghost" 
-            className={`flex items-center gap-1 px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
-              isActive("/history-of-taijiquan") ? "bg-primary-50 text-primary-600" : ""
+            className={`flex items-center gap-1 px-3 py-2 text-gray-300 hover:text-amber-500 hover:bg-amber-900/20 rounded-md transition-colors ${
+              isActive("/history-of-taijiquan") ? "bg-amber-900/30 text-amber-500" : ""
             }`}
           >
             TaijiQuan
             <ChevronDown className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56 bg-white">
+        <DropdownMenuContent className="w-56 bg-black border-amber-900/50 text-gray-300">
           <DropdownMenuGroup>
             <DropdownMenuItem asChild>
-              <Link to="/history-of-taijiquan" className="flex items-center gap-2">
+              <Link to="/history-of-taijiquan" className="flex items-center gap-2 hover:bg-amber-900/20 hover:text-amber-500">
                 <History className="h-4 w-4" />
                 History of TaijiQuan
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link to="/purpose-of-taijiquan" className="flex items-center gap-2">
+              <Link to="/purpose-of-taijiquan" className="flex items-center gap-2 hover:bg-amber-900/20 hover:text-amber-500">
                 <Info className="h-4 w-4" />
                 Purpose of TaijiQuan
               </Link>
@@ -62,8 +62,8 @@ const DesktopMenu = () => {
       <Link to="/gallery">
         <Button 
           variant="ghost"
-          className={`flex items-center gap-1 px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
-            isActive("/gallery") ? "bg-primary-50 text-primary-600" : ""
+          className={`flex items-center gap-1 px-3 py-2 text-gray-300 hover:text-amber-500 hover:bg-amber-900/20 rounded-md transition-colors ${
+            isActive("/gallery") ? "bg-amber-900/30 text-amber-500" : ""
           }`}
         >
           <GalleryHorizontal className="h-4 w-4" />
@@ -74,8 +74,8 @@ const DesktopMenu = () => {
       <Link to="/booking">
         <Button 
           variant="ghost"
-          className={`flex items-center gap-1 px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
-            isActive("/booking") ? "bg-primary-50 text-primary-600" : ""
+          className={`flex items-center gap-1 px-3 py-2 text-gray-300 hover:text-amber-500 hover:bg-amber-900/20 rounded-md transition-colors ${
+            isActive("/booking") ? "bg-amber-900/30 text-amber-500" : ""
           }`}
         >
           <BookMarked className="h-4 w-4" />
@@ -86,8 +86,8 @@ const DesktopMenu = () => {
       <Link to="/events">
         <Button 
           variant="ghost"
-          className={`flex items-center gap-1 px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
-            isActive("/events") ? "bg-primary-50 text-primary-600" : ""
+          className={`flex items-center gap-1 px-3 py-2 text-gray-300 hover:text-amber-500 hover:bg-amber-900/20 rounded-md transition-colors ${
+            isActive("/events") ? "bg-amber-900/30 text-amber-500" : ""
           }`}
         >
           <Calendar className="h-4 w-4" />
@@ -98,8 +98,8 @@ const DesktopMenu = () => {
       <Link to="/contact">
         <Button 
           variant="ghost"
-          className={`flex items-center gap-1 px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
-            isActive("/contact") ? "bg-primary-50 text-primary-600" : ""
+          className={`flex items-center gap-1 px-3 py-2 text-gray-300 hover:text-amber-500 hover:bg-amber-900/20 rounded-md transition-colors ${
+            isActive("/contact") ? "bg-amber-900/30 text-amber-500" : ""
           }`}
         >
           <Mail className="h-4 w-4" />
@@ -110,8 +110,8 @@ const DesktopMenu = () => {
       <Link to="/about-us">
         <Button 
           variant="ghost"
-          className={`flex items-center gap-1 px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors ${
-            isActive("/about-us") ? "bg-primary-50 text-primary-600" : ""
+          className={`flex items-center gap-1 px-3 py-2 text-gray-300 hover:text-amber-500 hover:bg-amber-900/20 rounded-md transition-colors ${
+            isActive("/about-us") ? "bg-amber-900/30 text-amber-500" : ""
           }`}
         >
           <Info className="h-4 w-4" />

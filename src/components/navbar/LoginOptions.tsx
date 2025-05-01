@@ -20,41 +20,41 @@ const LoginOptions = ({ onLoginClick }: LoginOptionsProps) => {
     <div className="hidden md:flex items-center space-x-2">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors">
+          <Button variant="ghost" className="flex items-center gap-1 px-4 py-2 text-gray-300 hover:text-amber-500 hover:bg-black/50 rounded-md transition-colors">
             <User className="h-4 w-4" />
             Login
             <ChevronDown className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="z-50 bg-white shadow-lg rounded-md w-56">
+        <DropdownMenuContent align="end" className="z-50 bg-black border-amber-900/50 shadow-lg rounded-md w-56">
           <DropdownMenuItem 
-            className="cursor-pointer flex items-center hover:bg-slate-100 py-2"
+            className="cursor-pointer flex items-center hover:bg-amber-900/20 py-2 text-gray-300"
             onClick={() => onLoginClick("student")}
           >
-            <BookOpen className="mr-2 h-4 w-4 text-primary-600" />
+            <BookOpen className="mr-2 h-4 w-4 text-amber-500" />
             <span>Student Login</span>
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
+          <DropdownMenuSeparator className="bg-amber-900/30" />
           <DropdownMenuItem 
-            className="cursor-pointer flex items-center hover:bg-slate-100 py-2"
+            className="cursor-pointer flex items-center hover:bg-amber-900/20 py-2 text-gray-300"
             onClick={() => onLoginClick("instructor")}
           >
-            <LogIn className="mr-2 h-4 w-4 text-primary-600" />
+            <LogIn className="mr-2 h-4 w-4 text-amber-500" />
             <span>Instructor Login</span>
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
+          <DropdownMenuSeparator className="bg-amber-900/30" />
           <DropdownMenuItem 
-            className="cursor-pointer flex items-center hover:bg-slate-100 py-2"
+            className="cursor-pointer flex items-center hover:bg-amber-900/20 py-2 text-gray-300"
             onClick={() => onLoginClick("admin")}
           >
-            <Settings className="mr-2 h-4 w-4 text-primary-600" />
+            <Settings className="mr-2 h-4 w-4 text-amber-500" />
             <span>Admin Login</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
       <Link to="/par-form">
-        <Button className="flex items-center gap-1 px-4 py-2 bg-primary-600 text-white hover:bg-primary-700 rounded-md">
+        <Button className="flex items-center gap-1 px-4 py-2 bg-amber-700 text-white hover:bg-amber-600 rounded-md">
           <UserPlus className="h-4 w-4" />
           Register
         </Button>
