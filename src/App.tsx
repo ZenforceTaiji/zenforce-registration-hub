@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Routes, Route } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -33,6 +34,8 @@ import OnlinePayment from "@/pages/OnlinePayment";
 import OnlineClasses from "./pages/OnlineClasses";
 import OnlineClassRoom from "./pages/OnlineClassRoom";
 import { Toaster } from "@/components/ui/toaster";
+import TrainingProgramDetail from '@/pages/TrainingProgramDetail';
+import NewsletterDetail from '@/pages/NewsletterDetail';
 
 function App() {
   return (
@@ -69,6 +72,11 @@ function App() {
           <Route path="/online-payment" element={<OnlinePayment />} />
           <Route path="/online-classes" element={<OnlineClasses />} />
           <Route path="/online-classroom/:sessionId" element={<OnlineClassRoom />} />
+          
+          {/* New detail pages */}
+          <Route path="/program/:programId" element={<TrainingProgramDetail />} />
+          <Route path="/newsletter/:newsletterId" element={<NewsletterDetail />} />
+          
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
