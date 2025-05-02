@@ -14,7 +14,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Mail, User } from "lucide-react";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -55,16 +54,16 @@ ${data.message}
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-black py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Contact Us</h1>
-          <p className="mt-2 text-lg text-gray-600">
+          <h1 className="text-3xl font-bold text-amber-500">Contact Us</h1>
+          <p className="mt-2 text-lg text-gray-300">
             Get in touch with us and we'll get back to you as soon as we can
           </p>
         </div>
 
-        <div className="bg-white shadow rounded-lg p-6 sm:p-8">
+        <div className="bg-black/90 shadow rounded-lg p-6 sm:p-8 border border-amber-900/50">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -73,9 +72,9 @@ ${data.message}
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Name</FormLabel>
+                      <FormLabel className="text-white">Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="John" {...field} />
+                        <Input placeholder="John" className="bg-black/80 border-amber-900/50 text-white" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -87,9 +86,9 @@ ${data.message}
                   name="surname"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Surname</FormLabel>
+                      <FormLabel className="text-white">Surname</FormLabel>
                       <FormControl>
-                        <Input placeholder="Doe" {...field} />
+                        <Input placeholder="Doe" className="bg-black/80 border-amber-900/50 text-white" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -103,9 +102,14 @@ ${data.message}
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel className="text-white">Email</FormLabel>
                       <FormControl>
-                        <Input type="email" placeholder="john@example.com" {...field} />
+                        <Input 
+                          type="email" 
+                          placeholder="john@example.com" 
+                          className="bg-black/80 border-amber-900/50 text-white" 
+                          {...field} 
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -117,9 +121,14 @@ ${data.message}
                   name="mobile"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Mobile Number</FormLabel>
+                      <FormLabel className="text-white">Mobile Number</FormLabel>
                       <FormControl>
-                        <Input type="tel" placeholder="0123456789" {...field} />
+                        <Input 
+                          type="tel" 
+                          placeholder="0123456789"
+                          className="bg-black/80 border-amber-900/50 text-white" 
+                          {...field} 
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -132,11 +141,11 @@ ${data.message}
                 name="message"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Message</FormLabel>
+                    <FormLabel className="text-white">Message</FormLabel>
                     <FormControl>
                       <Textarea 
                         placeholder="Write your message here..."
-                        className="min-h-[120px]"
+                        className="min-h-[120px] bg-black/80 border-amber-900/50 text-white"
                         {...field}
                       />
                     </FormControl>
@@ -145,7 +154,10 @@ ${data.message}
                 )}
               />
 
-              <Button type="submit" className="w-full">
+              <Button 
+                type="submit" 
+                className="w-full bg-amber-600 hover:bg-amber-700 text-white"
+              >
                 Send Message
               </Button>
             </form>
