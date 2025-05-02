@@ -10,7 +10,7 @@ const ParQAlert = () => {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <Alert variant="destructive" className="mb-6">
+      <Alert variant="destructive" className="mb-6 bg-black border-amber-900/50 text-white">
         <AlertCircle className="h-4 w-4" />
         <AlertTitle>Required Step Missing</AlertTitle>
         <AlertDescription>
@@ -21,13 +21,13 @@ const ParQAlert = () => {
       <div className="text-center space-y-4">
         <Button 
           onClick={() => navigate("/par-form")}
-          className="bg-accent-red hover:bg-accent-red/90 text-white"
+          className="bg-red-600 hover:bg-red-700 text-white"
         >
           Complete PAR-Q Form
         </Button>
         
         <div className="mt-4 text-center">
-          <p className="text-sm text-gray-500">Need help? Use the WhatsApp button in the bottom right.</p>
+          <p className="text-sm text-gray-300">Need help? Use the WhatsApp button in the bottom right.</p>
         </div>
 
         <FloatingWhatsAppButton phoneNumber="27731742969" message="Hello, I need assistance with the PAR-Q form for TaijiQuan registration." isExistingUser={false} />

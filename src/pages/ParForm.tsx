@@ -255,16 +255,16 @@ const ParForm = () => {
 
   return (
     <div className="zen-container py-12 animate-fade-in">
-      <h1 className="page-title mb-4">Step 1: Physical Activity Readiness Questionnaire</h1>
-      <div className="text-center text-gray-600 mb-8">
+      <h1 className="page-title mb-4 text-white">Step 1: Physical Activity Readiness Questionnaire</h1>
+      <div className="text-center text-gray-300 mb-8">
         <p>You must complete this health questionnaire before proceeding with registration</p>
       </div>
       
-      <div className="zen-card max-w-3xl mx-auto">
+      <div className="zen-card max-w-3xl mx-auto bg-black border border-amber-900/50">
         <form onSubmit={handleSubmit} className="space-y-6">
-          <ScrollArea className="h-[200px] rounded-md border p-4 mb-6">
-            <div className="prose prose-slate max-w-none">
-              <h2 className="text-xl font-semibold mb-4">PAR-Q Instructions</h2>
+          <ScrollArea className="h-[200px] rounded-md border border-amber-900/50 p-4 mb-6 bg-black text-white">
+            <div className="prose prose-slate prose-invert max-w-none">
+              <h2 className="text-xl font-semibold mb-4 text-amber-500">PAR-Q Instructions</h2>
               <p>
                 Physical activity is healthy and safe for most people. This PAR-Q will tell you if you should check with your doctor before you start exercising or becoming much more physically active.
               </p>
@@ -274,10 +274,10 @@ const ParForm = () => {
               <p>
                 If you answer "YES" to one or more questions, please upload a clearance letter from your doctor before proceeding with the registration.
               </p>
-              <p className="font-medium text-red-600">
+              <p className="font-medium text-red-500">
                 Note: If your health changes after completing this form, please consult a healthcare professional before continuing with physical activity.
               </p>
-              <p className="mt-4 font-medium">
+              <p className="mt-4 font-medium text-amber-400">
                 By the terms and conditions of ZenForce TaijiQuan SA, you are required to complete this PAR-Q form prior to attending your first class. Failure to do so may result in being refused participation in any class activities.
               </p>
             </div>
@@ -285,9 +285,9 @@ const ParForm = () => {
         
           <div className="space-y-8">
             <div className="space-y-4">
-              <h3 className="text-lg font-medium">Health Questions</h3>
+              <h3 className="text-lg font-medium text-amber-500">Health Questions</h3>
               
-              <div className="p-4 border rounded-md bg-slate-50">
+              <div className="p-4 border border-amber-900/50 rounded-md bg-black text-white">
                 <p className="font-medium mb-3">Has a doctor ever said that you have a heart condition and that you should only do physical activity recommended by a doctor?</p>
                 <RadioGroup 
                   value={formData.heartCondition} 
@@ -296,16 +296,16 @@ const ParForm = () => {
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="yes" id="heart-yes" />
-                    <Label htmlFor="heart-yes">Yes</Label>
+                    <Label htmlFor="heart-yes" className="text-white">Yes</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="no" id="heart-no" />
-                    <Label htmlFor="heart-no">No</Label>
+                    <Label htmlFor="heart-no" className="text-white">No</Label>
                   </div>
                 </RadioGroup>
               </div>
               
-              <div className="p-4 border rounded-md bg-slate-50">
+              <div className="p-4 border border-amber-900/50 rounded-md bg-black text-white">
                 <p className="font-medium mb-3">Do you feel pain in your chest when you do physical activity?</p>
                 <RadioGroup 
                   value={formData.chestPain} 
@@ -314,16 +314,16 @@ const ParForm = () => {
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="yes" id="chest-yes" />
-                    <Label htmlFor="chest-yes">Yes</Label>
+                    <Label htmlFor="chest-yes" className="text-white">Yes</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="no" id="chest-no" />
-                    <Label htmlFor="chest-no">No</Label>
+                    <Label htmlFor="chest-no" className="text-white">No</Label>
                   </div>
                 </RadioGroup>
               </div>
               
-              <div className="p-4 border rounded-md bg-slate-50">
+              <div className="p-4 border border-amber-900/50 rounded-md bg-black text-white">
                 <p className="font-medium mb-3">Do you lose your balance because of dizziness or do you ever lose consciousness?</p>
                 <RadioGroup 
                   value={formData.loseBalance} 
@@ -332,16 +332,16 @@ const ParForm = () => {
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="yes" id="balance-yes" />
-                    <Label htmlFor="balance-yes">Yes</Label>
+                    <Label htmlFor="balance-yes" className="text-white">Yes</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="no" id="balance-no" />
-                    <Label htmlFor="balance-no">No</Label>
+                    <Label htmlFor="balance-no" className="text-white">No</Label>
                   </div>
                 </RadioGroup>
               </div>
               
-              <div className="p-4 border rounded-md bg-slate-50">
+              <div className="p-4 border border-amber-900/50 rounded-md bg-black text-white">
                 <p className="font-medium mb-3">Do you have a bone or joint problem that could be made worse by a change in your physical activity?</p>
                 <RadioGroup 
                   value={formData.jointProblems} 
@@ -350,16 +350,16 @@ const ParForm = () => {
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="yes" id="joint-yes" />
-                    <Label htmlFor="joint-yes">Yes</Label>
+                    <Label htmlFor="joint-yes" className="text-white">Yes</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="no" id="joint-no" />
-                    <Label htmlFor="joint-no">No</Label>
+                    <Label htmlFor="joint-no" className="text-white">No</Label>
                   </div>
                 </RadioGroup>
               </div>
               
-              <div className="p-4 border rounded-md bg-slate-50">
+              <div className="p-4 border border-amber-900/50 rounded-md bg-black text-white">
                 <p className="font-medium mb-3">Are you currently taking prescription drugs for blood pressure or heart condition?</p>
                 <RadioGroup 
                   value={formData.takingPrescription} 
@@ -368,16 +368,16 @@ const ParForm = () => {
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="yes" id="meds-yes" />
-                    <Label htmlFor="meds-yes">Yes</Label>
+                    <Label htmlFor="meds-yes" className="text-white">Yes</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="no" id="meds-no" />
-                    <Label htmlFor="meds-no">No</Label>
+                    <Label htmlFor="meds-no" className="text-white">No</Label>
                   </div>
                 </RadioGroup>
               </div>
               
-              <div className="p-4 border rounded-md bg-slate-50">
+              <div className="p-4 border border-amber-900/50 rounded-md bg-black text-white">
                 <p className="font-medium mb-3">Do you know of any other reason why you should not participate in physical activity?</p>
                 <RadioGroup 
                   value={formData.otherReason} 
@@ -386,23 +386,23 @@ const ParForm = () => {
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="yes" id="other-yes" />
-                    <Label htmlFor="other-yes">Yes</Label>
+                    <Label htmlFor="other-yes" className="text-white">Yes</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="no" id="other-no" />
-                    <Label htmlFor="other-no">No</Label>
+                    <Label htmlFor="other-no" className="text-white">No</Label>
                   </div>
                 </RadioGroup>
               </div>
             </div>
             
             <div className="space-y-3">
-              <h3 className="text-lg font-medium">Medical Clearance Letter</h3>
-              <p className="text-sm text-slate-600">
+              <h3 className="text-lg font-medium text-amber-500">Medical Clearance Letter</h3>
+              <p className="text-sm text-gray-300">
                 If you answered YES to any of the questions above, please upload a clearance letter from your doctor.
               </p>
               
-              <div className="p-4 border rounded-md">
+              <div className="p-4 border border-amber-900/50 rounded-md bg-black text-white">
                 <p className="mb-3 text-sm">Upload Medical Letter:</p>
                 
                 <div className="flex items-start gap-4">
@@ -428,8 +428,8 @@ const ParForm = () => {
                       </button>
                     </div>
                   ) : (
-                    <div className="w-32 h-32 border-2 border-dashed rounded-md flex items-center justify-center bg-slate-50">
-                      <span className="text-sm text-slate-400">No document</span>
+                    <div className="w-32 h-32 border-2 border-dashed rounded-md flex items-center justify-center bg-black">
+                      <span className="text-sm text-gray-400">No document</span>
                     </div>
                   )}
                   
@@ -448,7 +448,7 @@ const ParForm = () => {
                         variant="outline"
                         size="sm"
                         onClick={triggerFileInput}
-                        className="flex items-center gap-1"
+                        className="flex items-center gap-1 bg-black text-white border-amber-900/50"
                       >
                         <FileUp className="h-4 w-4" />
                         Upload File
@@ -460,15 +460,15 @@ const ParForm = () => {
                             type="button"
                             variant="outline"
                             size="sm"
-                            className="flex items-center gap-1"
+                            className="flex items-center gap-1 bg-black text-white border-amber-900/50"
                           >
                             <Camera className="h-4 w-4" />
                             Use Camera
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-md">
+                        <DialogContent className="sm:max-w-md bg-black text-white border-amber-900/50">
                           <DialogHeader>
-                            <DialogTitle>Take Medical Letter Photo</DialogTitle>
+                            <DialogTitle className="text-amber-500">Take Medical Letter Photo</DialogTitle>
                           </DialogHeader>
                           <div className="flex flex-col space-y-4">
                             <div className="relative bg-black rounded-md overflow-hidden h-80">
@@ -489,15 +489,15 @@ const ParForm = () => {
                             
                             <div className="flex justify-between">
                               {!cameraActive ? (
-                                <Button type="button" onClick={startCamera}>
+                                <Button type="button" onClick={startCamera} className="bg-amber-700 text-white hover:bg-amber-800">
                                   Start Camera
                                 </Button>
                               ) : (
                                 <>
-                                  <Button type="button" variant="outline" onClick={stopCamera}>
+                                  <Button type="button" variant="outline" onClick={stopCamera} className="text-white border-amber-900/50">
                                     Cancel
                                   </Button>
-                                  <Button type="button" onClick={capturePhoto}>
+                                  <Button type="button" onClick={capturePhoto} className="bg-amber-700 text-white hover:bg-amber-800">
                                     Capture Photo
                                   </Button>
                                 </>
@@ -513,13 +513,13 @@ const ParForm = () => {
                             type="button"
                             variant="outline"
                             size="sm"
-                            className="flex items-center gap-1"
+                            className="flex items-center gap-1 bg-black text-white border-amber-900/50"
                           >
                             <Upload className="h-4 w-4" />
                             Cloud Upload
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="start">
+                        <DropdownMenuContent align="start" className="bg-black text-white border-amber-900/50">
                           <DropdownMenuItem onClick={() => handleCloudUpload("Google Drive")}>
                             Google Drive
                           </DropdownMenuItem>
@@ -533,7 +533,7 @@ const ParForm = () => {
                       </DropdownMenu>
                     </div>
                     
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-gray-400">
                       Upload a clear photo or scan of your medical clearance letter. Max size: 20MB
                     </p>
                   </div>
@@ -542,23 +542,23 @@ const ParForm = () => {
             </div>
             
             <div className="space-y-3">
-              <Label htmlFor="additionalNotes">Additional Notes (Optional)</Label>
+              <Label htmlFor="additionalNotes" className="text-white">Additional Notes (Optional)</Label>
               <Textarea
                 id="additionalNotes"
                 value={formData.additionalNotes}
                 onChange={(e) => handleChange("additionalNotes", e.target.value)}
                 placeholder="Enter any additional health information here..."
-                className="h-24"
+                className="h-24 bg-black text-white border-amber-900/50"
               />
             </div>
           </div>
 
-          <div className="flex justify-between pt-6 border-t">
+          <div className="flex justify-between pt-6 border-t border-amber-900/50">
             <Button 
               type="button" 
               variant="outline" 
               onClick={handleSaveForLater}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 bg-black text-white border-amber-900/50"
             >
               <Save className="h-4 w-4" />
               Save & Continue Later
@@ -568,6 +568,7 @@ const ParForm = () => {
                 type="button" 
                 variant="outline" 
                 onClick={() => navigate("/")}
+                className="bg-black text-white border-amber-900/50"
               >
                 Cancel
               </Button>
@@ -593,8 +594,8 @@ const ParForm = () => {
         </form>
       </div>
       
-      <div className="text-center mt-6 mb-12 py-2 bg-gray-100 rounded-md max-w-3xl mx-auto">
-        <p className="text-gray-600">End of Form</p>
+      <div className="text-center mt-6 mb-12 py-2 bg-black border border-amber-900/50 rounded-md max-w-3xl mx-auto text-white">
+        <p className="text-gray-300">End of Form</p>
       </div>
     </div>
   );
