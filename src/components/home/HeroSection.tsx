@@ -45,26 +45,26 @@ const HeroSection = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <Link 
                   to="/program/traditional-taijiquan" 
-                  className="block bg-black/50 p-6 border border-amber-900/50 backdrop-blur-sm hover:border-amber-500 transition-all"
+                  className="block bg-black/70 p-6 border border-amber-900/50 backdrop-blur-sm hover:border-amber-500 transition-all"
                 >
                   <h3 className="font-bold text-amber-500 mb-2">Traditional TaijiQuan</h3>
-                  <p className="text-gray-300">Ancient wisdom meets modern practice in our authentic TaijiQuan classes</p>
+                  <p className="text-white">Ancient wisdom meets modern practice in our authentic TaijiQuan classes</p>
                 </Link>
                 
                 <Link 
                   to="/program/qigong-practice" 
-                  className="block bg-black/50 p-6 border border-amber-900/50 backdrop-blur-sm hover:border-amber-500 transition-all"
+                  className="block bg-black/70 p-6 border border-amber-900/50 backdrop-blur-sm hover:border-amber-500 transition-all"
                 >
                   <h3 className="font-bold text-amber-500 mb-2">QiGong Practice</h3>
-                  <p className="text-gray-300">Harness your internal energy through specialized breathing and movement</p>
+                  <p className="text-white">Harness your internal energy through specialized breathing and movement</p>
                 </Link>
                 
                 <Link 
                   to="/program/meditation-classes" 
-                  className="block bg-black/50 p-6 border border-amber-900/50 backdrop-blur-sm hover:border-amber-500 transition-all"
+                  className="block bg-black/70 p-6 border border-amber-900/50 backdrop-blur-sm hover:border-amber-500 transition-all"
                 >
                   <h3 className="font-bold text-amber-500 mb-2">Meditation Classes</h3>
-                  <p className="text-gray-300">Find inner peace and mental clarity through guided meditation sessions</p>
+                  <p className="text-white">Find inner peace and mental clarity through guided meditation sessions</p>
                 </Link>
               </div>
             </div>

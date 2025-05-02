@@ -33,13 +33,13 @@ export function FeaturedNewsletters() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {newsletters.map((item) => (
             <Link to={`/newsletter/${item.id}`} key={item.id}>
-              <Card className="bg-black/80 border-amber-900/50 hover:border-amber-500 transition-all text-gray-200 hover:shadow-md hover:shadow-amber-900/20">
+              <Card className="bg-black/90 border-amber-900/50 hover:border-amber-500 transition-all text-white hover:shadow-md hover:shadow-amber-900/20">
                 <CardHeader>
                   <CardTitle className="text-amber-500">{item.title}</CardTitle>
-                  <CardDescription className="text-gray-400">Published on {item.date}</CardDescription>
+                  <CardDescription className="text-gray-300">Published on {item.date}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p>{item.description}</p>
+                  <p className="text-white">{item.description}</p>
                 </CardContent>
                 <CardFooter>
                   <span className="text-amber-500 hover:text-amber-400 transition-colors">Read more →</span>
