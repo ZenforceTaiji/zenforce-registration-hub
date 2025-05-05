@@ -5,6 +5,7 @@ import FeaturesSection from "@/components/home/FeaturesSection";
 import BenefitsSection from "@/components/home/BenefitsSection";
 import { FeaturedNewsletters } from "@/components/home/FeaturedNewsletters";
 import FloatingWhatsAppButton from "@/components/FloatingWhatsAppButton";
+import FloatingEventBanner from "@/components/home/FloatingEventBanner";
 
 const Index = () => {
   return (
@@ -14,6 +15,7 @@ const Index = () => {
       <FeaturesSection />
       <BenefitsSection />
       <FloatingWhatsAppButton phoneNumber="27731742969" />
+      <FloatingEventBanner />
     </div>
   );
 };
