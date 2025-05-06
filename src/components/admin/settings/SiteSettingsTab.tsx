@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { EventBannerSettings } from "./EventBannerSettings";
+import { MFASettings } from "./MFASettings";
+import { Shield } from "lucide-react";
 
 export function SiteSettingsTab() {
   return (
@@ -24,6 +26,10 @@ export function SiteSettingsTab() {
           <TabsTrigger value="general">General</TabsTrigger>
           <TabsTrigger value="content">Content</TabsTrigger>
           <TabsTrigger value="appearance">Appearance</TabsTrigger>
+          <TabsTrigger value="security" className="flex items-center gap-1">
+            <Shield className="h-4 w-4" />
+            Security
+          </TabsTrigger>
         </TabsList>
         
         <TabsContent value="general" className="space-y-4 mt-4">
@@ -120,6 +126,11 @@ export function SiteSettingsTab() {
               <Button className="w-full mt-4">Save Appearance Settings</Button>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="security" className="mt-4">
+          {/* MFA Settings */}
+          <MFASettings />
         </TabsContent>
       </Tabs>
     </div>
