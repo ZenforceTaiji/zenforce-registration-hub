@@ -1,6 +1,6 @@
 
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { createRoot } from 'react-dom/client'
 import App from './App'
 import { initializeAdminUser } from './lib/initializeAdmin'
 import { BrowserRouter } from 'react-router-dom'
@@ -8,13 +8,27 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { HelmetProvider } from 'react-helmet-async'
 import './index.css' // Make sure we're importing CSS
 
-// Initialize admin user when the app starts
-initializeAdminUser()
+// Configure React Query for performance
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000, // 1 minute
+      cacheTime: 5 * 60 * 1000, // 5 minutes
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+})
 
-// Create a client
-const queryClient = new QueryClient()
+// Mount the app
+const container = document.getElementById('root')
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+// Ensure the container exists
+if (!container) throw new Error('Root element not found')
+
+// Create root
+const root = createRoot(container)
+root.render(
   <React.StrictMode>
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
@@ -25,3 +39,19 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </HelmetProvider>
   </React.StrictMode>,
 )
+
+// Initialize admin user after render
+// This is a non-blocking operation
+const initAdmin = () => {
+  initializeAdminUser().catch(error => {
+    console.error('Failed to initialize admin user:', error)
+  })
+}
+
+// Use requestIdleCallback to avoid blocking the main thread
+if ('requestIdleCallback' in window) {
+  window.requestIdleCallback(initAdmin)
+} else {
+  // Fallback for browsers that don't support requestIdleCallback
+  setTimeout(initAdmin, 1000)
+}
