@@ -7,11 +7,10 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Shield, Key, AlertCircle, Lock, Bell, Fingerprint } from "lucide-react";
+import { Shield, Key, AlertCircle, Lock, Bell, Fingerprint, ShieldCheck } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { Checkbox } from "@/components/ui/checkbox";
 
 interface SecuritySettings {
   enableTotp: boolean;
@@ -42,39 +41,59 @@ export function MFASettings() {
     form.reset(securitySettings);
   }, [securitySettings, form]);
 
-  // Simulate fetching current settings
-  useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        // In a real implementation, you would fetch the current settings from Supabase
-        // For now, we'll simulate this with a timeout
-        setLoading(true);
-        setTimeout(() => {
-          // These would come from Supabase in a real implementation
-          setSecuritySettings({
-            enableTotp: true,
-            enableSMS: false,
-            leakedPasswordProtection: false,
-            passwordMinLength: true,
-            passwordComplexity: false
-          });
-          setLoading(false);
-        }, 500);
-      } catch (error) {
-        console.error("Failed to fetch security settings:", error);
-        setLoading(false);
+  const fetchCurrentSettings = async () => {
+    try {
+      setLoading(true);
+      // In a real implementation, you would fetch the current settings from Supabase Admin API
+      // For demonstration purposes, we'll simulate fetching from Supabase
+      const { data, error } = await supabase.rpc('get_auth_settings');
+      
+      if (error) throw error;
+      
+      // If we have data, update our settings
+      if (data) {
+        setSecuritySettings({
+          enableTotp: data.enable_totp || false,
+          enableSMS: data.enable_sms || false,
+          leakedPasswordProtection: data.leaked_password_protection || false,
+          passwordMinLength: data.password_min_length || true,
+          passwordComplexity: data.password_complexity || false
+        });
       }
-    };
+    } catch (error) {
+      console.error("Failed to fetch security settings:", error);
+      // Fall back to default settings if we can't fetch
+      setSecuritySettings({
+        enableTotp: true,
+        enableSMS: false,
+        leakedPasswordProtection: false,
+        passwordMinLength: true,
+        passwordComplexity: false
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchSettings();
+  // Fetch current settings on component mount
+  useEffect(() => {
+    fetchCurrentSettings();
   }, []);
 
   const handleSaveSettings = async (data: SecuritySettings) => {
     setLoading(true);
     try {
-      // In a real implementation, this would call a Supabase function
-      // to update the authentication settings through the admin API
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+      // In a real implementation, this would call a Supabase Admin API or RPC function
+      // to update the authentication settings
+      const { error } = await supabase.rpc('update_auth_settings', {
+        enable_totp: data.enableTotp,
+        enable_sms: data.enableSMS,
+        leaked_password_protection: data.leakedPasswordProtection,
+        password_min_length: data.passwordMinLength,
+        password_complexity: data.passwordComplexity
+      });
+      
+      if (error) throw error;
       
       setSecuritySettings(data);
       setConfigStatus('success');
@@ -89,7 +108,7 @@ export function MFASettings() {
       
       toast({
         title: "Failed to save settings",
-        description: "There was a problem saving your security settings.",
+        description: "There was a problem saving your security settings. Please update them directly in the Supabase dashboard.",
         variant: "destructive",
       });
     } finally {
@@ -101,7 +120,7 @@ export function MFASettings() {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Shield className="h-5 w-5 text-amber-600" />
+          <ShieldCheck className="h-5 w-5 text-amber-600" />
           Multi-Factor Authentication Settings
         </CardTitle>
         <CardDescription>Configure authentication security options to enhance account protection</CardDescription>
@@ -110,8 +129,7 @@ export function MFASettings() {
         <Alert variant="warning" className="mb-4 bg-amber-50 border-amber-200">
           <AlertCircle className="h-4 w-4 text-amber-500" />
           <AlertDescription>
-            These settings require Supabase project configuration changes and are shown here for demonstration purposes.
-            To fully implement them, visit the{" "}
+            These settings require Supabase project configuration changes. To fully implement them, please also visit the{" "}
             <a 
               href="https://supabase.com/dashboard/project/vyjhxyazgtdldzejjbzu/auth/providers" 
               target="_blank" 
@@ -125,9 +143,28 @@ export function MFASettings() {
 
         {configStatus === 'success' && (
           <Alert variant="success" className="mb-4 bg-green-50 border-green-200">
+            <ShieldCheck className="h-4 w-4 text-green-600" />
             <AlertTitle className="text-green-800">Security Enhanced</AlertTitle>
             <AlertDescription className="text-green-700">
               Your security settings have been updated successfully. These changes will help protect user accounts from unauthorized access.
+            </AlertDescription>
+          </Alert>
+        )}
+
+        {configStatus === 'error' && (
+          <Alert variant="destructive" className="mb-4">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Configuration Error</AlertTitle>
+            <AlertDescription>
+              There was an error applying these settings. Please make changes directly in the{" "}
+              <a 
+                href="https://supabase.com/dashboard/project/vyjhxyazgtdldzejjbzu/auth/providers" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="font-medium underline"
+              >
+                Supabase authentication settings
+              </a>.
             </AlertDescription>
           </Alert>
         )}
