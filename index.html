@@ -36,9 +36,12 @@
     <link rel="preconnect" href="https://vyjhxyazgtdldzejjbzu.supabase.co" crossorigin>
     <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
     
-    <!-- Preload critical assets -->
+    <!-- Preload critical hero image with smaller size for faster loading -->
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=800&auto=format&fit=crop" fetchpriority="high">
+    
+    <!-- Preload critical fonts -->
     <link rel="preload" href="/fonts/cinzel-v19-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=1000" as="image" fetchpriority="high">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap" as="style">
     
     <!-- Critical CSS inline -->
     <style>
@@ -50,7 +53,66 @@
         background-color: black;
         color: white;
       }
+      
+      /* Hero section - critical for first render */
+      .hero-section {
+        position: relative;
+        background-color: black;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 60vh;
+        padding: 4rem 1rem;
+        text-align: center;
+      }
+      
+      .hero-title {
+        font-family: 'Cinzel', serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #b7791f; /* amber-600 */
+        margin-bottom: 1rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.125rem;
+        max-width: 36rem;
+        margin: 0 auto 2rem;
+        line-height: 1.5;
+      }
+      
+      .hero-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        background-color: rgba(180, 83, 9, 0.8);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.375rem;
+        font-weight: 500;
+        text-decoration: none;
+        margin: 0.5rem;
+        transition: background-color 0.2s;
+      }
+      
+      .hero-button:hover {
+        background-color: rgb(180, 83, 9);
+      }
+      
+      .hero-button-outline {
+        background-color: transparent;
+        border: 1px solid rgba(180, 83, 9, 0.5);
+      }
+      
+      /* Loading UI that transitions to the app */
       .loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -60,7 +122,11 @@
         color: #b7791f;
         text-align: center;
         padding: 0 1rem;
+        z-index: 9999;
+        transition: opacity 0.5s ease-out;
+        animation: fadeIn 0.3s ease-out;
       }
+      
       .loading-spinner {
         width: 50px;
         height: 50px;
@@ -70,30 +136,45 @@
         animation: spin 1s ease-in-out infinite;
         margin-bottom: 1rem;
       }
+      
       .loading-title {
+        font-family: 'Cinzel', serif;
         font-size: 1.5rem;
         font-weight: 700;
         margin-bottom: 0.5rem;
         color: #b7791f;
       }
+      
       .loading-subtitle {
         font-size: 1rem;
         max-width: 280px;
         margin: 0 auto;
         opacity: 0.9;
       }
-      @keyframes spin {
-        to { transform: rotate(360deg); }
+      
+      /* Hero background image placeholder */
+      .hero-bg-placeholder {
+        position: absolute;
+        inset: 0;
+        background-color: #111;
+        z-index: -1;
       }
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
+      
       /* Content visibility for below the fold content */
       .below-fold {
         content-visibility: auto;
         contain-intrinsic-size: 1px 1000px;
       }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      
       /* Font display settings */
       @font-face {
         font-family: 'Cinzel';
@@ -102,30 +183,87 @@
         font-display: swap;
         src: url('/fonts/cinzel-v19-latin-regular.woff2') format('woff2');
       }
+      
+      /* Mobile-first responsive layout */
+      @media (min-width: 768px) {
+        .hero-title {
+          font-size: 2.75rem;
+        }
+        .hero-subtitle {
+          font-size: 1.25rem;
+        }
+      }
     </style>
     
-    <!-- Preload critical fonts -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap" as="style">
+    <!-- Font stylesheet with display swap to prevent FOIT -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap">
     
-    <!-- Page lifecycle optimizations -->
+    <!-- Inline immediate render of hero section while JS loads -->
     <script>
+      // Immediately execute script to render static content before React
+      (function() {
+        const container = document.getElementById('root');
+        
+        if (container) {
+          // Create static hero markup for immediate display
+          const staticHero = document.createElement('div');
+          staticHero.className = 'hero-section';
+          staticHero.innerHTML = `
+            <div class="hero-bg-placeholder"></div>
+            <div style="position: relative; z-index: 5; max-width: 48rem; margin: 0 auto;">
+              <h1 class="hero-title">ZenForce TaijiQuan SA</h1>
+              <p class="hero-subtitle">Experience the ancient art of balance, strength, and inner peace</p>
+              <div>
+                <a href="/registration" class="hero-button">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  In-Person Training Registration
+                </a>
+                <a href="/online-registration" class="hero-button hero-button-outline">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                  Online Training Registration
+                </a>
+              </div>
+            </div>
+          `;
+          
+          // Insert loading spinner first
+          container.innerHTML = `
+            <div id="initial-loading" class="loading">
+              <div class="loading-spinner"></div>
+              <h1 class="loading-title">ZenForce TaijiQuan SA</h1>
+              <p class="loading-subtitle">Discover the ancient art of balance, strength and inner peace</p>
+            </div>
+          `;
+          
+          // Create and load the hero image with callback
+          const img = new Image();
+          img.onload = function() {
+            // Once hero image loads, set it as background for placeholder
+            const heroPlaceholder = staticHero.querySelector('.hero-bg-placeholder');
+            if (heroPlaceholder) {
+              heroPlaceholder.style.background = `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('${img.src}') center/cover no-repeat`;
+            }
+            
+            // Add the static hero content to the page after loading
+            setTimeout(() => {
+              // Only add static hero if React hasn't taken over yet
+              if (document.getElementById('initial-loading')) {
+                container.appendChild(staticHero);
+              }
+            }, 200);
+          };
+          img.src = "https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=800&auto=format&fit=crop";
+        }
+      })();
+      
       // Mark the page as visible to start rendering content sooner
       document.visibilityState = "visible";
-      
-      // Preload key images
-      const preloadImage = (src) => {
-        const img = new Image();
-        img.src = src;
-      };
-      // Preload hero image
-      preloadImage("https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=1000");
     </script>
   </head>
   <body>
     <div id="root">
-      <!-- Enhanced initial loading state with actual content -->
-      <div class="loading">
+      <!-- Enhanced initial loading state -->
+      <div id="initial-loading" class="loading">
         <div class="loading-spinner"></div>
         <h1 class="loading-title">ZenForce TaijiQuan SA</h1>
         <p class="loading-subtitle">Discover the ancient art of balance, strength and inner peace</p>

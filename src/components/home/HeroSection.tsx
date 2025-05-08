@@ -4,18 +4,21 @@ import { Link } from "react-router-dom";
 import { MapPin, Globe, Info } from "lucide-react";
 import OptimizedImage from "@/components/ui/optimized-image";
 
-const HeroSection = () => {
+// Using React.memo for component memoization to prevent unnecessary re-renders
+const HeroSection = React.memo(() => {
   return (
     <section className="bg-black text-white py-16 md:py-24 relative">
       <div className="absolute inset-0 opacity-30">
         <OptimizedImage 
-          src="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=2573"
+          src="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=1200"
           alt="Taijiquan background"
           className="h-full w-full object-cover"
           priority={true}
-          // Add width and height to help browser allocate space before image loads
-          width={2573}
-          height={1500}
+          width={1200}
+          height={800}
+          sizes="100vw"
+          webpSrc="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=1200&fm=webp"
+          lowResSrc="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=60&w=400&blur=5"
         />
       </div>
       <div className="container mx-auto px-4 relative z-10">
@@ -83,6 +86,9 @@ const HeroSection = () => {
       </div>
     </section>
   );
-};
+});
 
-export default React.memo(HeroSection);
+// Display name for debugging
+HeroSection.displayName = 'HeroSection';
+
+export default HeroSection;

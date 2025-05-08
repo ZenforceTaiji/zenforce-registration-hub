@@ -53,13 +53,15 @@ const Index = () => {
           <FeaturedNewsletters />
           
           {/* Non-critical content lazy loaded with proper suspense boundaries */}
-          <Suspense fallback={<div className="py-12 px-4"><Skeleton className="h-64 w-full" /></div>}>
-            <FeaturesSection />
-          </Suspense>
-          
-          <Suspense fallback={<div className="py-12 px-4"><Skeleton className="h-64 w-full" /></div>}>
-            <BenefitsSection />
-          </Suspense>
+          <div className="below-fold">
+            <Suspense fallback={<div className="py-12 px-4"><Skeleton className="h-64 w-full" /></div>}>
+              <FeaturesSection />
+            </Suspense>
+            
+            <Suspense fallback={<div className="py-12 px-4"><Skeleton className="h-64 w-full" /></div>}>
+              <BenefitsSection />
+            </Suspense>
+          </div>
         </main>
         <FloatingWhatsAppButton phoneNumber="27731742969" />
         <FloatingEventBanner />
