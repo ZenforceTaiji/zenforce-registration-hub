@@ -21,11 +21,11 @@ const Index = () => {
         <meta name="robots" content="index, follow" />
         
         {/* Preload critical assets */}
-        <link rel="preload" href="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=1000" as="image" fetchpriority="high" />
+        <link rel="preload" href="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=1000" as="image" fetchPriority="high" />
         
         {/* DNS prefetch and preconnect */}
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
-        <link rel="preconnect" href="https://images.unsplash.com" crossorigin="" />
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="" />
         
         {/* Structured data for better SEO */}
         <script type="application/ld+json">{`
