@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
@@ -33,13 +32,19 @@ const startApp = () => {
   
   // Remove loading state with nice transition
   const loadingElement = document.getElementById('initial-loading')
+  const initialContent = document.getElementById('initial-content')
+  
   if (loadingElement) {
     loadingElement.style.opacity = '0'
+    
     setTimeout(() => {
-      // Clear all content for React to take over
-      container.innerHTML = ''
+      // Remove the loading spinner but keep initial content
+      if (loadingElement.parentNode) {
+        loadingElement.parentNode.removeChild(loadingElement)
+      }
       
-      // Render the application
+      // Render the application but don't clear initial content yet
+      // This prevents the blank screen flash
       root.render(
         <React.StrictMode>
           <HelmetProvider>
@@ -51,10 +56,22 @@ const startApp = () => {
           </HelmetProvider>
         </React.StrictMode>,
       )
-    }, 300) // Slight delay for fade out animation
+      
+      // After React has hydrated, remove the initial content
+      setTimeout(() => {
+        if (initialContent && initialContent.parentNode) {
+          initialContent.style.opacity = '0'
+          setTimeout(() => {
+            // Only remove initial content after fade out
+            if (initialContent.parentNode) {
+              initialContent.parentNode.removeChild(initialContent)
+            }
+          }, 300)
+        }
+      }, 100)
+    }, 100)
   } else {
     // If no loading element, just render immediately
-    container.innerHTML = ''
     root.render(
       <React.StrictMode>
         <HelmetProvider>
@@ -69,17 +86,16 @@ const startApp = () => {
   }
 }
 
-// Use requestIdleCallback to start rendering as soon as browser is idle
-// but with a backup timeout to ensure it happens quickly
-if ('requestIdleCallback' in window) {
-  const timeoutId = setTimeout(() => startApp(), 1000) // Backup timeout
-  window.requestIdleCallback(() => {
-    clearTimeout(timeoutId)
-    startApp()
-  }, { timeout: 1000 })
+// Start rendering as soon as possible without delay
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  // If the document is already loaded or interactive, start immediately
+  startApp()
 } else {
-  // For browsers that don't support requestIdleCallback
-  setTimeout(startApp, 200)
+  // Otherwise use DOMContentLoaded
+  document.addEventListener('DOMContentLoaded', startApp, { once: true })
+  
+  // Backup in case DOMContentLoaded doesn't fire
+  setTimeout(startApp, 500)
 }
 
 // Initialize admin user after render in low priority
@@ -89,10 +105,9 @@ const initAdmin = () => {
   })
 }
 
-// Use requestIdleCallback to avoid blocking the main thread
-if ('requestIdleCallback' in window) {
+// Only initialize admin after page is fully interactive
+if (window.requestIdleCallback) {
   window.requestIdleCallback(initAdmin, { timeout: 3000 })
 } else {
-  // Fallback for browsers that don't support requestIdleCallback
   setTimeout(initAdmin, 2000)
 }

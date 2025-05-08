@@ -10,7 +10,7 @@ const HeroSection = React.memo(() => {
     <section className="bg-black text-white py-16 md:py-24 relative">
       <div className="absolute inset-0 opacity-30">
         <OptimizedImage 
-          src="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=1200"
+          src="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=1200&auto=format&fit=crop"
           alt="Taijiquan background"
           className="h-full w-full object-cover"
           priority={true}
@@ -18,7 +18,9 @@ const HeroSection = React.memo(() => {
           height={800}
           sizes="100vw"
           webpSrc="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=1200&fm=webp"
+          avifSrc="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=1200&fm=avif"
           lowResSrc="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=60&w=400&blur=5"
+          fetchPriority="high"
         />
       </div>
       <div className="container mx-auto px-4 relative z-10">
