@@ -52,10 +52,14 @@
       }
       .loading {
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         min-height: 100vh;
         background-color: black;
+        color: #b7791f;
+        text-align: center;
+        padding: 0 1rem;
       }
       .loading-spinner {
         width: 50px;
@@ -64,11 +68,28 @@
         border-radius: 50%;
         border-top-color: rgb(183, 121, 31);
         animation: spin 1s ease-in-out infinite;
+        margin-bottom: 1rem;
+      }
+      .loading-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: #b7791f;
+      }
+      .loading-subtitle {
+        font-size: 1rem;
+        max-width: 280px;
+        margin: 0 auto;
+        opacity: 0.9;
       }
       @keyframes spin {
         to { transform: rotate(360deg); }
       }
-      /* Add content visibility auto to large below-the-fold sections */
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      /* Content visibility for below the fold content */
       .below-fold {
         content-visibility: auto;
         contain-intrinsic-size: 1px 1000px;
@@ -91,13 +112,23 @@
     <script>
       // Mark the page as visible to start rendering content sooner
       document.visibilityState = "visible";
+      
+      // Preload key images
+      const preloadImage = (src) => {
+        const img = new Image();
+        img.src = src;
+      };
+      // Preload hero image
+      preloadImage("https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=1000");
     </script>
   </head>
   <body>
     <div id="root">
-      <!-- Initial loading state -->
+      <!-- Enhanced initial loading state with actual content -->
       <div class="loading">
         <div class="loading-spinner"></div>
+        <h1 class="loading-title">ZenForce TaijiQuan SA</h1>
+        <p class="loading-subtitle">Discover the ancient art of balance, strength and inner peace</p>
       </div>
     </div>
     <script type="module" src="/src/main.tsx"></script>

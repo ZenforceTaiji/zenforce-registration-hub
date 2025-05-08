@@ -8,7 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { HelmetProvider } from 'react-helmet-async'
 import './index.css' // Make sure we're importing CSS
 
-// Configure React Query for performance
+// Configure React Query for optimized performance
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -20,25 +20,36 @@ const queryClient = new QueryClient({
   },
 })
 
-// Mount the app
-const container = document.getElementById('root')
+// Function to start application rendering
+const startApp = () => {
+  // Mount the app
+  const container = document.getElementById('root')
 
-// Ensure the container exists
-if (!container) throw new Error('Root element not found')
+  // Ensure the container exists
+  if (!container) throw new Error('Root element not found')
 
-// Create root
-const root = createRoot(container)
-root.render(
-  <React.StrictMode>
-    <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </QueryClientProvider>
-    </HelmetProvider>
-  </React.StrictMode>,
-)
+  // Create root
+  const root = createRoot(container)
+  
+  // Remove any loading state that might exist
+  container.innerHTML = ''
+  
+  // Render the application
+  root.render(
+    <React.StrictMode>
+      <HelmetProvider>
+        <QueryClientProvider client={queryClient}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </QueryClientProvider>
+      </HelmetProvider>
+    </React.StrictMode>,
+  )
+}
+
+// Start rendering as soon as possible
+startApp()
 
 // Initialize admin user after render
 // This is a non-blocking operation

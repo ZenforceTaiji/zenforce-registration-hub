@@ -1,7 +1,6 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { MapPin, Globe, Info } from "lucide-react";
 import OptimizedImage from "@/components/ui/optimized-image";
 
@@ -14,6 +13,9 @@ const HeroSection = () => {
           alt="Taijiquan background"
           className="h-full w-full object-cover"
           priority={true}
+          // Add width and height to help browser allocate space before image loads
+          width={2573}
+          height={1500}
         />
       </div>
       <div className="container mx-auto px-4 relative z-10">
@@ -83,4 +85,4 @@ const HeroSection = () => {
   );
 };
 
-export default HeroSection;
+export default React.memo(HeroSection);
