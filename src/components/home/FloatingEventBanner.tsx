@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { Link } from "react-router-dom";
 import { Calendar, Clock, MapPin, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -22,18 +22,19 @@ interface BannerSettings {
   is_active: boolean;
 }
 
-export default function FloatingEventBanner() {
+const FloatingEventBanner = () => {
   const { toast } = useToast();
   const [event, setEvent] = useState<Event | null>(null);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(() => {
+    // Initialize from localStorage during component mount
+    const storedVisibility = localStorage.getItem('eventBannerVisible');
+    return storedVisibility === null ? true : JSON.parse(storedVisibility);
+  });
   const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
-    // Store banner visibility state in local storage
-    const storedVisibility = localStorage.getItem('eventBannerVisible');
-    if (storedVisibility !== null) {
-      setIsVisible(JSON.parse(storedVisibility));
-    }
+    // Use a variable to track if component is mounted to avoid state updates after unmounting
+    let isMounted = true;
     
     async function fetchBannerData() {
       try {
@@ -48,7 +49,7 @@ export default function FloatingEventBanner() {
         
         // If banner is not active or no event is selected, don't show anything
         if (!settingsData || !settingsData.is_active || !settingsData.event_id) {
-          setIsLoading(false);
+          if (isMounted) setIsLoading(false);
           return;
         }
         
@@ -70,19 +71,26 @@ export default function FloatingEventBanner() {
         
         if (eventDate < today) {
           // Event is in the past, don't show it
-          setIsLoading(false);
+          if (isMounted) setIsLoading(false);
           return;
         }
         
-        setEvent(eventData);
+        if (isMounted) {
+          setEvent(eventData);
+          setIsLoading(false);
+        }
       } catch (error) {
         console.error('Error fetching banner data:', error);
-      } finally {
-        setIsLoading(false);
+        if (isMounted) setIsLoading(false);
       }
     }
     
     fetchBannerData();
+    
+    // Cleanup function
+    return () => {
+      isMounted = false;
+    };
   }, [toast]);
 
   const hideBanner = () => {
@@ -149,4 +157,7 @@ export default function FloatingEventBanner() {
       </div>
     </div>
   );
-}
+};
+
+// Use memo to prevent unnecessary re-renders
+export default memo(FloatingEventBanner);

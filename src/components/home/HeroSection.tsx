@@ -3,11 +3,19 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { MapPin, Globe, Info } from "lucide-react";
+import OptimizedImage from "@/components/ui/optimized-image";
 
 const HeroSection = () => {
   return (
     <section className="bg-black text-white py-16 md:py-24 relative">
-      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=2573')] bg-cover bg-center opacity-30"></div>
+      <div className="absolute inset-0 opacity-30">
+        <OptimizedImage 
+          src="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=2573"
+          alt="Taijiquan background"
+          className="h-full w-full object-cover"
+          priority={true}
+        />
+      </div>
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-amber-500">

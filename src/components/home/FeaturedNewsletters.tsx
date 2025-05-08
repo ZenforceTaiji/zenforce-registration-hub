@@ -3,29 +3,29 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
-export function FeaturedNewsletters() {
-  // Sample newsletter data
-  const newsletters = [
-    {
-      id: "newsletter-1",
-      title: "Traditional TaijiQuan Summer Camp",
-      date: "May 1, 2025",
-      description: "Join us for our annual summer training camp experience"
-    },
-    {
-      id: "newsletter-2",
-      title: "New QiGong Classes for Beginners",
-      date: "May 2, 2025",
-      description: "Starting in June - perfect for those new to energy practices"
-    },
-    {
-      id: "newsletter-3",
-      title: "Meditation Retreat Weekend",
-      date: "May 3, 2025",
-      description: "A special weekend focused on finding inner balance"
-    }
-  ];
+// Pre-defined newsletters data to avoid runtime fetch
+const newsletters = [
+  {
+    id: "newsletter-1",
+    title: "Traditional TaijiQuan Summer Camp",
+    date: "May 1, 2025",
+    description: "Join us for our annual summer training camp experience"
+  },
+  {
+    id: "newsletter-2",
+    title: "New QiGong Classes for Beginners",
+    date: "May 2, 2025",
+    description: "Starting in June - perfect for those new to energy practices"
+  },
+  {
+    id: "newsletter-3",
+    title: "Meditation Retreat Weekend",
+    date: "May 3, 2025",
+    description: "A special weekend focused on finding inner balance"
+  }
+];
 
+export function FeaturedNewsletters() {
   return (
     <section className="py-12 bg-black text-gray-200">
       <div className="container mx-auto px-4">

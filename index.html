@@ -29,8 +29,16 @@
     <!-- Performance optimizations -->
     <link rel="canonical" href="https://zenforce-registration-hub.lovable.app/">
     <link rel="dns-prefetch" href="https://vyjhxyazgtdldzejjbzu.supabase.co">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://vyjhxyazgtdldzejjbzu.supabase.co" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="/fonts/cinzel-v19-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=1000" as="image" fetchpriority="high">
     
     <!-- Critical CSS inline -->
     <style>
@@ -60,11 +68,30 @@
       @keyframes spin {
         to { transform: rotate(360deg); }
       }
+      /* Add content visibility auto to large below-the-fold sections */
+      .below-fold {
+        content-visibility: auto;
+        contain-intrinsic-size: 1px 1000px;
+      }
+      /* Font display settings */
+      @font-face {
+        font-family: 'Cinzel';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('/fonts/cinzel-v19-latin-regular.woff2') format('woff2');
+      }
     </style>
     
     <!-- Preload critical fonts -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap" as="style">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap">
+    
+    <!-- Page lifecycle optimizations -->
+    <script>
+      // Mark the page as visible to start rendering content sooner
+      document.visibilityState = "visible";
+    </script>
   </head>
   <body>
     <div id="root">

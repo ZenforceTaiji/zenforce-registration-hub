@@ -20,6 +20,13 @@ const Index = () => {
         <link rel="canonical" href="https://zenforce-registration-hub.lovable.app/" />
         <meta name="robots" content="index, follow" />
         
+        {/* Preload critical assets */}
+        <link rel="preload" href="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=1000" as="image" fetchpriority="high" />
+        
+        {/* DNS prefetch and preconnect */}
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://images.unsplash.com" crossorigin="" />
+        
         {/* Structured data for better SEO */}
         <script type="application/ld+json">{`
           {
@@ -33,7 +40,9 @@ const Index = () => {
               "@type": "PostalAddress",
               "addressCountry": "South Africa"
             },
-            "sameAs": ["https://www.facebook.com/zenforcetaijiquan"]
+            "sameAs": ["https://www.facebook.com/zenforcetaijiquan"],
+            "openingHours": "Mo,Tu,We,Th,Fr 08:00-18:00",
+            "priceRange": "$$"
           }
         `}</script>
       </Helmet>
@@ -43,7 +52,7 @@ const Index = () => {
           <HeroSection />
           <FeaturedNewsletters />
           
-          {/* Non-critical content lazy loaded */}
+          {/* Non-critical content lazy loaded with proper suspense boundaries */}
           <Suspense fallback={<div className="py-12 px-4"><Skeleton className="h-64 w-full" /></div>}>
             <FeaturesSection />
           </Suspense>
