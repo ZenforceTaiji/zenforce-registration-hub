@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
@@ -5,6 +6,7 @@ import { initializeAdminUser } from './lib/initializeAdmin'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { HelmetProvider } from 'react-helmet-async'
+import InlineHeroLoader from './components/loaders/InlineHeroLoader'
 import './index.css' // Make sure we're importing CSS
 
 // Configure React Query for optimized performance
@@ -43,6 +45,7 @@ const startApp = () => {
         loadingElement.parentNode.removeChild(loadingElement)
       }
       
+      // The InlineHeroLoader component will handle the hero rendering before full hydration
       // Render the application but don't clear initial content yet
       // This prevents the blank screen flash
       root.render(

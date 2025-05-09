@@ -37,23 +37,26 @@ import { Toaster } from "@/components/ui/toaster";
 import TrainingProgramDetail from '@/pages/TrainingProgramDetail';
 import NewsletterDetail from '@/pages/NewsletterDetail';
 import { Helmet } from "react-helmet-async";
+import SiteMeta from "@/components/meta/SiteMeta";
+import CriticalStyles from "@/components/critical-styles/CriticalStyles";
+import CriticalPreloads from "@/components/meta/CriticalPreloads";
+import StructuredData from "@/components/meta/StructuredData";
 
 function App() {
   return (
     <>
+      <SiteMeta />
+      <CriticalPreloads />
+      <CriticalStyles />
+      <StructuredData />
+      
       <Helmet>
         <html lang="en" />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#b45309" />
-        
-        {/* Preload critical assets */}
-        <link rel="preload" href="/fonts/cinzel-v19-latin-regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-        <link rel="preload" href="/images/hero/hero-bg.webp" as="image" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://vyjhxyazgtdldzejjbzu.supabase.co" />
       </Helmet>
+      
       <div className="min-h-screen flex flex-col">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:p-4 focus:bg-amber-600 focus:text-white focus:z-50">
           Skip to main content
