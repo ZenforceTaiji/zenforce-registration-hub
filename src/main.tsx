@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
@@ -21,10 +20,13 @@ const queryClient = new QueryClient({
   },
 })
 
-// Set document visibility immediately to improve initial rendering
+// Handle visibility optimization
 if (typeof document !== 'undefined') {
   // Only run in browser environment
-  document.visibilityState = "visible";
+  if (!document.hidden) {
+    // If document is already visible, we can trigger optimizations
+    document.dispatchEvent(new CustomEvent('app:visible'));
+  }
 }
 
 // Function to start application rendering
