@@ -21,6 +21,12 @@ const queryClient = new QueryClient({
   },
 })
 
+// Set document visibility immediately to improve initial rendering
+if (typeof document !== 'undefined') {
+  // Only run in browser environment
+  document.visibilityState = "visible";
+}
+
 // Function to start application rendering
 const startApp = () => {
   // Mount the app

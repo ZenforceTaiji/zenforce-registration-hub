@@ -41,6 +41,7 @@ import SiteMeta from "@/components/meta/SiteMeta";
 import CriticalStyles from "@/components/critical-styles/CriticalStyles";
 import CriticalPreloads from "@/components/meta/CriticalPreloads";
 import StructuredData from "@/components/meta/StructuredData";
+import InitialVisibilityScript from "@/components/meta/InitialVisibilityScript";
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
       <CriticalPreloads />
       <CriticalStyles />
       <StructuredData />
+      <InitialVisibilityScript />
       
       <Helmet>
         <html lang="en" />
