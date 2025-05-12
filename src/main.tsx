@@ -40,7 +40,7 @@ const startApp = () => {
   // Create root
   const root = createRoot(container)
   
-  // Remove loading state with nice transition
+  // Get existing elements that need transitions
   const loadingElement = document.getElementById('initial-loading')
   const initialContent = document.getElementById('initial-content')
   
@@ -53,7 +53,6 @@ const startApp = () => {
         loadingElement.parentNode.removeChild(loadingElement)
       }
       
-      // The InlineHeroLoader component will handle the hero rendering before full hydration
       // Render the application but don't clear initial content yet
       // This prevents the blank screen flash
       root.render(

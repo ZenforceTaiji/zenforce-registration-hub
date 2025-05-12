@@ -10,6 +10,10 @@ const CriticalStyles: React.FC = () => {
     <style>
       {`
       /* Critical path CSS */
+      :root {
+        visibility: visible !important;
+      }
+      
       body {
         margin: 0;
         padding: 0;
@@ -60,6 +64,13 @@ const CriticalStyles: React.FC = () => {
         opacity: 1;
       }
       
+      .hero-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+      }
+      
       .hero-button {
         display: inline-flex;
         align-items: center;
@@ -71,7 +82,6 @@ const CriticalStyles: React.FC = () => {
         border-radius: 0.375rem;
         font-weight: 500;
         text-decoration: none;
-        margin: 0.5rem;
         transition: background-color 0.2s;
       }
       
@@ -89,6 +99,7 @@ const CriticalStyles: React.FC = () => {
         display: block;
         visibility: visible;
         opacity: 1;
+        transition: opacity 0.3s ease;
       }
       
       /* Loading UI that transitions to the app */
@@ -144,6 +155,11 @@ const CriticalStyles: React.FC = () => {
         inset: 0;
         background-color: #111;
         z-index: -1;
+        transition: opacity 0.5s ease-in;
+      }
+      
+      .hero-bg-placeholder.loaded {
+        opacity: 1;
       }
       
       /* Content visibility for below the fold content */
@@ -152,8 +168,19 @@ const CriticalStyles: React.FC = () => {
         contain-intrinsic-size: 1px 1000px;
       }
       
+      /* Fade in animation */
+      .fade-in {
+        opacity: 0;
+        animation: fadeIn 0.5s ease-in forwards;
+      }
+      
       @keyframes spin {
         to { transform: rotate(360deg); }
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
       }
       
       /* Font display settings */
