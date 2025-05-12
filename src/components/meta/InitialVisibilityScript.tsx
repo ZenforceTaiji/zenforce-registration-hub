@@ -13,17 +13,20 @@ const InitialVisibilityScript: React.FC = () => {
       // Set root visibility to ensure content is visible immediately
       document.documentElement.style.visibility = 'visible';
       
-      // Instead of modifying visibilityState directly, we use the Page Visibility API
-      // to respond to visibility changes and optimize rendering accordingly
-      if (document.hidden === false) {
-        document.dispatchEvent(new Event('visibilitychange'));
-        document.dispatchEvent(new CustomEvent('app:visible'));
-      }
+      // Force immediate painting
+      requestAnimationFrame(() => {
+        document.documentElement.classList.add('ready');
+        
+        // Trigger visibility events
+        if (document.hidden === false) {
+          document.dispatchEvent(new Event('visibilitychange'));
+          document.dispatchEvent(new CustomEvent('app:visible'));
+        }
+      });
       
       // Register visibility change handler
       document.addEventListener('visibilitychange', function() {
         if (!document.hidden) {
-          // Page is visible, can trigger optimizations here if needed
           document.dispatchEvent(new CustomEvent('app:visible'));
         }
       });

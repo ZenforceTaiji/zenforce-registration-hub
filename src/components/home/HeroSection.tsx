@@ -19,7 +19,8 @@ const HeroSection = React.memo(() => {
           sizes="100vw"
           webpSrc="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=1200&fm=webp"
           avifSrc="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=1200&fm=avif"
-          lowResSrc="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=60&w=400&blur=5"
+          lowResSrc="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=60&w=200&blur=5"
+          quality={80}
           fetchPriority="high"
         />
       </div>

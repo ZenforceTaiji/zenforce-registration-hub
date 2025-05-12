@@ -1,17 +1,41 @@
 
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import HeroSection from "@/components/home/HeroSection";
 import { FeaturedNewsletters } from "@/components/home/FeaturedNewsletters";
 import FloatingWhatsAppButton from "@/components/FloatingWhatsAppButton";
 import FloatingEventBanner from "@/components/home/FloatingEventBanner";
 import { Helmet } from "react-helmet-async";
 import { Skeleton } from "@/components/ui/skeleton";
+import CriticalPreloads from "@/components/meta/CriticalPreloads";
 
 // Lazy load non-critical components
 const FeaturesSection = lazy(() => import("@/components/home/FeaturesSection"));
 const BenefitsSection = lazy(() => import("@/components/home/BenefitsSection"));
 
 const Index = () => {
+  // Mark the point at which the page becomes interactive for performance metrics
+  useEffect(() => {
+    if (window.performance && window.performance.mark) {
+      // Set a mark for Time to Interactive
+      window.performance.mark('time-to-interactive');
+      
+      // Report the LCP element to improve metrics
+      const observer = new PerformanceObserver((entryList) => {
+        const entries = entryList.getEntries();
+        if (entries.length > 0) {
+          const lcpEntry = entries[entries.length - 1];
+          console.log('LCP:', lcpEntry.startTime, lcpEntry);
+        }
+      });
+      
+      observer.observe({ type: 'largest-contentful-paint', buffered: true });
+      
+      return () => {
+        observer.disconnect();
+      };
+    }
+  }, []);
+  
   return (
     <>
       <Helmet>
@@ -19,16 +43,6 @@ const Index = () => {
         <meta name="description" content="Experience authentic TaijiQuan training in South Africa. Join classes for all ages and skill levels in a traditional martial arts environment focused on health and mindfulness." />
         <link rel="canonical" href="https://zenforce-registration-hub.lovable.app/" />
         <meta name="robots" content="index, follow" />
-        
-        {/* Preload critical assets */}
-        <link rel="preload" href="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=400&auto=format&fit=crop" as="image" fetchPriority="high" />
-        
-        {/* Modern format preloading */}
-        <link rel="preload" as="image" href="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=400&fm=webp" type="image/webp" />
-        
-        {/* DNS prefetch and preconnect */}
-        <link rel="dns-prefetch" href="https://images.unsplash.com" />
-        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="" />
         
         {/* Structured data for better SEO */}
         <script type="application/ld+json">{`
@@ -49,6 +63,10 @@ const Index = () => {
           }
         `}</script>
       </Helmet>
+      
+      {/* Include critical preloads */}
+      <CriticalPreloads />
+      
       <div className="min-h-screen w-full bg-gray-50">
         <main>
           {/* Critical content loaded immediately */}

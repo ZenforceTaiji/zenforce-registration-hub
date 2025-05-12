@@ -15,6 +15,7 @@ interface OptimizedImageProps extends React.ImgHTMLAttributes<HTMLImageElement> 
   height?: number;
   sizes?: string;
   lowResSrc?: string; // Low resolution src for blur-up loading
+  quality?: number; // Add quality parameter
 }
 
 /**
@@ -32,6 +33,7 @@ const OptimizedImage = ({
   height,
   sizes,
   lowResSrc,
+  quality = 80,
   ...props 
 }: OptimizedImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -39,6 +41,13 @@ const OptimizedImage = ({
   const [supportsWebp, setSupportsWebp] = useState(false);
   const [supportsAvif, setSupportsAvif] = useState(false);
   const [isHighResSrc, setIsHighResSrc] = useState(!!lowResSrc ? false : true);
+  
+  // Add quality parameter to image URLs that don't have it
+  const addQualityParam = (url: string): string => {
+    if (!quality || url.includes('quality=')) return url;
+    const separator = url.includes('?') ? '&' : '?';
+    return `${url}${separator}quality=${quality}`;
+  };
   
   // Check for modern format support on mount
   useEffect(() => {
@@ -68,27 +77,27 @@ const OptimizedImage = ({
       
       // Load best format based on browser support
       if (supportsAvif && avifSrc) {
-        highResImage.src = avifSrc;
+        highResImage.src = addQualityParam(avifSrc);
       } else if (supportsWebp && webpSrc) {
-        highResImage.src = webpSrc;
+        highResImage.src = addQualityParam(webpSrc);
       } else {
-        highResImage.src = src;
+        highResImage.src = addQualityParam(src);
       }
     }
-  }, [lowResSrc, src, webpSrc, avifSrc, supportsWebp, supportsAvif, isHighResSrc]);
+  }, [lowResSrc, src, webpSrc, avifSrc, supportsWebp, supportsAvif, isHighResSrc, quality]);
 
   // Use best format if supported and available
   useEffect(() => {
     if (isHighResSrc) {
       if (supportsAvif && avifSrc) {
-        setImgSrc(avifSrc);
+        setImgSrc(addQualityParam(avifSrc));
       } else if (supportsWebp && webpSrc) {
-        setImgSrc(webpSrc);
+        setImgSrc(addQualityParam(webpSrc));
       } else {
-        setImgSrc(src);
+        setImgSrc(addQualityParam(src));
       }
     }
-  }, [supportsWebp, supportsAvif, webpSrc, avifSrc, src, isHighResSrc]);
+  }, [supportsWebp, supportsAvif, webpSrc, avifSrc, src, isHighResSrc, quality]);
 
   // Test for WebP support
   const testWebP = () => {
@@ -149,8 +158,8 @@ const OptimizedImage = ({
       
       {/* Use picture element for modern format support */}
       <picture>
-        {avifSrc && <source srcSet={avifSrc} type="image/avif" />}
-        {webpSrc && <source srcSet={webpSrc} type="image/webp" />}
+        {avifSrc && <source srcSet={addQualityParam(avifSrc)} type="image/avif" />}
+        {webpSrc && <source srcSet={addQualityParam(webpSrc)} type="image/webp" />}
         <img
           src={finalSrc}
           alt={alt}

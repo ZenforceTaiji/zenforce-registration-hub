@@ -9,33 +9,24 @@ import { Helmet } from 'react-helmet-async';
 const CriticalPreloads: React.FC = () => {
   return (
     <Helmet>
-      {/* Preload critical hero image with high priority */}
+      {/* Preload critical hero image with high priority - use smaller size for initial load */}
       <link 
         rel="preload" 
-        href="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=400&auto=format&fit=crop" 
+        href="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=400&auto=format&fit=crop&quality=80" 
         as="image" 
         fetchPriority="high"
-        // Remove the invalid 'importance' attribute
       />
       
       {/* Modern format preloading for browsers that support it */}
       <link 
         rel="preload" 
         as="image" 
-        href="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=400&fm=webp" 
+        href="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=400&fm=webp&quality=80" 
         type="image/webp" 
         fetchPriority="high"
       />
       
-      {/* Lower quality version for faster initial paint */}
-      <link 
-        rel="preload" 
-        as="image" 
-        href="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=60&w=100&auto=format&fit=crop&blur=5" 
-        fetchPriority="high"
-      />
-      
-      {/* Preload critical fonts */}
+      {/* Preload critical fonts with correct CORS attribute */}
       <link 
         rel="preload" 
         href="/fonts/cinzel-v19-latin-regular.woff2" 
@@ -44,17 +35,15 @@ const CriticalPreloads: React.FC = () => {
         crossOrigin="anonymous" 
       />
       
-      {/* Font stylesheet with display swap to prevent FOIT 
-          Replace the string with a proper onLoad event handler */}
+      {/* Font stylesheet with display swap to prevent FOIT */}
       <link 
         rel="stylesheet" 
         href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap" 
         media="print" 
-        onLoad={() => {
+        onLoad={(e) => {
           // TypeScript compliant event handler
-          const linkElement = document.querySelector('link[href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap"]');
-          if (linkElement) {
-            (linkElement as HTMLLinkElement).media = 'all';
+          if (e.currentTarget) {
+            e.currentTarget.media = 'all';
           }
         }}
       />
@@ -62,6 +51,10 @@ const CriticalPreloads: React.FC = () => {
       {/* DNS prefetch and preconnect for critical domains */}
       <link rel="dns-prefetch" href="https://images.unsplash.com" />
       <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="" />
+      
+      {/* Add preconnect for Google Fonts */}
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
     </Helmet>
   );
 };
