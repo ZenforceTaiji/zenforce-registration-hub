@@ -14,8 +14,8 @@ const CriticalPreloads: React.FC = () => {
         rel="preload" 
         href="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=400&auto=format&fit=crop" 
         as="image" 
-        fetchPriority="high" 
-        importance="high"
+        fetchPriority="high"
+        // Remove the invalid 'importance' attribute
       />
       
       {/* Modern format preloading for browsers that support it */}
@@ -44,12 +44,19 @@ const CriticalPreloads: React.FC = () => {
         crossOrigin="anonymous" 
       />
       
-      {/* Font stylesheet with display swap to prevent FOIT */}
+      {/* Font stylesheet with display swap to prevent FOIT 
+          Replace the string with a proper onLoad event handler */}
       <link 
         rel="stylesheet" 
         href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap" 
         media="print" 
-        onLoad="this.media='all'"
+        onLoad={() => {
+          // TypeScript compliant event handler
+          const linkElement = document.querySelector('link[href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap"]');
+          if (linkElement) {
+            (linkElement as HTMLLinkElement).media = 'all';
+          }
+        }}
       />
       
       {/* DNS prefetch and preconnect for critical domains */}
