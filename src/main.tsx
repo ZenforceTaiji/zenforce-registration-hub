@@ -35,51 +35,18 @@ const startApp = () => {
   const loadingElement = document.getElementById('initial-loading')
   const initialContent = document.getElementById('initial-content')
   
-  // Create a promise that resolves when requestAnimationFrame runs
-  const renderPromise = new Promise<void>((resolve) => {
-    requestAnimationFrame(() => {
-      resolve();
-    });
-  });
-  
-  // Start the rendering process
-  renderPromise.then(() => {
-    if (loadingElement) {
-      loadingElement.style.opacity = '0';
+  // Start the rendering process immediately
+  if (loadingElement) {
+    // Make the transition smooth
+    loadingElement.style.opacity = '0'
+    
+    setTimeout(() => {
+      // Remove the loading spinner but keep initial content
+      if (loadingElement.parentNode) {
+        loadingElement.parentNode.removeChild(loadingElement)
+      }
       
-      setTimeout(() => {
-        // Remove the loading spinner but keep initial content
-        if (loadingElement.parentNode) {
-          loadingElement.parentNode.removeChild(loadingElement);
-        }
-        
-        // Render the application but don't clear initial content yet
-        root.render(
-          <React.StrictMode>
-            <HelmetProvider>
-              <QueryClientProvider client={queryClient}>
-                <BrowserRouter>
-                  <App />
-                </BrowserRouter>
-              </QueryClientProvider>
-            </HelmetProvider>
-          </React.StrictMode>,
-        );
-        
-        // After React has hydrated, smoothly remove the initial content
-        setTimeout(() => {
-          if (initialContent && initialContent.parentNode) {
-            initialContent.style.opacity = '0';
-            setTimeout(() => {
-              if (initialContent.parentNode) {
-                initialContent.parentNode.removeChild(initialContent);
-              }
-            }, 300);
-          }
-        }, 100);
-      }, 100);
-    } else {
-      // If no loading element, just render immediately
+      // Render the application but don't clear initial content yet
       root.render(
         <React.StrictMode>
           <HelmetProvider>
@@ -90,43 +57,69 @@ const startApp = () => {
             </QueryClientProvider>
           </HelmetProvider>
         </React.StrictMode>,
-      );
-    }
-  });
-};
+      )
+      
+      // After React has hydrated, smoothly remove the initial content
+      if (initialContent) {
+        // Keep initial content visible until React is ready
+        setTimeout(() => {
+          if (initialContent && initialContent.parentNode) {
+            initialContent.style.opacity = '0'
+            setTimeout(() => {
+              if (initialContent.parentNode) {
+                initialContent.parentNode.removeChild(initialContent)
+              }
+            }, 300)
+          }
+        }, 200)
+      }
+    }, 10)
+  } else {
+    // If no loading element, just render immediately
+    root.render(
+      <React.StrictMode>
+        <HelmetProvider>
+          <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </QueryClientProvider>
+        </HelmetProvider>
+      </React.StrictMode>,
+    )
+  }
+}
 
 // Start rendering immediately if document is ready
 if (document.readyState === 'complete' || document.readyState === 'interactive') {
   // If the document is already loaded or interactive, start immediately
-  startApp();
+  startApp()
 } else {
   // Otherwise use DOMContentLoaded
-  document.addEventListener('DOMContentLoaded', startApp, { once: true });
+  document.addEventListener('DOMContentLoaded', startApp, { once: true })
   
   // Backup in case DOMContentLoaded doesn't fire
-  setTimeout(startApp, 200); // Reduced timeout to display content faster
+  setTimeout(startApp, 200) // Reduced timeout to display content faster
 }
 
 // Initialize admin user after render in low priority
 const initAdmin = () => {
   // Use requestIdleCallback to run non-critical initialization
   initializeAdminUser().catch(error => {
-    console.error('Failed to initialize admin user:', error);
-  });
-};
+    console.error('Failed to initialize admin user:', error)
+  })
+}
 
 // Only initialize admin after page is fully interactive
 if (window.requestIdleCallback) {
-  window.requestIdleCallback(initAdmin, { timeout: 3000 });
+  window.requestIdleCallback(initAdmin, { timeout: 3000 })
 } else {
-  setTimeout(initAdmin, 2000);
+  // Fallback for browsers that don't support requestIdleCallback
+  setTimeout(initAdmin, 2000)
 }
 
 // Handle visibility optimization
-if (typeof document !== 'undefined') {
-  // Only run in browser environment
-  if (!document.hidden) {
-    // If document is already visible, trigger optimizations
-    document.dispatchEvent(new CustomEvent('app:visible'));
-  }
+if (typeof document !== 'undefined' && !document.hidden) {
+  // If document is already visible, trigger optimizations
+  document.dispatchEvent(new CustomEvent('app:visible'))
 }

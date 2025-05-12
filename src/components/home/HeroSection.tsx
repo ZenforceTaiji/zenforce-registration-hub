@@ -16,10 +16,10 @@ const HeroSection = React.memo(() => {
           priority={true}
           width={1200}
           height={800}
-          sizes="100vw"
+          sizes="(max-width: 768px) 100vw, 1200px"
           webpSrc="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=1200&fm=webp"
           avifSrc="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=1200&fm=avif"
-          lowResSrc="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=60&w=200&blur=5"
+          lowResSrc="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=60&w=100&blur=5"
           quality={80}
           fetchPriority="high"
         />

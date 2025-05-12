@@ -23,12 +23,6 @@ const CriticalStyles: React.FC = () => {
         display: block;
       }
       
-      h1 {
-        visibility: visible !important;
-        opacity: 1 !important;
-        display: block !important;
-      }
-      
       /* Hero section - critical for first render */
       .hero-section {
         position: relative;
@@ -42,11 +36,10 @@ const CriticalStyles: React.FC = () => {
         text-align: center;
         visibility: visible;
         opacity: 1;
-        transform: translateY(0);
       }
       
       .hero-title {
-        font-family: 'Cinzel', serif;
+        font-family: 'Cinzel', serif, system-ui;
         font-size: 2rem;
         font-weight: 700;
         color: #b7791f; /* amber-600 */
@@ -60,14 +53,12 @@ const CriticalStyles: React.FC = () => {
         max-width: 36rem;
         margin: 0 auto 2rem;
         line-height: 1.5;
-        visibility: visible;
-        opacity: 1;
       }
       
       .hero-buttons {
         display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
         gap: 1rem;
       }
       
@@ -83,6 +74,8 @@ const CriticalStyles: React.FC = () => {
         font-weight: 500;
         text-decoration: none;
         transition: background-color 0.2s;
+        width: 100%;
+        max-width: 20rem;
       }
       
       .hero-button:hover {
@@ -92,6 +85,20 @@ const CriticalStyles: React.FC = () => {
       .hero-button-outline {
         background-color: transparent;
         border: 1px solid rgba(180, 83, 9, 0.5);
+      }
+      
+      /* Hero background image placeholder */
+      .hero-bg-placeholder {
+        position: absolute;
+        inset: 0;
+        background-color: #111;
+        z-index: -1;
+        transition: opacity 0.5s ease-in;
+        opacity: 0;
+      }
+      
+      .hero-bg-placeholder.loaded {
+        opacity: 1;
       }
       
       /* Initial content loading - showing immediately */
@@ -120,13 +127,11 @@ const CriticalStyles: React.FC = () => {
         padding: 0 1rem;
         z-index: 9999;
         transition: opacity 0.5s ease-out;
-        visibility: visible;
-        opacity: 1;
       }
       
       .loading-spinner {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         border: 3px solid rgba(183, 121, 31, 0.3);
         border-radius: 50%;
         border-top-color: rgb(183, 121, 31);
@@ -135,37 +140,17 @@ const CriticalStyles: React.FC = () => {
       }
       
       .loading-title {
-        font-family: 'Cinzel', serif;
+        font-family: 'Cinzel', serif, system-ui;
         font-size: 1.5rem;
         font-weight: 700;
         margin-bottom: 0.5rem;
         color: #b7791f;
       }
       
-      .loading-subtitle {
-        font-size: 1rem;
-        max-width: 280px;
-        margin: 0 auto;
-        opacity: 0.9;
-      }
-      
-      /* Hero background image placeholder */
-      .hero-bg-placeholder {
-        position: absolute;
-        inset: 0;
-        background-color: #111;
-        z-index: -1;
-        transition: opacity 0.5s ease-in;
-      }
-      
-      .hero-bg-placeholder.loaded {
-        opacity: 1;
-      }
-      
       /* Content visibility for below the fold content */
       .below-fold {
         content-visibility: auto;
-        contain-intrinsic-size: 1px 1000px;
+        contain-intrinsic-size: 1px 800px;
       }
       
       /* Fade in animation */
@@ -183,15 +168,6 @@ const CriticalStyles: React.FC = () => {
         to { opacity: 1; }
       }
       
-      /* Font display settings */
-      @font-face {
-        font-family: 'Cinzel';
-        font-style: normal;
-        font-weight: 400;
-        font-display: swap;
-        src: url('/fonts/cinzel-v19-latin-regular.woff2') format('woff2');
-      }
-      
       /* Mobile-first responsive layout */
       @media (min-width: 768px) {
         .hero-title {
@@ -199,6 +175,10 @@ const CriticalStyles: React.FC = () => {
         }
         .hero-subtitle {
           font-size: 1.25rem;
+        }
+        .hero-buttons {
+          flex-direction: row;
+          justify-content: center;
         }
       }
       `}

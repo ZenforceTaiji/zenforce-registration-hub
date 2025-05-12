@@ -7,6 +7,8 @@ import FloatingEventBanner from "@/components/home/FloatingEventBanner";
 import { Helmet } from "react-helmet-async";
 import { Skeleton } from "@/components/ui/skeleton";
 import CriticalPreloads from "@/components/meta/CriticalPreloads";
+import InitialVisibilityScript from "@/components/meta/InitialVisibilityScript";
+import CriticalStyles from "@/components/critical-styles/CriticalStyles";
 
 // Lazy load non-critical components
 const FeaturesSection = lazy(() => import("@/components/home/FeaturesSection"));
@@ -15,24 +17,32 @@ const BenefitsSection = lazy(() => import("@/components/home/BenefitsSection"));
 const Index = () => {
   // Mark the point at which the page becomes interactive for performance metrics
   useEffect(() => {
-    if (window.performance && window.performance.mark) {
+    if (window.performance) {
       // Set a mark for Time to Interactive
-      window.performance.mark('time-to-interactive');
+      if (window.performance.mark) {
+        window.performance.mark('time-to-interactive');
+      }
       
       // Report the LCP element to improve metrics
-      const observer = new PerformanceObserver((entryList) => {
-        const entries = entryList.getEntries();
-        if (entries.length > 0) {
-          const lcpEntry = entries[entries.length - 1];
-          console.log('LCP:', lcpEntry.startTime, lcpEntry);
+      if ('PerformanceObserver' in window) {
+        try {
+          const observer = new PerformanceObserver((entryList) => {
+            const entries = entryList.getEntries();
+            if (entries.length > 0) {
+              const lcpEntry = entries[entries.length - 1];
+              console.log('LCP:', lcpEntry.startTime, lcpEntry);
+            }
+          });
+          
+          observer.observe({ type: 'largest-contentful-paint', buffered: true });
+          
+          return () => {
+            observer.disconnect();
+          };
+        } catch (e) {
+          console.error('PerformanceObserver error:', e);
         }
-      });
-      
-      observer.observe({ type: 'largest-contentful-paint', buffered: true });
-      
-      return () => {
-        observer.disconnect();
-      };
+      }
     }
   }, []);
   
@@ -64,8 +74,10 @@ const Index = () => {
         `}</script>
       </Helmet>
       
-      {/* Include critical preloads */}
+      {/* Include critical loading components */}
       <CriticalPreloads />
+      <CriticalStyles />
+      <InitialVisibilityScript />
       
       <div className="min-h-screen w-full bg-gray-50">
         <main>

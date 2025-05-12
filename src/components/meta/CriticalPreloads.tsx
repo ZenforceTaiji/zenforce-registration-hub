@@ -9,7 +9,7 @@ import { Helmet } from 'react-helmet-async';
 const CriticalPreloads: React.FC = () => {
   return (
     <Helmet>
-      {/* Preload critical hero image with high priority - use smaller size for initial load */}
+      {/* Preload critical hero image with high priority but smaller size */}
       <link 
         rel="preload" 
         href="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=400&auto=format&fit=crop&quality=80" 

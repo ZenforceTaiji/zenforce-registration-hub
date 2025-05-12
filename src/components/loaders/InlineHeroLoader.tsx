@@ -22,17 +22,17 @@ const InlineHeroLoader: React.FC = () => {
         staticContent.innerHTML = \`
           <div class="hero-section">
             <div class="hero-bg-placeholder"></div>
-            <div style="position: relative; z-index: 5; max-width: 48rem; margin: 0 auto;">
+            <div style="position: relative; z-index: 5; max-width: 48rem; margin: 0 auto; padding: 0 1rem;">
               <h1 class="hero-title">ZenForce TaijiQuan SA</h1>
               <p class="hero-subtitle">Experience the ancient art of balance, strength, and inner peace</p>
               <div class="hero-buttons">
                 <a href="/registration" class="hero-button">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                  In-Person Training Registration
+                  In-Person Training
                 </a>
                 <a href="/online-registration" class="hero-button hero-button-outline">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-                  Online Training Registration
+                  Online Training
                 </a>
               </div>
             </div>
@@ -47,6 +47,7 @@ const InlineHeroLoader: React.FC = () => {
           
           // Load hero image in the background using smaller initial image
           const bgImage = new Image();
+          bgImage.fetchPriority = "high";
           bgImage.onload = function() {
             const heroPlaceholder = staticContent.querySelector('.hero-bg-placeholder');
             if (heroPlaceholder) {

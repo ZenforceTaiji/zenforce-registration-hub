@@ -10,10 +10,13 @@ const InitialVisibilityScript: React.FC = () => {
   const inlineScript = `
     // Improve initial rendering performance and prevent blank screen
     (function() {
-      // Set root visibility to ensure content is visible immediately
+      // Set root visibility immediately
       document.documentElement.style.visibility = 'visible';
       
       // Force immediate painting
+      document.body && document.body.offsetHeight;
+      
+      // Schedule visibility events for first paint
       requestAnimationFrame(() => {
         document.documentElement.classList.add('ready');
         
@@ -30,9 +33,6 @@ const InitialVisibilityScript: React.FC = () => {
           document.dispatchEvent(new CustomEvent('app:visible'));
         }
       });
-      
-      // Force browser to start painting ASAP by triggering a layout
-      document.body && document.body.offsetHeight;
     })();
   `;
 
