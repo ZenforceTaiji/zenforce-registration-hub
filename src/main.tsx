@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
@@ -19,6 +20,40 @@ const queryClient = new QueryClient({
     },
   },
 })
+
+// Error boundary for the entire application
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, info) {
+    console.error("Application error:", error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-black text-white">
+          <h1 className="text-xl font-bold mb-4">Something went wrong</h1>
+          <p className="mb-4">The application encountered an error. Please try refreshing the page.</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-amber-700 hover:bg-amber-600 rounded"
+          >
+            Refresh Page
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 // Function to start application rendering
 const startApp = () => {
@@ -49,13 +84,15 @@ const startApp = () => {
       // Render the application but don't clear initial content yet
       root.render(
         <React.StrictMode>
-          <HelmetProvider>
-            <QueryClientProvider client={queryClient}>
-              <BrowserRouter>
-                <App />
-              </BrowserRouter>
-            </QueryClientProvider>
-          </HelmetProvider>
+          <ErrorBoundary>
+            <HelmetProvider>
+              <QueryClientProvider client={queryClient}>
+                <BrowserRouter>
+                  <App />
+                </BrowserRouter>
+              </QueryClientProvider>
+            </HelmetProvider>
+          </ErrorBoundary>
         </React.StrictMode>,
       )
       
@@ -78,13 +115,15 @@ const startApp = () => {
     // If no loading element, just render immediately
     root.render(
       <React.StrictMode>
-        <HelmetProvider>
-          <QueryClientProvider client={queryClient}>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </QueryClientProvider>
-        </HelmetProvider>
+        <ErrorBoundary>
+          <HelmetProvider>
+            <QueryClientProvider client={queryClient}>
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </QueryClientProvider>
+          </HelmetProvider>
+        </ErrorBoundary>
       </React.StrictMode>,
     )
   }

@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { Suspense, useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
@@ -9,9 +9,96 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { EventBannerSettings } from "./EventBannerSettings";
 import { MFASettings } from "./MFASettings";
-import { Shield } from "lucide-react";
+import { Shield, Loader2 } from "lucide-react";
+
+// Skeleton loader for lazy-loaded components
+const SettingsSkeleton = () => (
+  <div className="space-y-4">
+    <div className="h-10 bg-gray-200 dark:bg-gray-800 rounded animate-pulse" />
+    <div className="space-y-2">
+      <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-1/4 animate-pulse" />
+      <div className="h-10 bg-gray-200 dark:bg-gray-800 rounded animate-pulse" />
+    </div>
+    <div className="space-y-2">
+      <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-1/3 animate-pulse" />
+      <div className="h-20 bg-gray-200 dark:bg-gray-800 rounded animate-pulse" />
+    </div>
+    <div className="h-10 bg-gray-200 dark:bg-gray-800 rounded animate-pulse" />
+  </div>
+);
+
+// Error boundary for components
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, info) {
+    console.error("Component error:", error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-red-600">Component Error</CardTitle>
+            <CardDescription>
+              There was an error loading this component
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button onClick={() => this.setState({ hasError: false })}>
+              Try Again
+            </Button>
+          </CardContent>
+        </Card>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 export function SiteSettingsTab() {
+  const [isMounted, setIsMounted] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [activeTab, setActiveTab] = useState("general");
+
+  // Handle client-side rendering safely
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const handleSaveSettings = () => {
+    setIsSaving(true);
+    // Simulate saving
+    setTimeout(() => {
+      setIsSaving(false);
+    }, 800);
+  };
+
+  // Handle tab change
+  const handleTabChange = (value) => {
+    setActiveTab(value);
+  };
+
+  // If not mounted yet, show skeleton to prevent hydration mismatch
+  if (!isMounted) {
+    return (
+      <div className="space-y-6 animate-fade-in">
+        <div className="h-8 bg-gray-200 dark:bg-gray-800 rounded w-1/3 animate-pulse" />
+        <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-2/3 animate-pulse" />
+        <div className="h-10 bg-gray-200 dark:bg-gray-800 rounded animate-pulse mt-4" />
+        <SettingsSkeleton />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <div>
@@ -21,7 +108,7 @@ export function SiteSettingsTab() {
         </p>
       </div>
       
-      <Tabs defaultValue="general">
+      <Tabs value={activeTab} onValueChange={handleTabChange}>
         <TabsList>
           <TabsTrigger value="general">General</TabsTrigger>
           <TabsTrigger value="content">Content</TabsTrigger>
@@ -59,12 +146,23 @@ export function SiteSettingsTab() {
                 <Switch id="maintenance-mode" />
               </div>
               
-              <Button className="w-full mt-4">Save General Settings</Button>
+              <Button className="w-full mt-4" onClick={handleSaveSettings} disabled={isSaving}>
+                {isSaving ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Saving...
+                  </>
+                ) : "Save General Settings"}
+              </Button>
             </CardContent>
           </Card>
           
           {/* Event Banner Settings */}
-          <EventBannerSettings />
+          <ErrorBoundary>
+            <Suspense fallback={<SettingsSkeleton />}>
+              <EventBannerSettings />
+            </Suspense>
+          </ErrorBoundary>
         </TabsContent>
         
         <TabsContent value="content" className="mt-4">
@@ -130,7 +228,11 @@ export function SiteSettingsTab() {
 
         <TabsContent value="security" className="mt-4">
           {/* MFA Settings */}
-          <MFASettings />
+          <ErrorBoundary>
+            <Suspense fallback={<SettingsSkeleton />}>
+              <MFASettings />
+            </Suspense>
+          </ErrorBoundary>
         </TabsContent>
       </Tabs>
     </div>

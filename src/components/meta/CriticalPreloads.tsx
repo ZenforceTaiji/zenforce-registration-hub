@@ -14,7 +14,7 @@ const CriticalPreloads: React.FC = () => {
         rel="preload" 
         href="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=400&auto=format&fit=crop&quality=80" 
         as="image" 
-        fetchPriority="high"
+        fetchpriority="high"
       />
       
       {/* Modern format preloading for browsers that support it */}
@@ -23,7 +23,7 @@ const CriticalPreloads: React.FC = () => {
         as="image" 
         href="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=400&fm=webp&quality=80" 
         type="image/webp" 
-        fetchPriority="high"
+        fetchpriority="high"
       />
       
       {/* Preload critical fonts with correct CORS attribute */}
@@ -55,6 +55,9 @@ const CriticalPreloads: React.FC = () => {
       {/* Add preconnect for Google Fonts */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+
+      {/* Ensure admin portal CSS is loaded early */}
+      <link rel="prefetch" href="/src/components/admin/settings/styles.css" as="style" />
     </Helmet>
   );
 };
