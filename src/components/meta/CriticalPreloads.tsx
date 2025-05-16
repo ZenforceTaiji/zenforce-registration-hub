@@ -14,7 +14,7 @@ const CriticalPreloads: React.FC = () => {
         rel="preload" 
         href="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=400&auto=format&fit=crop&quality=80" 
         as="image" 
-        fetchpriority="high"
+        fetchPriority="high"
       />
       
       {/* Modern format preloading for browsers that support it */}
@@ -23,7 +23,7 @@ const CriticalPreloads: React.FC = () => {
         as="image" 
         href="https://images.unsplash.com/photo-1464207687429-7505649dae38?q=80&w=400&fm=webp&quality=80" 
         type="image/webp" 
-        fetchpriority="high"
+        fetchPriority="high"
       />
       
       {/* Preload critical fonts with correct CORS attribute */}
