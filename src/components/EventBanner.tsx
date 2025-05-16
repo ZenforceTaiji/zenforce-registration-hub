@@ -13,33 +13,8 @@ interface Event {
   description: string;
 }
 
-// Mock data for upcoming events - in a real app, this would come from an API
-const upcomingEvents: Event[] = [
-  {
-    id: 1,
-    title: "Summer Grading Tournament",
-    date: "2023-08-15",
-    time: "10:00 AM",
-    location: "Main Dojo",
-    description: "Annual summer grading for all belt levels."
-  },
-  {
-    id: 2,
-    title: "Parent Workshop",
-    date: "2023-08-22",
-    time: "6:30 PM",
-    location: "Conference Room",
-    description: "Learn how to support your child's martial arts journey."
-  },
-  {
-    id: 3,
-    title: "Competition Preparation",
-    date: "2023-09-05",
-    time: "5:00 PM",
-    location: "Training Hall",
-    description: "Special training session for competition participants."
-  }
-];
+// Empty array for upcoming events
+const upcomingEvents: Event[] = [];
 
 const EventBanner = () => {
   const [nextEvent, setNextEvent] = useState<Event | null>(null);

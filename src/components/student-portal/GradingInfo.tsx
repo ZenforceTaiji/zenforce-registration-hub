@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { 
   Table, 
@@ -35,36 +34,8 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon, Plus, FileImage, FileDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-// Sample data
-const sampleGradingData = [
-  {
-    id: "1",
-    formName: "13 Step Form",
-    grade: "G01",
-    date: new Date("2023-10-15"),
-    gradedBy: "Shifu Zhang Wei",
-    score: "8.15",
-    certificateUrl: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b"
-  },
-  {
-    id: "2",
-    formName: "24 Step Form",
-    grade: "G01",
-    date: new Date("2023-12-10"),
-    gradedBy: "Shifu Li Min",
-    score: "8.20",
-    certificateUrl: "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc"
-  },
-  {
-    id: "3",
-    formName: "24 Step Form",
-    grade: "G02",
-    date: new Date("2024-03-05"),
-    gradedBy: "Shifu Zhang Wei",
-    score: "8.35",
-    certificateUrl: "https://images.unsplash.com/photo-1588456142078-84c5bf52a952"
-  }
-];
+// Empty array for sample data
+const sampleGradingData = [];
 
 // Sample instructors for the dropdown
 const instructors = [
@@ -106,7 +77,7 @@ const GradingInfo = () => {
       date: date,
       gradedBy: newGrading.gradedBy,
       score: newGrading.score,
-      certificateUrl: "https://images.unsplash.com/photo-1518640467707-6811f4a6ab73"
+      certificateUrl: ""
     };
 
     setGradingData([...gradingData, newEntry]);
@@ -329,6 +300,11 @@ const GradingInfo = () => {
               </TableCell>
             </TableRow>
           ))}
+          {gradingData.length === 0 && (
+            <TableRow>
+              <TableCell colSpan={6} className="text-center py-4">No grading records found</TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
 

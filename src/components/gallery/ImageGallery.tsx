@@ -16,15 +16,21 @@ const ImageGallery = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {galleryImages.map((image) => (
-          <ImageGalleryItem 
-            key={image.id} 
-            image={image} 
-            onClick={handleImageClick} 
-          />
-        ))}
-      </div>
+      {galleryImages.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {galleryImages.map((image) => (
+            <ImageGalleryItem 
+              key={image.id} 
+              image={image} 
+              onClick={handleImageClick} 
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-10 border rounded-lg bg-gray-50">
+          <p className="text-gray-500">No images available</p>
+        </div>
+      )}
 
       <ImageDialog
         image={selectedImage}

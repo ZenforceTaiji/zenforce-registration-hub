@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,26 +20,10 @@ import EventsCalendar from "@/components/EventsCalendar";
 const InstructorPortal = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
 
-  // Mock data - in a real app, this would come from an API
-  const students = [
-    { id: 1, name: "John Doe", membershipNo: "STU001", grade: "G01", lastAttendance: "2023-07-15" },
-    { id: 2, name: "Jane Smith", membershipNo: "STU002", grade: "G02", lastAttendance: "2023-07-18" },
-    { id: 3, name: "Robert Johnson", membershipNo: "STU003", grade: "G01", lastAttendance: "2023-07-10" },
-    { id: 4, name: "Emily Williams", membershipNo: "STU004", grade: "G03", lastAttendance: "2023-07-17" },
-    { id: 5, name: "Michael Brown", membershipNo: "STU005", grade: "G02", lastAttendance: "2023-07-12" },
-  ];
-
-  const upcomingGradings = [
-    { id: 1, date: "2023-08-15", numberOfStudents: 8, venue: "Main Dojo" },
-    { id: 2, date: "2023-09-22", numberOfStudents: 12, venue: "City Center Hall" },
-    { id: 3, date: "2023-10-10", numberOfStudents: 5, venue: "Main Dojo" },
-  ];
-
-  const recentPayments = [
-    { id: 1, studentName: "John Doe", amount: 150, date: "2023-07-10", status: "Paid" },
-    { id: 2, studentName: "Jane Smith", amount: 150, date: "2023-07-12", status: "Paid" },
-    { id: 3, studentName: "Robert Johnson", amount: 150, date: "2023-07-15", status: "Pending" },
-  ];
+  // Empty arrays for mock data
+  const students = [];
+  const upcomingGradings = [];
+  const recentPayments = [];
 
   return (
     <div className="container mx-auto py-8 px-4">
@@ -62,8 +47,8 @@ const InstructorPortal = () => {
             <Users className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">42</div>
-            <p className="text-xs text-gray-500">+3 from last month</p>
+            <div className="text-2xl font-bold">0</div>
+            <p className="text-xs text-gray-500">+0 from last month</p>
           </CardContent>
         </Card>
         <Card>
@@ -72,8 +57,8 @@ const InstructorPortal = () => {
             <Award className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">3</div>
-            <p className="text-xs text-gray-500">Next on Aug 15, 2023</p>
+            <div className="text-2xl font-bold">0</div>
+            <p className="text-xs text-gray-500">None scheduled</p>
           </CardContent>
         </Card>
         <Card>
@@ -82,8 +67,8 @@ const InstructorPortal = () => {
             <DollarSign className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$6,300</div>
-            <p className="text-xs text-gray-500">+12% from last month</p>
+            <div className="text-2xl font-bold">$0</div>
+            <p className="text-xs text-gray-500">+0% from last month</p>
           </CardContent>
         </Card>
       </div>
@@ -129,6 +114,11 @@ const InstructorPortal = () => {
                           </TableCell>
                         </TableRow>
                       ))}
+                      {students.length === 0 && (
+                        <TableRow>
+                          <TableCell colSpan={5} className="text-center py-4">No students found</TableCell>
+                        </TableRow>
+                      )}
                     </TableBody>
                   </Table>
                 </CardContent>
@@ -164,6 +154,11 @@ const InstructorPortal = () => {
                           </TableCell>
                         </TableRow>
                       ))}
+                      {upcomingGradings.length === 0 && (
+                        <TableRow>
+                          <TableCell colSpan={4} className="text-center py-4">No gradings scheduled</TableCell>
+                        </TableRow>
+                      )}
                     </TableBody>
                   </Table>
                 </CardContent>
@@ -209,6 +204,11 @@ const InstructorPortal = () => {
                           </TableCell>
                         </TableRow>
                       ))}
+                      {recentPayments.length === 0 && (
+                        <TableRow>
+                          <TableCell colSpan={5} className="text-center py-4">No payment records found</TableCell>
+                        </TableRow>
+                      )}
                     </TableBody>
                   </Table>
                 </CardContent>
@@ -238,15 +238,8 @@ const InstructorPortal = () => {
               />
               <div className="mt-4">
                 <h4 className="font-semibold mb-2">Today's Classes</h4>
-                <div className="space-y-2">
-                  <div className="p-2 bg-gray-50 rounded border">
-                    <p className="font-medium">Beginners Class</p>
-                    <p className="text-sm text-gray-500">5:00 PM - 6:30 PM</p>
-                  </div>
-                  <div className="p-2 bg-gray-50 rounded border">
-                    <p className="font-medium">Advanced Class</p>
-                    <p className="text-sm text-gray-500">7:00 PM - 8:30 PM</p>
-                  </div>
+                <div className="p-4 text-center text-gray-500">
+                  No classes scheduled for today
                 </div>
               </div>
             </CardContent>
@@ -257,28 +250,8 @@ const InstructorPortal = () => {
               <CardTitle>Tasks</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                <div className="flex items-start">
-                  <div className="h-5 w-5 rounded-full border-2 border-red-500 mr-2 flex-shrink-0 mt-0.5"></div>
-                  <div>
-                    <p className="font-medium">Grade student certificates</p>
-                    <p className="text-sm text-gray-500">Due by Jul 25</p>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <div className="h-5 w-5 rounded-full border-2 border-yellow-500 mr-2 flex-shrink-0 mt-0.5"></div>
-                  <div>
-                    <p className="font-medium">Prepare for competition</p>
-                    <p className="text-sm text-gray-500">Due by Aug 10</p>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <div className="h-5 w-5 rounded-full border-2 border-green-500 mr-2 flex-shrink-0 mt-0.5"></div>
-                  <div>
-                    <p className="font-medium">Order new equipment</p>
-                    <p className="text-sm text-gray-500">Due by Aug 15</p>
-                  </div>
-                </div>
+              <div className="p-4 text-center text-gray-500">
+                No tasks assigned
               </div>
             </CardContent>
           </Card>

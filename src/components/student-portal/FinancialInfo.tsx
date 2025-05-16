@@ -13,16 +13,8 @@ import { PaymentRecord } from "./types"
 const FinancialInfo = () => {
   const { isProcessing, handlePayment, handleGradingPayment } = usePaymentActions()
 
-  // Map PaymentRecord to OutstandingPayment format
-  const outstandingPayments = samplePayments
-    .filter(p => p.status === "Pending" || p.status === "Failed")
-    .map(payment => ({
-      id: payment.id,
-      memberNumber: payment.id, // Using ID as member number for sample data
-      amount: parseFloat(payment.amount.replace("R", "").replace(",", "")) * 100, // Convert to cents
-      dueDate: payment.date,
-      description: payment.description,
-    }));
+  // Map PaymentRecord to OutstandingPayment format - using empty array for outstandingPayments
+  const outstandingPayments = [];
 
   return (
     <div className="space-y-8">
