@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -64,8 +63,8 @@ const PurposeOfTaijiquan = () => {
                 </div>
               </div>
               <ImageCard 
-                src="https://images.unsplash.com/photo-1472396961693-142e6e269027"
-                alt="Peaceful mountain landscape representing harmony"
+                src="/lovable-uploads/30b6e6f8-9acb-4c09-ab39-34b0d926df3f.png"
+                alt="Bagua diagram showing Eight Trigrams with TaijiQuan movements and elements"
                 height="lg"
                 className="rounded-lg shadow-lg"
               />
