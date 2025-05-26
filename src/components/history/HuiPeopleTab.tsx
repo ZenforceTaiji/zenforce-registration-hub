@@ -127,8 +127,8 @@ export const HuiPeopleTab = () => {
           </div>
           
           <div className="mt-6 p-5 bg-gray-50 rounded-lg border">
-            <h4 className="font-semibold mb-3">The Lasting Impact</h4>
-            <p>
+            <h4 className="font-semibold mb-3 text-black">The Lasting Impact</h4>
+            <p className="text-black">
               While not as widely recognized as the major family styles, the Hui people's influence continues to be felt in subtle aspects of TaijiQuan practice worldwide. Their emphasis on specific breathing techniques derived from Sufi traditions and circular energy pathways has enriched the internal dimensions of the art, demonstrating how diverse cultural and religious influences have contributed to TaijiQuan's evolution as a comprehensive system of health, philosophy, and martial skill.
             </p>
           </div>
