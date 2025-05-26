@@ -1,3 +1,4 @@
+
 import {
   Card,
   CardContent,
@@ -57,7 +58,7 @@ export const MastersTab = () => {
               <div className="flex items-start space-x-4">
                 <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
                   <img 
-                    src="https://images.unsplash.com/photo-1552058544-f2b08422138a" 
+                    src="/lovable-uploads/8c429d79-0dfa-4148-ad9c-d68ba313a07c.png" 
                     alt="Yang Luchan" 
                     className="w-full h-full object-cover"
                   />
