@@ -1,3 +1,4 @@
+
 import {
   Card,
   CardContent,
@@ -23,7 +24,7 @@ export const MastersTab = () => {
               <div className="flex items-start space-x-4">
                 <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
                   <img 
-                    src="/lovable-uploads/5e1e8d15-59b2-4900-b026-18c08cf6edca.png" 
+                    src="/lovable-uploads/1dae467e-f31b-46a2-b4c0-05f27fdaf7d6.png" 
                     alt="Zhang Sanfeng" 
                     className="w-full h-full object-cover"
                   />
@@ -40,7 +41,7 @@ export const MastersTab = () => {
               <div className="flex items-start space-x-4">
                 <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
                   <img 
-                    src="https://images.unsplash.com/photo-1552196563-55cd4e45efb3" 
+                    src="/lovable-uploads/7b7e6b43-2687-4478-829b-d0e5bdc857be.png" 
                     alt="Chen Wangting" 
                     className="w-full h-full object-cover"
                   />
