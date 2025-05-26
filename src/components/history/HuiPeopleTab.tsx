@@ -51,8 +51,8 @@ export const HuiPeopleTab = () => {
           
           <div className="space-y-4">
             <ImageCard 
-              src="/lovable-uploads/b4dc3270-34a9-4dd6-a619-d9ee7dfa8d90.png" 
-              alt="Historical representation of Hui martial arts practitioners"
+              src="/lovable-uploads/54436789-0e6c-4540-a6c3-390d32362ce3.png" 
+              alt="Hui people in traditional setting with Chinese flag"
               height="lg"
             />
             
