@@ -50,6 +50,36 @@ const ChenStyleTab = () => {
           </div>
         </div>
         
+        <div className="space-y-6">
+          <h3 className="text-xl font-semibold">Historical Documentation</h3>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div>
+              <ImageCard 
+                src="/lovable-uploads/37dd5a6b-4196-4ed1-b4de-1f0b0eeb466b.png"
+                alt="Traditional Chinese illustration of a TaijiQuan master from historical texts"
+                height="lg"
+              />
+            </div>
+            <div className="space-y-4">
+              <p>
+                This traditional Chinese illustration represents the classical documentation of TaijiQuan masters from historical texts. Such images were commonly used in martial arts manuals and family records to preserve the lineage and teachings of great masters.
+              </p>
+              <p>
+                The formal pose and traditional robes depicted in these historical illustrations reflect the scholarly and philosophical nature of TaijiQuan masters, who were often educated individuals who combined martial prowess with deep understanding of Chinese philosophy and medicine.
+              </p>
+              <div className="mt-4 p-4 bg-blue-50 rounded-md border">
+                <h4 className="font-medium mb-2 text-black">Historical Significance:</h4>
+                <ul className="list-disc pl-5 space-y-2 text-black">
+                  <li>Documented the lineage and transmission of knowledge</li>
+                  <li>Preserved the visual memory of important masters</li>
+                  <li>Showed the scholarly tradition within martial arts</li>
+                  <li>Integrated with classical Chinese texts and calligraphy</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        
         <div className="space-y-4">
           <h3 className="text-xl font-semibold">Legacy and Influence</h3>
           <p>
