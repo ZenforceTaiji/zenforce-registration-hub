@@ -7,6 +7,7 @@ import { HuiPeopleTab } from "@/components/history/HuiPeopleTab";
 import { VideosTab } from "@/components/history/VideosTab";
 import HistoryTab from "@/components/history/tabs/HistoryTab";
 import YinYangTab from "@/components/history/tabs/YinYangTab";
+import ChenStyleTab from "@/components/history/tabs/ChenStyleTab";
 
 const HistoryOfTaijiquan = () => {
   const { data: historyContent } = useWebsiteContent('history');
@@ -22,9 +23,10 @@ const HistoryOfTaijiquan = () => {
       </h1>
       
       <Tabs defaultValue="history">
-        <TabsList className="grid grid-cols-2 md:grid-cols-6 w-full mb-6">
+        <TabsList className="grid grid-cols-3 md:grid-cols-7 w-full mb-6">
           <TabsTrigger value="history">Origins & History</TabsTrigger>
           <TabsTrigger value="yinyang">Yin Yang Philosophy</TabsTrigger>
+          <TabsTrigger value="chenstyle">Chen Style</TabsTrigger>
           <TabsTrigger value="forms">Major Forms</TabsTrigger>
           <TabsTrigger value="masters">Famous Masters</TabsTrigger>
           <TabsTrigger value="hui">Hui People</TabsTrigger>
@@ -37,6 +39,10 @@ const HistoryOfTaijiquan = () => {
         
         <TabsContent value="yinyang" className="mt-0">
           <YinYangTab />
+        </TabsContent>
+        
+        <TabsContent value="chenstyle" className="mt-0">
+          <ChenStyleTab />
         </TabsContent>
         
         <TabsContent value="forms" className="mt-0">
