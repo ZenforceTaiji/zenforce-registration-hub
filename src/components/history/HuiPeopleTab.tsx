@@ -103,8 +103,8 @@ export const HuiPeopleTab = () => {
           <div className="grid md:grid-cols-2 gap-8">
             <div>
               <ImageCard 
-                src="https://images.unsplash.com/photo-1519389950473-47ba0277781c" 
-                alt="Modern research into TaijiQuan history"
+                src="/lovable-uploads/19acd615-eacb-4f72-a78e-051629c58837.png" 
+                alt="Hui community members and leaders in traditional setting"
                 height="sm"
                 className="mb-4"
               />
@@ -115,8 +115,8 @@ export const HuiPeopleTab = () => {
             
             <div>
               <ImageCard 
-                src="https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7" 
-                alt="Digital preservation of TaijiQuan history"
+                src="/lovable-uploads/5f768790-1e34-4a22-87fb-95dba29b729b.png" 
+                alt="Hui practitioners demonstrating traditional martial arts and movement practices"
                 height="sm"
                 className="mb-4"
               />
