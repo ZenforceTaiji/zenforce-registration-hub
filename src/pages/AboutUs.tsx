@@ -7,7 +7,7 @@ const AboutUs = () => {
     <div className="min-h-screen bg-black py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-amber-500 mb-4">About ZenForce TaijiQuan</h1>
+          <h1 className="text-4xl font-bold text-amber-500 mb-4">About WuDe TaijiQuan</h1>
           <p className="text-xl text-gray-300">Discover our journey, philosophy, and commitment to wellness</p>
         </div>
         
@@ -15,7 +15,7 @@ const AboutUs = () => {
           <div>
             <h2 className="text-2xl font-semibold text-amber-500 mb-4">Our Story</h2>
             <p className="text-gray-300 leading-relaxed mb-4">
-              ZenForce TaijiQuan was founded with a passion for promoting holistic wellness through the ancient art of Taijiquan. 
+              WuDe TaijiQuan was founded with a passion for promoting holistic wellness through the ancient art of Taijiquan. 
               Our mission is to provide high-quality, authentic Taiji instruction that nurtures both body and mind.
             </p>
             <p className="text-gray-300 leading-relaxed">

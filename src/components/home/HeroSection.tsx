@@ -27,7 +27,7 @@ const HeroSection = React.memo(() => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-amber-500">
-            ZenForce TaijiQuan SA
+            WuDe TaijiQuan SA
           </h1>
           <p className="text-xl mb-10">
             Experience the ancient art of balance, strength, and inner peace

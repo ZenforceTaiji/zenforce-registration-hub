@@ -9,7 +9,7 @@ const StructuredData: React.FC = () => {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "SportsClub",
-    "name": "ZenForce TaijiQuan SA",
+    "name": "WuDe TaijiQuan SA",
     "description": "Authentic TaijiQuan training in South Africa",
     "url": "https://zenforce-registration-hub.lovable.app/",
     "telephone": "+27731742969",
@@ -17,7 +17,7 @@ const StructuredData: React.FC = () => {
       "@type": "PostalAddress",
       "addressCountry": "South Africa"
     },
-    "sameAs": ["https://www.facebook.com/zenforcetaijiquan"],
+    "sameAs": ["https://www.facebook.com/wudetaijiquan"],
     "openingHours": "Mo,Tu,We,Th,Fr 08:00-18:00",
     "priceRange": "$$"
   };
