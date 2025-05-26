@@ -1,7 +1,6 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
-import { FormsTab } from "@/components/history/FormsTab";
 import { MastersTab } from "@/components/history/MastersTab";
 import { HuiPeopleTab } from "@/components/history/HuiPeopleTab";
 import { VideosTab } from "@/components/history/VideosTab";
@@ -23,11 +22,10 @@ const HistoryOfTaijiquan = () => {
       </h1>
       
       <Tabs defaultValue="history">
-        <TabsList className="grid grid-cols-3 md:grid-cols-7 w-full mb-6">
+        <TabsList className="grid grid-cols-3 md:grid-cols-6 w-full mb-6">
           <TabsTrigger value="history">Origins & History</TabsTrigger>
           <TabsTrigger value="yinyang">Yin Yang Philosophy</TabsTrigger>
           <TabsTrigger value="chenstyle">Chen Style</TabsTrigger>
-          <TabsTrigger value="forms">Major Forms</TabsTrigger>
           <TabsTrigger value="masters">Famous Masters</TabsTrigger>
           <TabsTrigger value="hui">Hui People</TabsTrigger>
           <TabsTrigger value="videos">Videos</TabsTrigger>
@@ -43,10 +41,6 @@ const HistoryOfTaijiquan = () => {
         
         <TabsContent value="chenstyle" className="mt-0">
           <ChenStyleTab />
-        </TabsContent>
-        
-        <TabsContent value="forms" className="mt-0">
-          <FormsTab />
         </TabsContent>
         
         <TabsContent value="masters" className="mt-0">
