@@ -24,7 +24,7 @@ const Navbar = () => {
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-2">
               <img 
-                src="/lovable-uploads/c8dc75af-e9ae-47ee-906b-61e9e02d6fdb.png" 
+                src="/lovable-uploads/b4dc3270-34a9-4dd6-a619-d9ee7dfa8d90.png" 
                 alt="ZenForce TaijiQuan Logo" 
                 className="h-8 w-auto"
               />
