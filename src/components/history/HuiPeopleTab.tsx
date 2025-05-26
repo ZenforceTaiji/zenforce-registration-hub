@@ -1,4 +1,3 @@
-
 import {
   Card,
   CardContent,
@@ -30,8 +29,8 @@ export const HuiPeopleTab = () => {
             
             <h3 className="text-xl font-semibold mt-6">Religious and Philosophical Beliefs</h3>
             <div className="mt-3 p-4 bg-gray-50 rounded-md border">
-              <h4 className="font-medium mb-2">Spiritual Practices of the Hui People:</h4>
-              <ul className="list-disc pl-5 space-y-2">
+              <h4 className="font-medium mb-2 text-black">Spiritual Practices of the Hui People:</h4>
+              <ul className="list-disc pl-5 space-y-2 text-black">
                 <li><strong>Islamic Foundation:</strong> The Hui practice Islam, primarily of the Sunni Hanafi school, but with uniquely Chinese characteristics</li>
                 <li><strong>Sufism:</strong> Many Hui communities embrace Sufi traditions, which emphasize spiritual development through physical and meditative practices</li>
                 <li><strong>Dhikr Rituals:</strong> Rhythmic breathing and movement practices reciting the names of Allah, creating a meditative state similar to qigong</li>
