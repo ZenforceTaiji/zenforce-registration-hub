@@ -52,8 +52,8 @@ const HistoryTab = ({ introContent }: HistoryTabProps) => {
             
             <div className="space-y-4">
               <ImageCard 
-                src="https://images.unsplash.com/photo-1518611012118-696072aa579a"
-                alt="Ancient Chinese scroll depicting martial arts"
+                src="/lovable-uploads/1dae467e-f31b-46a2-b4c0-05f27fdaf7d6.png"
+                alt="Bagua with Yin-Yang symbol and Chinese characters"
                 height="lg"
               />
               
