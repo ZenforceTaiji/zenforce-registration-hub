@@ -1,3 +1,4 @@
+
 import {
   Card,
   CardContent,
@@ -50,8 +51,8 @@ export const HuiPeopleTab = () => {
           
           <div className="space-y-4">
             <ImageCard 
-              src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81" 
-              alt="Representation of Hui martial arts practitioners"
+              src="/lovable-uploads/72f2594f-c05e-43b1-9795-6f1e8a6fb08c.png" 
+              alt="Historical representation of Hui martial arts practitioners"
               height="lg"
             />
             
