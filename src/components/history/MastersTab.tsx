@@ -1,5 +1,3 @@
-
-
 import {
   Card,
   CardContent,
@@ -132,7 +130,7 @@ export const MastersTab = () => {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="border rounded-lg overflow-hidden shadow-sm">
               <img 
-                src="https://images.unsplash.com/photo-1617113930975-f9c7243ae527" 
+                src="/lovable-uploads/a908bd85-90f7-4542-907b-18123dddd8c4.png" 
                 alt="Cheng Man-ch'ing" 
                 className="w-full h-48 object-cover"
               />
@@ -180,4 +178,3 @@ export const MastersTab = () => {
     </Card>
   );
 };
-
