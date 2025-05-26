@@ -62,15 +62,15 @@ export const HuiPeopleTab = () => {
             </p>
             
             <div className="mt-4 p-4 bg-gray-50 rounded-md border">
-              <h4 className="font-medium">Integration of Spiritual Elements</h4>
-              <p className="mt-2 text-sm">
+              <h4 className="font-medium text-black">Integration of Spiritual Elements</h4>
+              <p className="mt-2 text-sm text-black">
                 Their practice of martial arts was inseparable from spiritual cultivation. The Sufi concept of fanaa (annihilation of the self) resonates with the Taoist notion of wuwei (non-action) in TaijiQuan, both emphasizing the transcendence of ego in movement.
               </p>
             </div>
             
             <div className="mt-4 p-4 bg-gray-50 rounded-md border">
-              <h4 className="font-medium">Ritual Context</h4>
-              <p className="mt-2 text-sm">
+              <h4 className="font-medium text-black">Ritual Context</h4>
+              <p className="mt-2 text-sm text-black">
                 Many of the circular patterns and rhythmic movements they contributed to TaijiQuan show similarities to Sufi dhikr ceremonies, where practitioners move in circular patterns while maintaining rhythmic breathing. These movements were seen as ways to harmonize the body and spirit.
               </p>
             </div>
