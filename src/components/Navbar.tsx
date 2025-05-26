@@ -24,9 +24,9 @@ const Navbar = () => {
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
               <img 
-                src="https://images.unsplash.com/photo-1500673922987-e212871fec22" 
-                alt="ZenForce Logo" 
-                className="h-10 w-10 object-cover rounded"
+                src="/lovable-uploads/c8dc75af-e9ae-47ee-906b-61e9e02d6fdb.png" 
+                alt="ZenForce TaijiQuan Logo" 
+                className="h-10 w-auto object-contain rounded"
               />
               <div className="flex items-baseline ml-2">
                 <span className="text-xl font-bold text-red-800">ZenForce</span>
