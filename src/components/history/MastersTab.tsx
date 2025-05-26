@@ -1,4 +1,3 @@
-
 import {
   Card,
   CardContent,
@@ -161,7 +160,7 @@ export const MastersTab = () => {
             
             <div className="border rounded-lg overflow-hidden shadow-sm">
               <img 
-                src="https://images.unsplash.com/photo-1524673450801-b5aa9b621b76" 
+                src="/lovable-uploads/1b1bcba7-74e9-47df-8aac-725fe50efdfa.png" 
                 alt="Yang Zhenduo" 
                 className="w-full h-48 object-cover"
               />
