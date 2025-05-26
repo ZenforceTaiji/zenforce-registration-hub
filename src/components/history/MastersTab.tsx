@@ -1,4 +1,5 @@
 
+
 import {
   Card,
   CardContent,
@@ -111,7 +112,7 @@ export const MastersTab = () => {
               <div className="flex items-start space-x-4">
                 <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
                   <img 
-                    src="https://images.unsplash.com/photo-1566652521483-6c9d5503bbc7" 
+                    src="/lovable-uploads/35bde1c8-7a93-4e7a-99e4-34278eb9f433.png" 
                     alt="Chen Fake" 
                     className="w-full h-full object-cover"
                   />
@@ -179,3 +180,4 @@ export const MastersTab = () => {
     </Card>
   );
 };
+
