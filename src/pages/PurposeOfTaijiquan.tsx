@@ -109,8 +109,8 @@ const PurposeOfTaijiquan = () => {
                 </div>
               </div>
               <ImageCard 
-                src="https://images.unsplash.com/photo-1469041797191-50ace28483c3"
-                alt="Flowing movements representing physical harmony"
+                src="/lovable-uploads/913f7578-9cb2-42fd-aa06-108668ad0f8f.png"
+                alt="Group of people practicing TaijiQuan movements outdoors in a park"
                 height="lg"
                 className="rounded-lg shadow-lg"
               />
