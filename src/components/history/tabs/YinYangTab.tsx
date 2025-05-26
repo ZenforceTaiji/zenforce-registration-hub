@@ -26,8 +26,8 @@ const YinYangTab = () => {
             </p>
             
             <div className="mt-4 p-4 bg-gray-50 rounded-md border">
-              <h4 className="font-medium mb-2">Key Principles:</h4>
-              <ul className="list-disc pl-5 space-y-2">
+              <h4 className="font-medium mb-2 text-black">Key Principles:</h4>
+              <ul className="list-disc pl-5 space-y-2 text-black">
                 <li><strong>Duality:</strong> Everything contains opposite forces that depend on each other</li>
                 <li><strong>Harmony:</strong> Balance between opposing forces creates stability</li>
                 <li><strong>Cyclical Nature:</strong> Opposites constantly transform into each other</li>
