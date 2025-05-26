@@ -30,7 +30,7 @@ const HeroSection = React.memo(() => {
             Chán TaijiQuan SA
           </h1>
           <div className="text-2xl md:text-3xl mb-6 text-amber-300 font-medium">
-            禪 太極拳 SA
+            禪 太極拳 南非
           </div>
           <p className="text-xl mb-10">
             Experience the ancient art of balance, strength, and inner peace
