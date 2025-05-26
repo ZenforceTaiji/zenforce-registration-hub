@@ -23,7 +23,7 @@ export const MastersTab = () => {
               <div className="flex items-start space-x-4">
                 <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
                   <img 
-                    src="/lovable-uploads/1dae467e-f31b-46a2-b4c0-05f27fdaf7d6.png" 
+                    src="/lovable-uploads/22511857-a34c-4a2d-bb9f-4e394918a2e4.png" 
                     alt="Zhang Sanfeng" 
                     className="w-full h-full object-cover"
                   />
