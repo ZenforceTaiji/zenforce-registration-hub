@@ -49,7 +49,7 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>WuDe TaijiQuan SA - Authentic Martial Arts Training</title>
+        <title>Chán TaijiQuan SA - Authentic Martial Arts Training</title>
         <meta name="description" content="Experience authentic TaijiQuan training in South Africa. Join classes for all ages and skill levels in a traditional martial arts environment focused on health and mindfulness." />
         <link rel="canonical" href="https://zenforce-registration-hub.lovable.app/" />
         <meta name="robots" content="index, follow" />
@@ -59,7 +59,7 @@ const Index = () => {
           {
             "@context": "https://schema.org",
             "@type": "SportsClub",
-            "name": "WuDe TaijiQuan SA",
+            "name": "Chán TaijiQuan SA",
             "description": "Authentic TaijiQuan training in South Africa",
             "url": "https://zenforce-registration-hub.lovable.app/",
             "telephone": "+27731742969",
@@ -67,7 +67,7 @@ const Index = () => {
               "@type": "PostalAddress",
               "addressCountry": "South Africa"
             },
-            "sameAs": ["https://www.facebook.com/wudetaijiquan"],
+            "sameAs": ["https://www.facebook.com/chantaijiquan"],
             "openingHours": "Mo,Tu,We,Th,Fr 08:00-18:00",
             "priceRange": "$$"
           }

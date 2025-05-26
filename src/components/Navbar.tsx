@@ -25,11 +25,11 @@ const Navbar = () => {
             <Link to="/" className="flex items-center">
               <img 
                 src="/lovable-uploads/8bf0e239-69e4-4e71-bf11-96a0b3c5d72f.png" 
-                alt="WuDe TaijiQuan Logo" 
+                alt="Chán TaijiQuan Logo" 
                 className="h-10 w-auto object-contain rounded"
               />
               <div className="flex items-baseline ml-2">
-                <span className="text-xl font-bold text-red-800">WuDe</span>
+                <span className="text-xl font-bold text-red-800">Chán</span>
                 <span className="text-xl font-medium text-gray-700">&nbsp;TaijiQuan</span>
                 <span className="text-lg text-gray-600 ml-1">SA</span>
               </div>

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
@@ -14,7 +13,7 @@ interface SiteMetaProps {
  * and performance optimization tags
  */
 const SiteMeta: React.FC<SiteMetaProps> = ({
-  title = "WuDe TaijiQuan SA - Authentic Martial Arts Training",
+  title = "Chán TaijiQuan SA - Authentic Martial Arts Training",
   description = "Experience authentic TaijiQuan training in South Africa. Join classes for all ages and skill levels in a traditional martial arts environment focused on health and mindfulness.",
   ogImage = "https://zenforce-registration-hub.lovable.app/og-image.png",
   canonicalUrl = "https://zenforce-registration-hub.lovable.app/"
@@ -25,7 +24,7 @@ const SiteMeta: React.FC<SiteMetaProps> = ({
       <title>{title}</title>
       <meta name="title" content={title} />
       <meta name="description" content={description} />
-      <meta name="keywords" content="taijiquan, tai chi, martial arts, south africa, wude, meditation, health, wellness, traditional martial arts" />
+      <meta name="keywords" content="taijiquan, tai chi, martial arts, south africa, chan, zen, meditation, health, wellness, traditional martial arts" />
       
       {/* Open Graph / Facebook */}
       <meta property="og:type" content="website" />

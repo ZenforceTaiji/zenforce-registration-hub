@@ -23,7 +23,7 @@ const InlineHeroLoader: React.FC = () => {
           <div class="hero-section">
             <div class="hero-bg-placeholder"></div>
             <div style="position: relative; z-index: 5; max-width: 48rem; margin: 0 auto; padding: 0 1rem;">
-              <h1 class="hero-title">ZenForce TaijiQuan SA</h1>
+              <h1 class="hero-title">Chán TaijiQuan SA</h1>
               <p class="hero-subtitle">Experience the ancient art of balance, strength, and inner peace</p>
               <div class="hero-buttons">
                 <a href="/registration" class="hero-button">
