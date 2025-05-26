@@ -76,7 +76,7 @@ export const MastersTab = () => {
               <div className="flex items-start space-x-4">
                 <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
                   <img 
-                    src="https://images.unsplash.com/photo-1571945192246-4fcee13c27b1" 
+                    src="/lovable-uploads/6bbd589f-5796-48ad-9254-4bcc9f68776b.png" 
                     alt="Wu Jianquan" 
                     className="w-full h-full object-cover"
                   />
@@ -93,7 +93,7 @@ export const MastersTab = () => {
               <div className="flex items-start space-x-4">
                 <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
                   <img 
-                    src="https://images.unsplash.com/photo-1574279606130-09958dc756f7" 
+                    src="https://images.unsplash.com/photo-1571945192246-4fcee13c27b1" 
                     alt="Sun Lutang" 
                     className="w-full h-full object-cover"
                   />
