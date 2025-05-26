@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import ImageCard from "../shared/ImageCard";
 
 const YinYangTab = () => {
   return (
@@ -36,21 +37,11 @@ const YinYangTab = () => {
           </div>
           
           <div>
-            <div className="flex justify-center mb-6">
-              <div className="bg-white rounded-full w-64 h-64 p-4 shadow-lg border flex items-center justify-center">
-                <div className="relative w-full h-full rounded-full overflow-hidden bg-black">
-                  <div className="absolute top-0 left-0 w-1/2 h-full bg-white"></div>
-                  <div 
-                    className="absolute top-0 left-0 w-full h-1/2 bg-transparent" 
-                    style={{ backgroundImage: "radial-gradient(circle at 75% 50%, white 0, white 15%, transparent 15%)" }}
-                  ></div>
-                  <div 
-                    className="absolute bottom-0 right-0 w-full h-1/2 bg-transparent" 
-                    style={{ backgroundImage: "radial-gradient(circle at 25% 50%, black 0, black 15%, transparent 15%)" }}
-                  ></div>
-                </div>
-              </div>
-            </div>
+            <ImageCard 
+              src="/lovable-uploads/7d99fec3-ce77-4b28-9f07-6afbbf5ce82a.png"
+              alt="Traditional Chinese yin-yang symbols with philosophical annotations"
+              height="lg"
+            />
           </div>
         </div>
       </CardContent>
