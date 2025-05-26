@@ -51,7 +51,7 @@ export const HuiPeopleTab = () => {
           
           <div className="space-y-4">
             <ImageCard 
-              src="/lovable-uploads/72f2594f-c05e-43b1-9795-6f1e8a6fb08c.png" 
+              src="/lovable-uploads/b4dc3270-34a9-4dd6-a619-d9ee7dfa8d90.png" 
               alt="Historical representation of Hui martial arts practitioners"
               height="lg"
             />
@@ -82,15 +82,15 @@ export const HuiPeopleTab = () => {
             
             <div className="mt-4 space-y-4">
               <div className="p-4 bg-gray-50 rounded-md border">
-                <h4 className="font-medium">Master Ma Yuansheng (马元生) - Early 18th Century</h4>
-                <p className="mt-2 text-sm">
+                <h4 className="font-medium text-black">Master Ma Yuansheng (马元生) - Early 18th Century</h4>
+                <p className="mt-2 text-sm text-black">
                   Known for developing distinctive stepping methods that influenced Chen-style TaijiQuan's footwork patterns. His manuscripts on harmonizing breath with movement are referenced in several historical texts.
                 </p>
               </div>
               
               <div className="p-4 bg-gray-50 rounded-md border">
-                <h4 className="font-medium">The Hui Martial Artists of Henan</h4>
-                <p className="mt-2 text-sm">
+                <h4 className="font-medium text-black">The Hui Martial Artists of Henan</h4>
+                <p className="mt-2 text-sm text-black">
                   A community of practitioners that preserved distinctive breathing methods and subtle hand techniques derived from Sufi dhikr practices. Their integration with Yang-style TaijiQuan in the 19th century brought new dimensions to the art's internal aspects.
                 </p>
               </div>
